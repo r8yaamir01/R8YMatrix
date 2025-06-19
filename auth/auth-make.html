@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>R8YMatrix Login Test</title>
+  <link rel="icon" type="image/png" href="../images/logo/favicon.png" />
+  <link rel="stylesheet" href="login-functions.css">
+  <style>
+    /* Apply 50px radius to favicon in browser tab */
+    .favicon-preview {
+      width: 32px;
+      height: 32px;
+      border-radius: 50px;
+      object-fit: cover;
+      display: none;
+    }
+  </style>
+  <script>
+    // Replace favicon with rounded version
+    (function() {
+      const faviconLink = document.querySelector('link[rel="icon"]');
+      if (faviconLink) {
+        const originalHref = faviconLink.href;
+        const canvas = document.createElement('canvas');
+        canvas.width = 32;
+        canvas.height = 32;
+        const ctx = canvas.getContext('2d');
+        const img = new Image();
+        img.crossOrigin = 'Anonymous';
+        img.onload = function() {
+          // Create circular clipping path
+          ctx.beginPath();
+          ctx.arc(16, 16, 16, 0, Math.PI * 2, true);
+          ctx.closePath();
+          ctx.clip();
+          
+          // Draw the image
+          ctx.drawImage(img, 0, 0, 32, 32);
+          
+          // Replace favicon with rounded version
+          faviconLink.href = canvas.toDataURL('image/png');
+        };
+        img.src = originalHref;
+      }
+    })();
+  </script>
+  <style>
+    /* Custom background styling */
+    body {
+      background-image: url('../images/logo/obito-uchiha.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    }
+  </style>
+</head>
+<body>
+  <div class="container auth-make">
+    <h1>R8YMatrix Firebase Auth Test</h1>
+    
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input type="email" id="email" value="admin@r8y.com" placeholder="Enter your email">
+    </div>
+    
+    <div class="form-group">
+      <label for="password">Password:</label>
+      <input type="password" id="password" value="admin123" placeholder="Enter your password">
+    </div>
+    
+    <div class="actions">
+      <button id="loginBtn">Login</button>
+      <button id="logoutBtn">Logout</button>
+      <button id="checkAuthBtn">Check Auth Status</button>
+      <button id="createUserBtn">Create Test User</button>
+    </div>
+    
+    <div class="status" id="status">
+      Status: Checking authentication...
+    </div>
+    
+    <div class="error" id="error"></div>
+    <div class="success" id="success"></div>
+    
+    <div class="debug" id="debug">
+      Debug logs will appear here...
+    </div>
+  </div>
+
+  <script type="module">
+    // Import Firebase modules
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { 
+      getAuth, 
+      signInWithEmailAndPassword, 
+      onAuthStateChanged,
+      signOut,
+      createUserWithEmailAndPassword
+    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyCcthdcxH-xleb3vZxHIs7nfWT9Lo9CG84",
+      authDomain: "r8y-33be8.firebaseapp.com",
+      projectId: "r8y-33be8",
+      storageBucket: "r8y-33be8.appspot.com",
+      messagingSenderId: "477787173296",
+      appId: "1:477787173296:web:cd7bd1ca355085b4d6e675",
+      measurementId: "G-CFYZEQ6QGK"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // DOM Elements
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    const loginBtn = document.getElementById('loginBtn');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const checkAuthBtn = document.getElementById('checkAuthBtn');
+    const createUserBtn = document.getElementById('createUserBtn');
+    const statusDiv = document.getElementById('status');
+    const errorDiv = document.getElementById('error');
+    const successDiv = document.getElementById('success');
+    const debugDiv = document.getElementById('debug');
+
+    // Debug logging function
+    function log(message, data = null) {
+      const timestamp = new Date().toLocaleTimeString();
+      let logMessage = `[${timestamp}] ${message}`;
+      
+      if (data) {
+        try {
+          if (typeof data === 'object') {
+            logMessage += '\n' + JSON.stringify(data, null, 2);
+          } else {
+            logMessage += '\n' + data;
+          }
+        } catch (e) {
+          logMessage += '\n[Object cannot be stringified]';
+        }
+      }
+      
+      debugDiv.textContent = logMessage + '\n\n' + debugDiv.textContent;
+      console.log(message, data || '');
+    }
+
+    // Show error message
+    function showError(message) {
+      errorDiv.textContent = message;
+      errorDiv.style.display = 'block';
+      successDiv.style.display = 'none';
+      log('ERROR: ' + message);
+    }
+
+    // Show success message
+    function showSuccess(message) {
+      successDiv.textContent = message;
+      successDiv.style.display = 'block';
+      errorDiv.style.display = 'none';
+      log('SUCCESS: ' + message);
+    }
+
+    // Update status
+    function updateStatus(user) {
+      if (user) {
+        statusDiv.textContent = `Status: Authenticated as ${user.email}`;
+        statusDiv.style.backgroundColor = '#e8f5e9';
+        log('Auth state changed', { 
+          uid: user.uid, 
+          email: user.email, 
+          emailVerified: user.emailVerified
+        });
+      } else {
+        statusDiv.textContent = "Status: Not authenticated";
+        statusDiv.style.backgroundColor = '#f8f8f8';
+        log('Auth state changed: Not authenticated');
+      }
+    }
+
+    // Check auth state on page load
+    onAuthStateChanged(auth, updateStatus);
+
+    // Login handler
+    loginBtn.addEventListener('click', async () => {
+      const email = emailInput.value.trim();
+      const password = passwordInput.value;
+      
+      if (!email || !password) {
+        showError("Please enter both email and password");
+        return;
+      }
+      
+      try {
+        log(`Attempting to sign in with: ${email}`);
+        loginBtn.disabled = true;
+        
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        showSuccess(`Logged in as ${userCredential.user.email}`);
+      } catch (error) {
+        showError(`Login failed: ${error.message}`);
+        log('Login error', error);
+      } finally {
+        loginBtn.disabled = false;
+      }
+    });
+
+    // Logout handler
+    logoutBtn.addEventListener('click', async () => {
+      try {
+        log('Signing out...');
+        logoutBtn.disabled = true;
+        
+        await signOut(auth);
+        showSuccess('Logged out successfully');
+      } catch (error) {
+        showError(`Logout failed: ${error.message}`);
+        log('Logout error', error);
+      } finally {
+        logoutBtn.disabled = false;
+      }
+    });
+
+    // Check auth status
+    checkAuthBtn.addEventListener('click', () => {
+      const user = auth.currentUser;
+      log('Checking auth status', user);
+      
+      if (user) {
+        showSuccess(`Currently logged in as ${user.email}`);
+      } else {
+        showError("Not currently authenticated");
+      }
+    });
+
+    // Create test user
+    createUserBtn.addEventListener('click', async () => {
+      const email = emailInput.value.trim();
+      const password = passwordInput.value;
+      
+      if (!email || !password) {
+        showError("Please enter both email and password");
+        return;
+      }
+      
+      try {
+        log(`Attempting to create user: ${email}`);
+        createUserBtn.disabled = true;
+        
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        showSuccess(`Created user: ${userCredential.user.email}`);
+      } catch (error) {
+        showError(`User creation failed: ${error.message}`);
+        log('User creation error', error);
+      } finally {
+        createUserBtn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html> 

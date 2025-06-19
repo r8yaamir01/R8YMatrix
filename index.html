@@ -1,0 +1,1939 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="R8YMatrix - Download PC Games, Windows Software & Mac applications. Safe, free, and full-version downloads with no malware." />
+  <meta name="keywords" content="PC Games, Free Games, Windows Software, Download, R8YMatrix, Gaming, Software Downloads, Mac Applications, Free Downloads" />
+  <meta name="author" content="R8YMatrix" />
+  <meta name="google-site-verification" content="5LV4WxBRWTnYZcd2Q7mJ0MdkTmsLqiMsmmTuHmSze44" />
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://r8ymatrix.com/" />
+  <meta property="og:title" content="R8YMatrix | Download PC Games & Windows Software" />
+  <meta property="og:description" content="Premium Games & Software For Free. 100% Safe, Full Version Downloads for PC & Mac. No malware, no ads." />
+  <meta property="og:image" content="https://r8ymatrix.com/images/logo/og-image.png" />
+  
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="https://r8ymatrix.com/" />
+  <meta property="twitter:title" content="R8YMatrix | Download PC Games & Windows Software" />
+  <meta property="twitter:description" content="Premium Games & Software For Free. 100% Safe, Full Version Downloads for PC & Mac." />
+  <meta property="twitter:image" content="https://r8ymatrix.com/images/logo/og-image.png" />
+  
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://r8ymatrix.com/" />
+  <link rel="icon" type="image/png" href="images/logo/favicon.png" />
+  <style>
+    /* Apply 50px radius to favicon in browser tab */
+    .favicon-preview {
+      width: 32px;
+      height: 32px;
+      border-radius: 50px;
+      object-fit: cover;
+      display: none;
+    }
+  </style>
+  <script>
+    // Replace favicon with rounded version
+    (function() {
+      const faviconLink = document.querySelector('link[rel="icon"]');
+      if (faviconLink) {
+        const originalHref = faviconLink.href;
+        const canvas = document.createElement('canvas');
+        canvas.width = 32;
+        canvas.height = 32;
+        const ctx = canvas.getContext('2d');
+        const img = new Image();
+        img.crossOrigin = 'Anonymous';
+        img.onload = function() {
+          // Create circular clipping path
+          ctx.beginPath();
+          ctx.arc(16, 16, 16, 0, Math.PI * 2, true);
+          ctx.closePath();
+          ctx.clip();
+          
+          // Draw the image
+          ctx.drawImage(img, 0, 0, 32, 32);
+          
+          // Replace favicon with rounded version
+          faviconLink.href = canvas.toDataURL('image/png');
+        };
+        img.src = originalHref;
+      }
+    })();
+  </script>
+
+  
+  <title>R8YMatrix | Download PC Games & Windows Software</title>
+  <link rel="stylesheet" href="index.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-storage-compat.js"></script>
+
+  <!-- Firebase initialization -->
+  <script>
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyCcthdcxH-xleb3vZxHIs7nfWT9Lo9CG84",
+      authDomain: "r8y-33be8.firebaseapp.com",
+      projectId: "r8y-33be8",
+      storageBucket: "r8y-33be8.appspot.com", // Fixed storage bucket URL
+      messagingSenderId: "477787173296",
+      appId: "1:477787173296:web:cd7bd1ca355085b4d6e675",
+      measurementId: "G-CFYZEQ6QGK"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    // Add Firebase connection monitor
+    document.addEventListener('DOMContentLoaded', function () {
+      setTimeout(() => {
+        if (typeof firebase === 'undefined') {
+          showErrorNotification('FireBase Problem Please Try Again');
+        }
+      }, 3000);
+    });
+  </script>
+
+  <!-- Load data.js after Firebase is initialized -->
+  <script src="js/data.js"></script>
+
+  <link rel="stylesheet" href="/css/index.css" />
+
+<body>
+  <!-- TOP NAVIGATION -->
+  <header class="top-nav">
+    <img src="images/logo/logo.png" alt="R8YMatrix Logo" class="site-logo" />
+    <nav class="social-icons">
+      <a href="https://www.youtube.com/@r8yCHE3TS" target="_blank"><i class="fab fa-youtube"
+          aria-label="YouTube"></i></a>
+      <a href="https://discord.com" target="_blank"><i class="fab fa-discord" aria-label="Discord"></i></a>
+      <a href="https://www.instagram.com/r8y_13x_fp/?hl=en" target="_blank"><i class="fab fa-instagram"
+          aria-label="Instagram"></i></a>
+          <a href="#" id="aboutLink" style="display: none;"><i class="fas fa-info-circle" aria-label="About"></i></a>
+    </nav>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="hero-section">
+    <div class="hero-content">
+      <h1 class="animate__animated animate__fadeInDown">Premium Games & Software For Free</h1>
+      <p class="animate__animated animate__fadeIn animate__delay-1s">100% Safe, Full Version Downloads for PC & Mac</p>
+      <div class="search-container animate__animated animate__fadeIn animate__delay-1s">
+        <input type="text" id="searchInput" placeholder="Search free games or premium software..." />
+        <button id="searchButton"><i class="fas fa-search"></i></button>
+      </div>
+    </div>
+  </section>
+
+
+
+  <!-- CATEGORY TABS -->
+  <nav class="category-bar">
+    <div class="category-tabs">
+      <button class="category-btn active" data-category="games">
+        <i class="fas fa-gamepad"></i> PC GAMES
+      </button>
+      <button class="category-btn" data-category="windows">
+        <i class="fab fa-windows"></i> WINDOWS
+      </button>
+      <button class="category-btn" data-category="mac">
+        <i class="fab fa-apple"></i> MAC
+      </button>
+    </div>
+  </nav>
+
+  <!-- SORT BAR -->
+  <div class="compact-filter-bar">
+    <div class="left-text" id="current-category-text">PC GAMES</div>
+    <div class="right-sort">
+      <label for="sort">Sort By:</label>
+      <select id="sort">
+        <option value="default">Default</option>
+        <option value="rating-low-to-high">Rating (Low To High)</option>
+        <option value="rating-high-to-low">Rating (High To Low)</option>
+        <option value="download-low-to-high">Download (Low To High)</option>
+        <option value="download-high-to-low">Download (High To Low)</option>
+        <option value="size-low-to-high">Size (Low To High)</option>
+        <option value="size-high-to-low">Size (High To Low)</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- ✅ START: WRAPPER FOR LAYOUT -->
+  <div class="main-content-wrapper">
+
+    <!-- SUB-CATEGORIES -->
+    <aside class="sub-category-box" id="sub-games" style="display: block; height: 450px !important; width: 300px !important;">
+      <h3>Sub Category</h3>
+      <p class="empty-subcategory-message">Loading...</p>
+      <ul>
+        <!-- Subcategories will be populated from admin panel -->
+      </ul>
+    </aside>
+
+    <aside class="sub-category-box" id="sub-windows" style="display: none; height: 450px !important; width: 300px !important;">
+      <h3>Sub Category</h3>
+      <p class="empty-subcategory-message">Loading...</p>
+      <ul>
+        <!-- Subcategories will be populated from admin panel -->
+      </ul>
+    </aside>
+
+    <aside class="sub-category-box" id="sub-mac" style="display: none; height: 450px !important; width: 300px !important;">
+      <h3>Sub Category</h3>
+      <p class="empty-subcategory-message">Loading...</p>
+      <ul>
+        <!-- Subcategories will be populated from admin panel -->
+      </ul>
+    </aside>
+
+    <!-- CONTENT AREA -->
+    <section id="content-area" class="item-grid">
+      <!-- Loading State -->
+      <div class="content-loader" id="contentLoader">
+        <div class="loader-spinner"></div>
+        <p>Loading...</p>
+      </div>
+
+      <!-- Empty State -->
+      <div class="empty-state" id="emptyState" style="display:none;">
+        <i class="fas fa-search"></i>
+        <h3>No Item Found...</h3>
+        <p>Please Change Your Filter</p>
+      </div>
+    </section>
+
+  </div>
+  <!-- ✅ END: WRAPPER -->
+
+
+  <!-- Details panel has been moved to items.html -->
+
+  <!-- PAGINATION -->
+  <div class="pagination-buttons">
+    <button id="prevPageBtn" style="display: none;">Previous</button>
+    <button id="nextPageBtn" style="display: none;">Next</button>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-section">
+        <h4>Categories</h4>
+        <ul class="footer-links">
+          <li><a href="#" class="footer-tab" data-category="games">PC Games</a></li>
+          <li><a href="#" class="footer-tab" data-category="windows">Windows</a></li>
+          <li><a href="#" class="footer-tab" data-category="mac">Mac</a></li>
+          <li><a href="#" id="specialAccessLink">Special Access</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Quick Links</h4>
+        <ul class="footer-links">
+          <li><a href="pages/privacy-policy.html">Privacy Policy</a></li>
+          <li><a href="pages/contact-us.html">Contact Us</a></li>
+          <li><a href="pages/about.html">About</a></li>
+          <li><a href="#" class="footer-scroll-link" data-scroll="top">Back to Top</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Quick Search</h4>
+        <a href="#" class="footer-search-link" id="footerSearchLink">
+          <i class="fas fa-search"></i> Search
+        </a>
+        <div style="margin-top:18px;">
+          <p style="color:#aaa;font-size:0.97em;">R8YMatrix is your hub for safe downloads of PC Games, Windows & Mac
+            software. Fast, trusted & free!</p>
+          <div class="footer-socials">
+            <a href="https://discord.com/" target="_blank"><i class="fab fa-discord"></i></a>
+            <a href="https://www.youtube.com/@r8yCHE3TS" target="_blank"><i class="fab fa-youtube"></i></a>
+            <a href="https://www.instagram.com/r8y_13x_fp/?hl=en" target="_blank"><i class="fab fa-instagram"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2025 R8YMatrix | All rights reserved.
+    </div>
+  </footer>
+
+  <script>
+    // Footer category tabs ko click par category select karwana
+    if (window.categoryButtons === undefined) window.categoryButtons = document.querySelectorAll('.category-btn');
+    document.querySelectorAll('.footer-tab').forEach(tab => {
+      tab.addEventListener('click', function (e) {
+        e.preventDefault();
+        const cat = tab.getAttribute('data-category');
+        if (window.categoryButtons) {
+          window.categoryButtons.forEach(btn => {
+            if (btn.dataset.category === cat) {
+              btn.click();
+            }
+          });
+        }
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    });
+    // Footer search tab ko click par search box par le jana
+    const searchLink = document.getElementById('footerSearchLink');
+    if (searchLink) {
+      searchLink.addEventListener('click', function (e) {
+        e.preventDefault();
+        const searchInput = document.getElementById('searchInput');
+        if (searchInput) {
+          searchInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          searchInput.focus();
+        }
+      });
+    }
+    // Footer quick links ko scroll karwana
+    Array.from(document.querySelectorAll('.footer-scroll-link')).forEach(link => {
+      link.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = link.getAttribute('data-scroll');
+        if (target === 'top') {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          return;
+        }
+        const section = document.getElementById(target);
+        if (section) {
+          section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      });
+    });
+  </script>
+
+
+
+  <script>
+    // Set up Firebase error handling
+    window.addEventListener('unhandledrejection', function (event) {
+      console.error('Unhandled promise rejection:', event.reason);
+      // Show user friendly error if it's a Firebase error
+      if (event.reason && event.reason.name === 'FirebaseError') {
+        showErrorNotification('Firebase Conection Problem.. ');
+      }
+    });
+
+    // Show user friendly error notification
+    function showErrorNotification(message) {
+      const notification = document.createElement('div');
+      notification.className = 'error-notification';
+      notification.innerHTML = `
+        <i class="fas fa-exclamation-circle"></i>
+        <p>${message}</p>
+        <button class="close-notification"><i class="fas fa-times"></i></button>
+      `;
+      document.body.appendChild(notification);
+
+      // Auto remove after 5 seconds
+      setTimeout(() => {
+        notification.classList.add('fade-out');
+        setTimeout(() => {
+          notification.remove();
+        }, 500);
+      }, 5000);
+
+      // Close button
+      notification.querySelector('.close-notification').addEventListener('click', () => {
+        notification.remove();
+      });
+    }
+
+    // Variables to store items data
+    let items = [];
+
+    // Function to generate star rating
+    function generateStarRating(rating) {
+      // Create a simpler star rating display with all stars filled (gold color)
+      let starsHtml = '';
+      
+      // Add 5 full colored stars regardless of rating
+      for (let i = 1; i <= 5; i++) {
+        // Active star (orange/gold color)
+        starsHtml += '<span style="color: #ff9800; font-size: 20px; margin: 0 1px;">★</span>';
+      }
+      
+      return starsHtml;
+    }
+
+    // Dynamic subcategory population
+    async function populateSubcategories() {
+      try {
+        // First, ensure PC Games subcategory is shown by default
+        document.querySelectorAll('.sub-category-box').forEach(box => {
+          box.style.display = 'none';
+        });
+        document.getElementById('sub-games').style.display = 'block';
+        
+        // Set PC Games tab as active
+        document.querySelectorAll('.category-btn').forEach(btn => {
+          btn.classList.remove('active');
+          if (btn.dataset.category === 'games') {
+            btn.classList.add('active');
+          }
+        });
+        
+        // Update current category text
+        const currentCategoryText = document.getElementById('current-category-text');
+        if (currentCategoryText) {
+          currentCategoryText.textContent = 'PC GAMES';
+        }
+
+        // Get Firebase database reference
+        const db = firebase.firestore();
+        const settingsDoc = db.collection('settings').doc('siteSettings');
+
+        // Get the settings document
+        const doc = await settingsDoc.get();
+        if (!doc.exists) {
+          console.error("Settings document not found");
+          return;
+        }
+
+        const settings = doc.data();
+        const gamesSubcategories = settings.subcategories?.games || [];
+        const windowsSubcategories = settings.subcategories?.windows || [];
+        const macSubcategories = settings.subcategories?.mac || []; // Added for Mac
+
+        console.log("Loaded subcategories:", { games: gamesSubcategories, windows: windowsSubcategories, mac: macSubcategories }); // Updated log
+
+        // Update games subcategories
+        const gamesSubContainer = document.getElementById('sub-games').querySelector('ul');
+        const gamesMessage = document.getElementById('sub-games').querySelector('.empty-subcategory-message');
+        gamesSubContainer.innerHTML = '';
+
+        if (gamesSubcategories.length === 0) {
+          gamesMessage.style.display = 'block';
+        } else {
+          gamesMessage.style.display = 'none';
+          gamesSubcategories.forEach(sub => {
+            const li = document.createElement('li');
+            li.innerHTML = `<label><input type="checkbox" name="sub-game" value="${sub}" /> <span>${sub}</span></label><span class="count"></span>`;
+            gamesSubContainer.appendChild(li);
+          });
+        }
+
+        // Update windows subcategories
+        const windowsSubContainer = document.getElementById('sub-windows').querySelector('ul');
+        const windowsMessage = document.getElementById('sub-windows').querySelector('.empty-subcategory-message');
+        windowsSubContainer.innerHTML = '';
+
+        if (windowsSubcategories.length === 0) {
+          windowsMessage.style.display = 'block';
+        } else {
+          windowsMessage.style.display = 'none';
+          windowsSubcategories.forEach(sub => {
+            const li = document.createElement('li');
+            li.innerHTML = `<label><input type="checkbox" name="sub-win" value="${sub}" /> <span>${sub}</span></label><span class="count"></span>`;
+            windowsSubContainer.appendChild(li);
+          });
+        }
+
+        // Update mac subcategories // Added for Mac
+        const macSubContainer = document.getElementById('sub-mac').querySelector('ul');
+        const macMessage = document.getElementById('sub-mac').querySelector('.empty-subcategory-message');
+        macSubContainer.innerHTML = '';
+
+        if (macSubcategories.length === 0) {
+          macMessage.style.display = 'block';
+        } else {
+          macMessage.style.display = 'none';
+          macSubcategories.forEach(sub => {
+            const li = document.createElement('li');
+            li.innerHTML = `<label><input type="checkbox" name="sub-mac" value="${sub}" /> <span>${sub}</span></label><span class="count"></span>`;
+            macSubContainer.appendChild(li);
+          });
+        }
+
+        // Re-attach checkbox listeners
+        setupCheckboxListeners();
+
+        // Update subcategory counts
+        updateSubcategoryCounts();
+      } catch (error) {
+        console.error("Error populating subcategories:", error);
+      }
+    }
+
+    // Dynamic sort options population - fixed options as requested
+    async function populateSortOptions() {
+      try {
+        // Get sort options from data.js
+        const sortOptions = await getSortOptions();
+        console.log("Loaded sort options:", sortOptions);
+
+        const sortSelect = document.getElementById('sort');
+
+        sortSelect.innerHTML = '';
+        sortOptions.forEach(option => {
+          const optionEl = document.createElement('option');
+          optionEl.value = option.value;
+          optionEl.textContent = option.label;
+          sortSelect.appendChild(optionEl);
+        });
+      } catch (error) {
+        console.error("Error populating sort options:", error);
+      }
+    }
+
+    // VARIABLES
+    const itemsPerPage = 12; // Show 12 cards per page
+    let currentCategory = 'games';
+    let currentSubcategory = null;
+    let currentPage = 1;
+    let currentSort = 'default';
+    let currentSearch = '';
+    let allFilteredItems = []; // Store all filtered items
+
+    // DOM ELEMENTS
+    const contentArea = document.getElementById('content-area');
+    const contentLoader = document.getElementById('contentLoader');
+    const emptyState = document.getElementById('emptyState');
+    const nextPageBtn = document.getElementById('nextPageBtn');
+    const prevPageBtn = document.getElementById('prevPageBtn');
+    const categoryButtons = document.querySelectorAll('.category-btn');
+    const sortSelect = document.getElementById('sort');
+    const searchInput = document.getElementById('searchInput');
+    const searchButton = document.getElementById('searchButton');
+    const featuredCarousel = document.getElementById('featuredCarousel');
+
+    // Function to handle large datasets efficiently
+    function optimizeItemsData(items) {
+      // If we have a very large dataset, optimize it
+      if (items && items.length > 100) {
+        console.log(`Optimizing large dataset of ${items.length} items`);
+        
+        // Create optimized copies with only the necessary fields
+        const optimizedItems = items.map(item => ({
+          id: item.id,
+          title: item.title,
+          desc: item.desc ? item.desc.substring(0, 100) : '',  // Truncate long descriptions
+          image: item.image,
+          category: item.category,
+          subcategory: item.subcategory,
+          platform: item.platform,
+          downloads: item.downloads || 0,
+          rating: item.rating || 0,
+          size: item.size || 'N/A'
+        }));
+        
+        // Implement memory optimization for very large datasets
+        if (items.length > 500) {
+          // For extremely large datasets, implement chunking
+          // This prevents memory issues and UI freezes
+          console.log("Implementing chunked processing for very large dataset");
+          
+          // Process items in chunks of 100
+          const chunks = [];
+          for (let i = 0; i < optimizedItems.length; i += 100) {
+            chunks.push(optimizedItems.slice(i, i + 100));
+          }
+          
+          // We'll return the first chunk immediately
+          const firstChunk = chunks[0];
+          
+          // Process remaining chunks in the background
+          setTimeout(() => {
+            let processedItems = [...firstChunk];
+            
+            // Process each chunk with a delay to prevent UI freezing
+            chunks.slice(1).forEach((chunk, index) => {
+              setTimeout(() => {
+                processedItems = [...processedItems, ...chunk];
+                console.log(`Processed chunk ${index + 1}, total items: ${processedItems.length}`);
+                
+                // Update the global items array
+                items = processedItems;
+                
+                // If this is the last chunk, update the filtered items
+                if (processedItems.length === optimizedItems.length) {
+                  console.log("All chunks processed, updating filtered items");
+                  if (currentPage === 1) {
+                    renderItems(); // Re-render if on first page
+                  }
+                }
+              }, index * 200); // 200ms delay between chunks
+            });
+          }, 1000);
+          
+          return firstChunk;
+        }
+        
+        return optimizedItems;
+      }
+      
+      // For smaller datasets, return as is
+      return items;
+    }
+
+    // Initialize data load
+    async function initializeData() {
+      try {
+        // Show loader immediately
+        contentLoader.style.display = 'flex';
+
+        // Functions from data.js are now globally available
+
+        // Track visitor
+        window.trackVisitor();
+
+        // Load items with timeout for better UX (prevent long spinner)
+        const loadItemsPromise = window.getItems();
+
+        // Setup timeout to show fallback data if loading takes too long
+        const timeoutPromise = new Promise((resolve) => {
+          setTimeout(() => {
+            resolve('timeout');
+          }, 5000); // 5 seconds timeout
+        });
+
+        // Race between loading items and timeout
+        const result = await Promise.race([loadItemsPromise, timeoutPromise]);
+
+        if (result === 'timeout') {
+          console.warn("Loading items timed out, using fallback data");
+          // Create sample data as fallback
+          createSampleData();
+        } else {
+          // Check if result is the expected format from the new getItems function
+          if (result && result.items) {
+            items = optimizeItemsData(result.items);
+          } else {
+            items = result; // Fallback for backwards compatibility
+          }
+
+          // If still no items, create sample data
+          if (!items || items.length === 0) {
+            console.log("No items found, using sample data");
+            createSampleData();
+          }
+        }
+
+        // Populate subcategories and sort options
+        await Promise.all([
+          populateSubcategories(),
+          populateSortOptions()
+        ]);
+
+        // Render items
+        await renderItems();
+
+        // Setup watchers
+        // Setup Pagination Listeners
+        if (prevPageBtn) {
+          prevPageBtn.addEventListener('click', () => {
+            if (currentPage > 1) {
+              currentPage--;
+              renderItems();
+              window.scrollTo(0, 0); // Scroll to top
+            }
+          });
+        }
+
+        if (nextPageBtn) {
+          nextPageBtn.addEventListener('click', () => {
+            currentPage++;
+            renderItems();
+            window.scrollTo(0, 0); // Scroll to top
+          });
+        }
+
+        setupDatabaseWatcher();
+      } catch (error) {
+        console.error("Error initializing data:", error);
+        // Show error message
+        contentLoader.style.display = 'none';
+        contentArea.innerHTML = `
+          <div class="load-error">
+            <i class="fas fa-exclamation-triangle"></i>
+            <h3>Error Please Try Again</h3>
+            <p>Error Please Try Again</p>
+            <button id="retryBtn" class="retry-btn">Try Again</button>
+          </div>
+        `;
+
+        // Add retry button functionality
+        document.getElementById('retryBtn')?.addEventListener('click', () => {
+          window.location.reload();
+        });
+
+        // Fallback to sample data
+        createSampleData();
+        renderItems();
+      }
+    }
+
+    // Featured items carousel
+    function loadFeaturedItems() {
+      // Get top rated or most downloaded items
+      let featured = [...items].sort((a, b) => (b.rating || 0) - (a.rating || 0)).slice(0, 5);
+
+      // If not enough items, add most downloaded
+      if (featured.length < 5) {
+        const mostDownloaded = [...items]
+          .sort((a, b) => (b.downloads || 0) - (a.downloads || 0))
+          .filter(item => !featured.some(f => f.id === item.id))
+          .slice(0, 5 - featured.length);
+
+        featured = [...featured, ...mostDownloaded];
+      }
+
+      // If still not enough, just use what we have
+      if (featured.length === 0) {
+        featuredCarousel.innerHTML = `
+          <div class="empty-carousel">
+            <i class="fas fa-exclamation-circle"></i>
+            <p>No featured items available</p>
+          </div>
+        `;
+        return;
+      }
+
+      // Render featured items
+      featuredCarousel.innerHTML = `
+        <div class="carousel-container">
+          <button class="carousel-nav carousel-prev">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <div class="carousel-track">
+            ${featured.map((item, index) => `
+              <div class="carousel-slide${index === 0 ? ' active' : ''}" data-id="${item.id}">
+                <div class="carousel-image" style="background-image: url('${item.image}')"></div>
+                <div class="carousel-content">
+                  <h3>${item.title}</h3>
+                  <p>${item.desc}</p>
+                  <div class="carousel-meta">
+                    <span class="carousel-category">${item.subcategory}</span>
+                    <span class="carousel-stats">
+                      <i class="fas fa-download"></i> ${(item.downloads || 0).toLocaleString()}
+                      <i class="fas fa-star"></i> ${(item.rating || 0).toFixed(1)}
+                    </span>
+                  </div>
+                  <button class="carousel-btn">View Details</button>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+          <button class="carousel-nav carousel-next">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+        <div class="carousel-indicators">
+          ${featured.map((_, index) => `
+            <button class="carousel-indicator${index === 0 ? ' active' : ''}" data-index="${index}"></button>
+          `).join('')}
+        </div>
+      `;
+
+      // Setup carousel navigation
+      setupCarouselNavigation();
+    }
+
+    // Setup carousel navigation
+    function setupCarouselNavigation() {
+      const prevBtn = document.querySelector('.carousel-prev');
+      const nextBtn = document.querySelector('.carousel-next');
+      const indicators = document.querySelectorAll('.carousel-indicator');
+      const slides = document.querySelectorAll('.carousel-slide');
+      const viewButtons = document.querySelectorAll('.carousel-btn');
+
+      let currentIndex = 0;
+
+      // Next slide
+      nextBtn.addEventListener('click', () => {
+        currentIndex = (currentIndex + 1) % slides.length;
+        updateCarousel();
+      });
+
+      // Previous slide
+      prevBtn.addEventListener('click', () => {
+        currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+        updateCarousel();
+      });
+
+      // Indicator clicks
+      indicators.forEach(indicator => {
+        indicator.addEventListener('click', () => {
+          currentIndex = parseInt(indicator.dataset.index);
+          updateCarousel();
+        });
+      });
+
+      // View details buttons
+      viewButtons.forEach(button => {
+        button.addEventListener('click', e => {
+          e.stopPropagation();
+          const slide = button.closest('.carousel-slide');
+          const itemId = slide.dataset.id;
+          window.location.href = `items.html?id=${itemId}`;
+        });
+      });
+
+      // Click on carousel slide
+      slides.forEach(slide => {
+        slide.addEventListener('click', () => {
+          const itemId = slide.dataset.id;
+          window.location.href = `items.html?id=${itemId}`;
+        });
+      });
+
+      // Auto-rotate carousel
+      let carouselInterval = setInterval(() => {
+        currentIndex = (currentIndex + 1) % slides.length;
+        updateCarousel();
+      }, 5000);
+
+      // Pause auto-rotation on hover
+      const carouselContainer = document.querySelector('.carousel-container');
+      carouselContainer.addEventListener('mouseenter', () => {
+        clearInterval(carouselInterval);
+      });
+
+      carouselContainer.addEventListener('mouseleave', () => {
+        carouselInterval = setInterval(() => {
+          currentIndex = (currentIndex + 1) % slides.length;
+          updateCarousel();
+        }, 5000);
+      });
+
+      // Update carousel function
+      function updateCarousel() {
+        slides.forEach((slide, index) => {
+          slide.classList.toggle('active', index === currentIndex);
+        });
+
+        indicators.forEach((indicator, index) => {
+          indicator.classList.toggle('active', index === currentIndex);
+        });
+      }
+    }
+
+    // RENDER ITEMS
+    async function renderItems() {
+      try {
+        // Show loader
+        contentLoader.style.display = 'flex';
+        emptyState.style.display = 'none';
+        contentArea.innerHTML = '';
+        
+        console.log('Rendering items - Page:', currentPage, 'Category:', currentCategory, 'Subcategory:', currentSubcategory);
+
+        // Set a loading timeout to prevent endless spinner
+        let loadingTimeout = setTimeout(() => {
+          if (contentLoader.style.display === 'flex') {
+            contentLoader.innerHTML = `
+              <div class="loader-spinner"></div>
+              <p>Loding...</p>
+              <p class="loading-hint">It takes a long time to load, there might be some problem</p>
+              <button class="retry-loading">Try Again</button>
+            `;
+
+            // Add retry button functionality
+            document.querySelector('.retry-loading')?.addEventListener('click', () => {
+              renderItems();
+            });
+          }
+        }, 5000); // 5 seconds timeout
+
+        // Filtering
+        if (items && Array.isArray(items)) {
+          // If searching, search across all categories
+          if (currentSearch && currentSearch.trim() !== '') {
+            const searchTerm = currentSearch.toLowerCase();
+            allFilteredItems = items.filter(item =>
+              (item.title && item.title.toLowerCase().includes(searchTerm)) ||
+              (item.desc && item.desc.toLowerCase().includes(searchTerm))
+            );
+          } else {
+            // Normal category filtering when not searching
+            allFilteredItems = items.filter(item =>
+              item.category === currentCategory &&
+              (currentSubcategory ? item.subcategory === currentSubcategory : true)
+            );
+          }
+        } else {
+          console.error("Items is not an array:", items);
+          allFilteredItems = [];
+        }
+
+        // Helper function to parse size to bytes for comparison
+        function sizeToBytes(sizeStr) {
+          if (!sizeStr || typeof sizeStr !== 'string') return 0;
+
+          const match = sizeStr.match(/^([\d.]+)\s*(MB|GB|TB)?$/i);
+          if (!match) return 0;
+
+          const value = parseFloat(match[1]);
+          const unit = (match[2] || '').toUpperCase();
+
+          switch (unit) {
+            case 'TB': return value * 1024 * 1024 * 1024 * 1024;
+            case 'GB': return value * 1024 * 1024 * 1024;
+            case 'MB': return value * 1024 * 1024;
+            default: return value;
+          }
+        }
+
+        // Sorting
+        switch (currentSort) {
+          case 'rating-high-to-low':
+            allFilteredItems.sort((a, b) => (b.rating || 0) - (a.rating || 0));
+            break;
+          case 'rating-low-to-high':
+            allFilteredItems.sort((a, b) => (a.rating || 0) - (b.rating || 0));
+            break;
+          case 'download-high-to-low':
+            allFilteredItems.sort((a, b) => (b.downloads || 0) - (a.downloads || 0));
+            break;
+          case 'download-low-to-high':
+            allFilteredItems.sort((a, b) => (a.downloads || 0) - (b.downloads || 0));
+            break;
+          case 'size-high-to-low':
+            allFilteredItems.sort((a, b) => sizeToBytes(b.size) - sizeToBytes(a.size));
+            break;
+          case 'size-low-to-high':
+            allFilteredItems.sort((a, b) => sizeToBytes(a.size) - sizeToBytes(b.size));
+            break;
+        }
+
+        // Pagination
+        const start = (currentPage - 1) * itemsPerPage;
+        const paginated = allFilteredItems.slice(start, start + itemsPerPage);
+
+        // If no items on current page but we have filtered items, go back to previous page
+        if (paginated.length === 0 && allFilteredItems.length > 0 && currentPage > 1) {
+          currentPage = Math.ceil(allFilteredItems.length / itemsPerPage); // Go to last valid page
+          const newStart = (currentPage - 1) * itemsPerPage;
+          paginated.push(...allFilteredItems.slice(newStart, newStart + itemsPerPage));
+        }
+
+        // Render directly without artificial delay
+        clearTimeout(loadingTimeout);
+        contentLoader.style.display = 'none';
+
+        // Check if we have items to display
+        if (paginated.length === 0) {
+          emptyState.style.display = 'flex';
+          return;
+        }
+
+        // Efficient rendering using document fragment
+        const fragment = document.createDocumentFragment();
+        
+        // Create item cards with minimal DOM operations
+        paginated.forEach((item, index) => {
+          const article = document.createElement('article');
+          article.className = 'item-card';
+          article.dataset.id = item.id;
+          article.style.setProperty('--item-index', index);
+          
+          // Use innerHTML for the content (one DOM operation per card)
+          article.innerHTML = `
+                <img src="${item.image}" alt="${item.title}" class="game-icon" />
+                <div class="item-details">
+                  <h3 class="game-title">${item.title}</h3>
+                  <p class="game-desc">${item.desc}</p>
+                  <span class="genre-tag">${item.subcategory}</span>
+                </div>
+                <div class="extra-info">
+                  <div class="platform">
+                    <i class="${item.category === 'mac' ? 'fa-brands fa-apple' : (item.category === 'games' && (!item.platform || item.platform.toLowerCase() !== 'windows') ? 'fa-solid fa-gamepad' : 'fa-brands fa-windows')}"></i> ${item.platform || (item.category === 'mac' ? 'Mac' : 'Windows')}<br />
+                    <span class="download-count"><i class="fa fa-download"></i> ${(item.downloads || 0).toLocaleString()}</span>
+                  </div>
+                  <div class="reputation" style="text-align: center;">
+                <div style="color: #00ffc3; font-weight: bold; font-size: 15px; text-shadow: 0 0 5px rgba(0, 255, 195, 0.5); margin-bottom: 2px;">R8Y</div>
+                    <div class="stars-display" style="font-weight: bold; letter-spacing: 1px; color: #fff; font-size: 14px; text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);">
+                  MATRIX
+                    </div>
+                  </div>
+                  <div class="game-size">${item.size}</div>
+                </div>
+          `;
+          
+          // Add to fragment (no DOM reflow yet)
+          fragment.appendChild(article);
+        });
+        
+        // Add all cards to DOM at once (single reflow)
+        contentArea.appendChild(fragment);
+
+        // Update subcategory counts
+        updateSubcategoryCounts();
+
+        // Setup card listeners with event delegation
+        setupCardListeners();
+
+        // Control pagination button visibility
+        console.log('Pagination Debug:', {
+          currentPage: currentPage,
+          filteredLength: allFilteredItems.length,
+          itemsPerPage: itemsPerPage,
+          start: start,
+          showPrev: currentPage > 1,
+          showNext: allFilteredItems.length > (start + itemsPerPage),
+          prevPageBtnExists: !!prevPageBtn,
+          nextPageBtnExists: !!nextPageBtn
+        });
+
+        if (prevPageBtn) {
+          prevPageBtn.style.display = currentPage > 1 ? 'inline-block' : 'none';
+          prevPageBtn.disabled = currentPage <= 1;
+          console.log('Setting prevPageBtn.style.display to:', prevPageBtn.style.display, 'disabled:', prevPageBtn.disabled);
+        }
+        if (nextPageBtn) {
+          const maxPage = Math.ceil(allFilteredItems.length / itemsPerPage);
+          const hasMorePages = currentPage < maxPage;
+          nextPageBtn.style.display = 'inline-block'; // Always display if element exists
+          nextPageBtn.disabled = !hasMorePages;
+          console.log('Setting nextPageBtn.style.display to: inline-block, disabled:', !hasMorePages, 'currentPage:', currentPage, 'maxPage:', maxPage);
+        }
+        
+        // Trigger animations if needed
+        setTimeout(() => {
+          contentArea.classList.add('animate-content');
+        }, 10);
+      } catch (error) {
+        console.error("Error rendering items:", error);
+        contentLoader.style.display = 'none';
+        contentArea.innerHTML = `<p class="error-message">Error loading content. Please try again later.</p>`;
+      }
+    }
+
+    // UPDATE SUB CATEGORY COUNTS
+    function updateSubcategoryCounts() {
+      if (!items || !Array.isArray(items)) return;
+
+      document.querySelectorAll('.sub-category-box ul li').forEach(li => {
+        const sub = li.querySelector('input').value;
+        const count = items.filter(i =>
+          i && i.category === currentCategory &&
+          i.subcategory === sub
+        ).length;
+        li.querySelector('.count').textContent = `(${count})`;
+      });
+    }
+
+    // EVENT LISTENERS
+    categoryButtons.forEach(btn => btn.addEventListener('click', () => {
+      categoryButtons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentCategory = btn.dataset.category;
+      currentPage = 1;
+      document.getElementById('current-category-text').textContent = btn.textContent.trim();
+      document.querySelectorAll('.sub-category-box').forEach(b => b.style.display = 'none');
+      document.getElementById(`sub-${currentCategory}`).style.display = 'block';
+      renderItems();
+    }));
+
+    // Setup checkbox listeners
+    function setupCheckboxListeners() {
+      const subCheckboxes = document.querySelectorAll('input[type="checkbox"]');
+      subCheckboxes.forEach(cb => {
+        cb.addEventListener('change', e => {
+          if (e.target.checked) {
+            currentSubcategory = e.target.value;
+            subCheckboxes.forEach(other => {
+              if (other !== e.target && other.name === e.target.name) {
+                other.checked = false;
+              }
+            });
+          } else {
+            currentSubcategory = null;
+          }
+          currentPage = 1;
+          renderItems();
+        });
+      });
+    }
+
+    // Real-time search functionality
+    searchInput.addEventListener('input', e => {
+      currentSearch = e.target.value;
+      currentPage = 1; // Reset to first page when searching
+      renderItems(); // Trigger real-time search
+    });
+
+    // Search button click handler (for compatibility)
+    searchButton.addEventListener('click', () => {
+      currentPage = 1;
+      renderItems();
+    });
+
+    // Search on Enter key (for compatibility)
+    searchInput.addEventListener('keyup', e => {
+      if (e.key === 'Enter') {
+        currentPage = 1;
+        renderItems();
+      }
+    });
+
+    sortSelect.addEventListener('change', e => {
+      currentSort = e.target.value;
+      renderItems();
+    });
+
+    nextPageBtn.addEventListener('click', () => {
+      // Use already filtered items instead of filtering again
+      const maxPage = Math.ceil(allFilteredItems.length / itemsPerPage);
+      
+      if (currentPage < maxPage) {
+      currentPage++;
+      renderItems();
+      // Scroll to top of content area
+      document.querySelector('.category-bar').scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+
+    // Save ratings to Firestore - now imported from data.js
+
+    // Get item ratings from Firestore
+    async function getItemRatings(itemId) {
+      try {
+        const ratingsRef = ratingsCollection.doc(itemId);
+        const ratingsDoc = await ratingsRef.get();
+
+        if (ratingsDoc.exists) {
+          const ratingsData = ratingsDoc.data();
+          return {
+            average: ratingsData.total / ratingsData.count,
+            count: ratingsData.count
+          };
+        }
+
+        return { average: 0, count: 0 };
+      } catch (error) {
+        console.error("Error getting ratings:", error);
+        return { average: 0, count: 0 };
+      }
+    }
+
+    // Get user's previous rating for an item
+    async function getUserRating(itemId) {
+      try {
+        const userId = localStorage.getItem('r8y_user_id');
+        if (!userId) return 0;
+
+        const ratingsRef = ratingsCollection.doc(itemId);
+        const ratingsDoc = await ratingsRef.get();
+
+        if (ratingsDoc.exists) {
+          const ratingsData = ratingsDoc.data();
+          if (ratingsData.userRatings && ratingsData.userRatings[userId]) {
+            return ratingsData.userRatings[userId];
+          }
+        }
+
+        return 0;
+      } catch (error) {
+        console.error("Error getting user rating:", error);
+        return 0;
+      }
+    }
+
+    // Update download count in Firestore - now imported from data.js
+
+    // Card click handler using event delegation
+    function cardClickHandler(event) {
+      // Find the closest parent item-card element
+      const card = event.target.closest('.item-card');
+      if (!card) return; // Click was not on or within a card
+      
+      const itemId = card.getAttribute('data-id');
+      if (itemId) {
+        // Navigate to item details page
+        window.location.href = `items.html?id=${itemId}`;
+      }
+    }
+
+    // Setup card listeners with event delegation
+    function setupCardListeners() {
+      // Remove any existing listeners first
+      contentArea.removeEventListener('click', cardClickHandler);
+      
+      // Add a single event listener to the parent container
+      contentArea.addEventListener('click', cardClickHandler);
+    }
+
+    // No need for the back button handler anymore since we're using items.html
+
+    // About link handler for admin access
+    document.getElementById('aboutLink').addEventListener('click', function (e) {
+      e.preventDefault();
+
+      // Create login modal
+      const loginModal = document.createElement('div');
+      loginModal.className = 'login-modal';
+      loginModal.innerHTML = `
+        <div class="login-content">
+          <h3>Admin Access</h3>
+          <p>Please enter the admin password:</p>
+          <input type="password" id="admin-password" placeholder="Enter password">
+          <div id="password-error" class="error-message"></div>
+          <div class="login-buttons">
+            <button id="cancel-login-btn">Cancel</button>
+            <button id="login-btn">Login</button>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(loginModal);
+
+      // Add styles
+      const style = document.createElement('style');
+      style.textContent = `
+        .login-modal {
+          display: block;
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0, 0, 0, 0.8);
+          z-index: 1000;
+        }
+        .login-content {
+          background-color: #1c1c1c;
+          margin: 15% auto;
+          padding: 20px;
+          width: 350px;
+          border-radius: 8px;
+          box-shadow: 0 0 20px rgba(0, 255, 195, 0.3);
+        }
+        .login-content h3 {
+          color: #00ffc3;
+          margin-bottom: 15px;
+        }
+        .login-content p {
+          margin-bottom: 15px;
+          color: #eee;
+        }
+        .login-content input {
+          width: 100%;
+          padding: 10px;
+          margin-bottom: 15px;
+          background: #222;
+          border: 1px solid #333;
+          color: white;
+          border-radius: 4px;
+        }
+        .login-buttons {
+          display: flex;
+          justify-content: flex-end;
+          gap: 10px;
+        }
+        .login-buttons button {
+          padding: 8px 15px;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+        }
+        #login-btn {
+          background-color: #00ffc3;
+          color: black;
+        }
+        #cancel-login-btn {
+          background-color: #333;
+          color: white;
+        }
+        .error-message {
+          color: #ff3366;
+          margin-bottom: 15px;
+          font-size: 14px;
+        }
+      `;
+      document.head.appendChild(style);
+
+      // Add event listeners
+      document.getElementById('login-btn').addEventListener('click', function () {
+        const password = document.getElementById('admin-password').value;
+        if (password === 'Aamir@6399009610') {
+          window.open('admin.html', '_blank');
+          document.querySelector('.login-modal').remove();
+        } else {
+          document.getElementById('password-error').textContent = 'Incorrect password. Please try again.';
+        }
+      });
+
+      document.getElementById('cancel-login-btn').addEventListener('click', function () {
+        document.querySelector('.login-modal').remove();
+      });
+
+      // Click outside to close
+      document.querySelector('.login-modal').addEventListener('click', function (e) {
+        if (e.target === this) {
+          this.remove();
+        }
+      });
+    });
+
+    // Special Access link handler
+    document.getElementById('specialAccessLink').addEventListener('click', function (e) {
+      e.preventDefault();
+      // Redirect directly to login.html
+      window.location.href = 'login.html';
+    });
+
+    // Watch for database changes
+    function setupDatabaseWatcher() {
+      // Watch for item changes
+      itemsCollection.onSnapshot(snapshot => {
+        if (snapshot.docChanges().length > 0) {
+          console.log("Database changed, updating display...");
+
+          // Process each change
+          snapshot.docChanges().forEach(change => {
+            const itemData = change.doc.data();
+
+            if (change.type === 'added' || change.type === 'modified') {
+              // Update or add item
+              const existingIndex = items.findIndex(item => item.id === itemData.id);
+              if (existingIndex !== -1) {
+                items[existingIndex] = itemData;
+              } else {
+                items.push(itemData);
+              }
+            } else if (change.type === 'removed') {
+              // Remove item
+              items = items.filter(item => item.id !== itemData.id);
+            }
+          });
+
+          // Re-render items
+          renderItems();
+
+          // Update subcategory counts
+          updateSubcategoryCounts();
+        }
+      }, error => {
+        console.error("Error watching for item changes:", error);
+      });
+
+      // Watch for settings changes
+      settingsDoc.onSnapshot(doc => {
+        if (doc.exists) {
+          console.log("Settings changed, updating display...");
+
+          // Update subcategories and sort options
+          populateSubcategories();
+          populateSortOptions();
+
+          // Update current view if needed
+          if (currentSort === 'default') {
+            renderItems();
+          }
+        }
+      }, error => {
+        console.error("Error watching for settings changes:", error);
+      });
+    }
+
+    // Initialize everything when the page loads with connection state check
+    document.addEventListener('DOMContentLoaded', function () {
+      // Show PC Games subcategory by default
+      document.querySelectorAll('.sub-category-box').forEach(box => {
+        box.style.display = 'none';
+      });
+      document.getElementById('sub-games').style.display = 'block';
+      
+      // Set PC Games tab as active
+      document.querySelectorAll('.category-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.dataset.category === 'games') {
+          btn.classList.add('active');
+        }
+      });
+      
+      // Update current category text
+      const currentCategoryText = document.getElementById('current-category-text');
+      if (currentCategoryText) {
+        currentCategoryText.textContent = 'PC GAMES';
+      }
+      
+      // Wait for Firebase and data.js to load
+      setTimeout(() => {
+        // Show connection status in console
+        console.log('Firebase initialized:', typeof firebase !== 'undefined');
+        console.log('Database connection:', typeof window.db !== 'undefined');
+
+        // Add connection status check
+        if (navigator.onLine) {
+          initializeData();
+        } else {
+          // Offline fallback
+          contentLoader.style.display = 'none';
+          contentArea.innerHTML = `
+            <div class="load-error">
+              <i class="fas fa-wifi"></i>
+              <h3>No Internet Conetion</h3>
+              <p>Check Your Network Conetion and Try Again</p>
+              <button id="retryBtn" class="retry-btn">Try Again</button>
+            </div>
+          `;
+
+          document.getElementById('retryBtn')?.addEventListener('click', () => {
+            if (navigator.onLine) {
+              window.location.reload();
+            } else {
+              showErrorNotification('Your Are Now Offline');
+            }
+          });
+
+          // Still create sample data for offline functionality
+          createSampleData();
+          renderItems();
+        }
+      }, 1000); // Wait 1 second for Firebase and data.js to initialize
+    });
+
+    // Set up database watchers
+    function setupDatabaseWatcher() {
+      // Get Firebase database reference
+      const db = firebase.firestore();
+      const itemsCollection = db.collection('items');
+      const settingsDoc = db.collection('settings').doc('siteSettings');
+
+      // Watch for item changes
+      itemsCollection.onSnapshot(snapshot => {
+        if (snapshot.docChanges().length > 0) {
+          console.log("Database changed, updating display...");
+
+          // Process each change
+          snapshot.docChanges().forEach(change => {
+            const itemData = change.doc.data();
+
+            if (change.type === 'added' || change.type === 'modified') {
+              console.log(`Item ${change.type}:`, itemData.id);
+
+              // Update or add item
+              const existingIndex = items.findIndex(item => item.id === itemData.id);
+              if (existingIndex !== -1) {
+                items[existingIndex] = itemData;
+              } else {
+                items.push(itemData);
+              }
+            } else if (change.type === 'removed') {
+              console.log(`Item removed:`, itemData.id);
+
+              // Remove item
+              items = items.filter(item => item.id !== itemData.id);
+            }
+          });
+
+          // Re-render items
+          renderItems();
+
+          // Update subcategory counts
+          updateSubcategoryCounts();
+        }
+      }, error => {
+        console.error("Error watching for item changes:", error);
+      });
+
+      // Watch for settings changes
+      settingsDoc.onSnapshot(doc => {
+        if (doc.exists) {
+          console.log("Settings changed, updating display...");
+
+          // Update subcategories and sort options
+          populateSubcategories();
+          populateSortOptions();
+
+          // Update current view if needed
+          if (currentSort === 'default') {
+            renderItems();
+          }
+        }
+      }, error => {
+        console.error("Error watching for settings changes:", error);
+      });
+    }
+
+    // Function to load subcategories
+    async function loadSubcategories(category) {
+      try {
+        console.log(`Loading subcategories for ${category}`);
+        const subcategories = await getSubcategories(category);
+        const container = document.querySelector(`#sub-${category} ul`);
+        const emptyMessage = document.querySelector(`#sub-${category} .empty-subcategory-message`);
+        
+        if (container) {
+          container.innerHTML = '';
+          
+          if (subcategories && subcategories.length > 0) {
+            // Hide empty message if there are subcategories
+            if (emptyMessage) emptyMessage.style.display = 'none';
+            
+            // Add "All" option first
+            const allItem = document.createElement('li');
+            allItem.innerHTML = '<a href="#" class="active" data-subcategory="">All</a>';
+            container.appendChild(allItem);
+            
+            // Add each subcategory
+            subcategories.forEach(sub => {
+              const item = document.createElement('li');
+              item.innerHTML = `<a href="#" data-subcategory="${sub}">${sub}</a>`;
+              container.appendChild(item);
+            });
+            
+            // Add click event listeners
+            const subcategoryLinks = container.querySelectorAll('a');
+            subcategoryLinks.forEach(link => {
+              link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Remove active class from all links in this category
+                subcategoryLinks.forEach(l => l.classList.remove('active'));
+                
+                // Add active class to clicked link
+                this.classList.add('active');
+                
+                // Get subcategory value
+                const subcategory = this.getAttribute('data-subcategory');
+                
+                // Update content
+                loadContent(category, subcategory);
+              });
+            });
+          } else {
+            // Show empty message if no subcategories
+            if (emptyMessage) {
+              emptyMessage.style.display = 'block';
+              emptyMessage.textContent = 'No subcategories available';
+            }
+          }
+        }
+      } catch (error) {
+        console.error(`Error loading subcategories for ${category}:`, error);
+      }
+    }
+    
+    // Listen for subcategory updates from admin panel
+    window.addEventListener('subcategoriesUpdated', function(event) {
+      if (event.detail && event.detail.category) {
+        console.log(`Received subcategory update event for ${event.detail.category}`);
+        loadSubcategories(event.detail.category);
+      }
+    });
+    
+    // Make loadSubcategories function accessible to admin panel for direct updates
+    window.loadSubcategories = loadSubcategories;
+    
+    // Set up real-time updates from Firebase for subcategories
+    function setupRealtimeSubcategoryUpdates() {
+      try {
+        // Listen for changes to the settings document
+        settingsDoc.onSnapshot(function(doc) {
+          if (doc.exists) {
+            const data = doc.data();
+            if (data && data.subcategories) {
+              console.log("Settings changed, updating subcategories");
+              loadSubcategories('games');
+              loadSubcategories('windows');
+              loadSubcategories('mac');
+            }
+          }
+        });
+        console.log("Real-time subcategory updates enabled");
+      } catch (error) {
+        console.error("Error setting up real-time subcategory updates:", error);
+      }
+    }
+    
+    // Initialize real-time updates
+    setupRealtimeSubcategoryUpdates();
+  </script>
+  
+  <script>
+    // Apply styles to all sub-category boxes after page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      // Get all sub-category boxes
+      const subCategoryBoxes = document.querySelectorAll('.sub-category-box');
+      
+      // Set height directly - force 450px height
+      subCategoryBoxes.forEach(box => {
+        box.style.height = '450px';
+      });
+      
+      // Add custom scrollbar styles
+      const style = document.createElement('style');
+      style.textContent = `
+        .sub-category-box {
+          height: 450px !important;
+          width: 300px !important;
+        }
+        .sub-category-box ul {
+          overflow-y: auto !important;
+          flex: 1 !important;
+          padding-right: 12px !important;
+          margin-right: -10px !important;
+          max-height: 100% !important;
+          box-sizing: border-box !important;
+        }
+        .sub-category-box ul::-webkit-scrollbar {
+          width: 4px !important;
+        }
+        .sub-category-box ul::-webkit-scrollbar-track {
+          background: transparent !important;
+        }
+        .sub-category-box ul::-webkit-scrollbar-thumb {
+          background: #00ffc3 !important;
+          border-radius: 2px !important;
+        }
+      `;
+      document.head.appendChild(style);
+      
+      // Apply styles to each box
+      subCategoryBoxes.forEach(box => {
+        // Box styles
+        box.style.cssText = `
+          position: absolute;
+          top: 550px;
+          width: 300px;
+          background-color: #1c1c1c;
+          padding: 20px 25px;
+          border-radius: 5px;
+          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+          border: 1px solid #333;
+          height: 450px !important;
+          display: flex !important;
+          flex-direction: column !important;
+          overflow: hidden !important;
+          box-sizing: border-box !important;
+        `;
+        
+        // Hover effect
+        box.onmouseover = function() {
+          this.style.boxShadow = '0 8px 25px rgba(0, 255, 195, 0.1)';
+          this.style.borderColor = '#00ffc3';
+        };
+        box.onmouseout = function() {
+          this.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.2)';
+          this.style.borderColor = '#333';
+        };
+        
+        // Style the UL inside
+        const ul = box.querySelector('ul');
+        if (ul) {
+          ul.style.cssText = `
+            list-style: none !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            overflow-y: auto !important;
+            flex: 1 !important;
+            padding-right: 12px !important;
+            margin-right: -10px !important;
+            max-height: 100% !important;
+            box-sizing: border-box !important;
+          `;
+        }
+      });
+    });
+  </script>
+
+  <!-- Toast Container for Notifications -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <script>
+    // Track visitor when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      // Track visitor
+      trackVisitor();
+      
+      // Load subcategories for each category
+      loadSubcategories('games');
+      loadSubcategories('windows');
+      loadSubcategories('mac');
+      
+      // Load initial content (games by default)
+      loadContent('games');
+      
+      // Add event listeners for category tabs
+      const categoryTabs = document.querySelectorAll('.category-btn');
+      categoryTabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+          // Remove active class from all tabs
+          categoryTabs.forEach(t => t.classList.remove('active'));
+          
+          // Add active class to clicked tab
+          this.classList.add('active');
+          
+          // Get category
+          const category = this.getAttribute('data-category');
+          
+          // Update category text
+          const categoryText = document.getElementById('current-category-text');
+          if (categoryText) {
+            switch(category) {
+              case 'games':
+                categoryText.textContent = 'PC GAMES';
+                break;
+              case 'windows':
+                categoryText.textContent = 'WINDOWS SOFTWARE';
+                break;
+              case 'mac':
+                categoryText.textContent = 'MAC SOFTWARE';
+                break;
+              default:
+                categoryText.textContent = category.toUpperCase();
+            }
+          }
+          
+          // Show/hide appropriate subcategory box
+          document.querySelectorAll('.sub-category-box').forEach(box => {
+            box.style.display = 'none';
+          });
+          
+          const subCategoryBox = document.getElementById(`sub-${category}`);
+          if (subCategoryBox) {
+            subCategoryBox.style.display = 'block';
+          }
+          
+          // Load content for this category
+          loadContent(category);
+        });
+      });
+      
+      // Add event listener for sort select
+      const sortSelect = document.getElementById('sort');
+      if (sortSelect) {
+        sortSelect.addEventListener('change', function() {
+          // Get current active category
+          const activeTab = document.querySelector('.category-btn.active');
+          if (activeTab) {
+            const category = activeTab.getAttribute('data-category');
+            
+            // Get current active subcategory
+            const activeSubcategory = document.querySelector(`#sub-${category} a.active`);
+            const subcategory = activeSubcategory ? activeSubcategory.getAttribute('data-subcategory') : '';
+            
+            // Reload content with new sort
+            loadContent(category, subcategory);
+          }
+        });
+      }
+      
+      // Add event listener for search
+      const searchButton = document.getElementById('searchButton');
+      const searchInput = document.getElementById('searchInput');
+      
+      if (searchButton && searchInput) {
+        searchButton.addEventListener('click', function() {
+          performSearch();
+        });
+        
+        searchInput.addEventListener('keypress', function(e) {
+          if (e.key === 'Enter') {
+            performSearch();
+          }
+        });
+      }
+      
+      // Function to perform search
+      function performSearch() {
+        const searchTerm = searchInput.value.trim();
+        if (!searchTerm) return;
+        
+        // Implement search functionality
+        console.log('Searching for:', searchTerm);
+        
+        // For now, just reload content with all items and filter on the client side
+        searchItems(searchTerm);
+      }
+      
+      // Search items function
+      async function searchItems(searchTerm) {
+        try {
+          // Show loader
+          const contentLoader = document.getElementById('contentLoader');
+          const emptyState = document.getElementById('emptyState');
+          const contentArea = document.getElementById('content-area');
+          
+          if (contentLoader) contentLoader.style.display = 'flex';
+          if (emptyState) emptyState.style.display = 'none';
+          
+          // Remove any existing items
+          const existingItems = contentArea.querySelectorAll('.item-card');
+          existingItems.forEach(item => item.remove());
+          
+          // Get all items
+          const data = await getItems();
+          if (!data || !data.items) {
+            throw new Error('No items data found');
+          }
+          
+          // Filter items by search term (case insensitive)
+          const term = searchTerm.toLowerCase();
+          const filteredItems = data.items.filter(item => 
+            item.title.toLowerCase().includes(term) || 
+            (item.desc && item.desc.toLowerCase().includes(term)) ||
+            (item.subcategory && item.subcategory.toLowerCase().includes(term))
+          );
+          
+          // Hide loader
+          if (contentLoader) contentLoader.style.display = 'none';
+          
+          // Show empty state if no items
+          if (filteredItems.length === 0) {
+            if (emptyState) emptyState.style.display = 'flex';
+            return;
+          }
+          
+          // Create item cards
+          filteredItems.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'item-card';
+            card.setAttribute('data-id', item.id);
+            
+            const rating = item.rating || 0;
+            // Create colored rating stars with all stars filled
+            let ratingStars = '';
+            for (let i = 1; i <= 5; i++) {
+              ratingStars += '<span style="color: #ff9800;">★</span>';
+            }
+            
+            card.innerHTML = `
+              <img src="${item.image || 'images/placeholder.jpg'}" alt="${item.title}">
+              <div class="item-details">
+                <h3>${item.title}</h3>
+                <p class="item-subcategory">${item.subcategory || 'Uncategorized'}</p>
+                <div class="item-meta">
+                  <span class="item-rating" style="display: inline-block; text-align: center;">
+                    <span style="display: block; color: #00ffc3; font-weight: bold; font-size: 15px; text-shadow: 0 0 5px rgba(0, 255, 195, 0.5);">R8Y</span>
+                    <span style="display: block; font-weight: bold; letter-spacing: 1px; color: #fff; font-size: 14px; text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);">MATRIX</span>
+                  </span>
+                  <span class="item-downloads"><i class="fas fa-download"></i> ${(item.downloads || 0).toLocaleString()}</span>
+                </div>
+              </div>
+            `;
+            
+            // Add click event listener
+            card.addEventListener('click', function() {
+              showItemDetails(item.id);
+            });
+            
+            contentArea.appendChild(card);
+          });
+        } catch (error) {
+          console.error('Error searching items:', error);
+          if (contentLoader) contentLoader.style.display = 'none';
+        }
+      }
+    });
+  </script>
+
+  <script>
+    // Emergency height fix - execute immediately
+    (function() {
+      // Force height of all subcategory boxes to 450px and width to 300px
+      var boxes = document.querySelectorAll('.sub-category-box');
+      for(var i=0; i<boxes.length; i++) {
+        boxes[i].style.height = '450px';
+        boxes[i].style.width = '300px';
+        boxes[i].setAttribute('style', boxes[i].getAttribute('style') + '; height: 450px !important; width: 300px !important;');
+      }
+    })();
+  </script>
+
+  <!-- SCRIPTS SECTION -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Track which animations have been played
+      const animatedItems = new Set();
+
+      // Add animations to elements when they are in view
+      const animateElements = function(forceTrigger = false) {
+        // Animate subcategory boxes
+        const subcategoryBoxes = document.querySelectorAll('.sub-category-box');
+        const activeCategory = document.querySelector('.category-btn.active');
+        const activeCategoryId = activeCategory ? activeCategory.getAttribute('data-category') : 'games';
+        
+        subcategoryBoxes.forEach(box => {
+          const boxId = box.id;
+          // Only animate visible subcategory boxes for current category
+          if (boxId === 'sub-' + activeCategoryId) {
+            // If not animated yet or force trigger is true
+            if (!animatedItems.has(boxId) || forceTrigger) {
+              box.classList.add('animate');
+              animatedItems.add(boxId);
+              
+              // Set index for staggered animation of list items
+              const listItems = box.querySelectorAll('ul li');
+              listItems.forEach((item, index) => {
+                item.style.setProperty('--item-index', index);
+              });
+            }
+          }
+        });
+        
+        // Animate content area
+        const contentArea = document.getElementById('content-area');
+        if (contentArea) {
+          const contentKey = 'content-' + (activeCategory ? activeCategoryId : 'default');
+          
+          // If not animated yet or force trigger is true
+          if (!animatedItems.has(contentKey) || forceTrigger) {
+            contentArea.classList.add('animate-content');
+            animatedItems.add(contentKey);
+            
+            // Set index for staggered animation
+            const itemCards = contentArea.querySelectorAll('.item-card');
+            itemCards.forEach((card, index) => {
+              card.style.setProperty('--item-index', index);
+            });
+          }
+        }
+      };
+      
+      // Initial animation
+      setTimeout(() => animateElements(true), 500);
+      
+      // Add animation when switching categories
+      const categoryButtons = document.querySelectorAll('.category-btn');
+      categoryButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          // Animate new content after category change
+          setTimeout(() => animateElements(true), 100);
+        });
+      });
+      
+      // Animate on search (always force new animation)
+      const searchButton = document.getElementById('searchButton');
+      if (searchButton) {
+        searchButton.addEventListener('click', function() {
+          setTimeout(() => animateElements(true), 300);
+        });
+      }
+      
+      // Animate when subcategory is selected
+      const subcategoryItems = document.querySelectorAll('.sub-category-box ul li');
+      subcategoryItems.forEach(item => {
+        item.addEventListener('click', function() {
+          // Only refresh content animations
+          setTimeout(() => {
+            const contentArea = document.getElementById('content-area');
+            if (contentArea) {
+              contentArea.classList.add('animate-content');
+              
+              const itemCards = contentArea.querySelectorAll('.item-card');
+              itemCards.forEach((card, index) => {
+                card.style.setProperty('--item-index', index);
+              });
+            }
+          }, 300);
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>

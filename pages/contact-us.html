@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - R8YMatrix</title>
+    <link rel="icon" type="image/png" href="../images/logo/favicon.png" />
+    <link rel="stylesheet" href="pages.css">
+    <style>
+      /* Apply 50px radius to favicon in browser tab */
+      .favicon-preview {
+        width: 32px;
+        height: 32px;
+        border-radius: 50px;
+        object-fit: cover;
+        display: none;
+      }
+    </style>
+    <script>
+      // Replace favicon with rounded version
+      (function() {
+        const faviconLink = document.querySelector('link[rel="icon"]');
+        if (faviconLink) {
+          const originalHref = faviconLink.href;
+          const canvas = document.createElement('canvas');
+          canvas.width = 32;
+          canvas.height = 32;
+          const ctx = canvas.getContext('2d');
+          const img = new Image();
+          img.crossOrigin = 'Anonymous';
+          img.onload = function() {
+            // Create circular clipping path
+            ctx.beginPath();
+            ctx.arc(16, 16, 16, 0, Math.PI * 2, true);
+            ctx.closePath();
+            ctx.clip();
+            
+            // Draw the image
+            ctx.drawImage(img, 0, 0, 32, 32);
+            
+            // Replace favicon with rounded version
+            faviconLink.href = canvas.toDataURL('image/png');
+          };
+          img.src = originalHref;
+        }
+      })();
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+    <header class="page-header">
+        <div class="container">
+            <a href="../index.html" class="logo-link">
+                <img src="../images/logo/logo.png" alt="R8YMatrix Logo" class="site-logo-small">
+            </a>
+            <nav class="page-nav">
+                <a href="../index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="contact-us.html" class="active">Contact</a>
+                <a href="privacy-policy.html">Privacy Policy</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="page-content">
+        <div class="container">
+            <h1>Get in Touch with R8YMatrix</h1>
+            <p>We're here to help and answer any questions you might have. We look forward to hearing from you!</p>
+            
+            <h2>Contact Details</h2>
+            <div class="contact-details">
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <span>Email: <a href="mailto:r8y13x@gmail.com">r8y13x@gmail.com</a></span>
+                </div>
+                <div class="contact-item">
+                    <i class="fab fa-telegram-plane"></i>
+                    <span>Telegram: <a href="#" target="_blank">Join us on Telegram</a> (Link to be updated)</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fab fa-discord"></i>
+                    <span>Discord: <a href="https://discord.com/" target="_blank">Join our Discord Server</a></span>
+                </div>
+            </div>
+
+            <h2>Response Time</h2>
+            <p>We strive to respond to all inquiries as quickly as possible. Typically, you can expect a response from our team within <strong>24 to 48 hours</strong>.</p>
+            <p>Thank you for your interest in R8YMatrix!</p>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h4>Categories</h4>
+                <ul class="footer-links">
+                    <li><a href="../index.html#games" class="footer-tab" data-category="games">PC Games</a></li>
+                    <li><a href="../index.html#windows" class="footer-tab" data-category="windows">Windows</a></li>
+                    <li><a href="../index.html#mac" class="footer-tab" data-category="mac">Mac</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul class="footer-links">
+                    <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                    <li><a href="contact-us.html">Contact Us</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="#" class="footer-scroll-link" data-scroll="top">Back to Top</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Search</h4>
+                <a href="../index.html" class="footer-search-link">
+                    <i class="fas fa-search"></i> Search
+                </a>
+                <div style="margin-top:18px;">
+                    <p style="color:#aaa;font-size:0.97em;">R8YMatrix is your hub for safe downloads of PC Games, Windows & Mac
+                        software. Fast, trusted & free!</p>
+                    <div class="footer-socials">
+                        <a href="https://discord.com/" target="_blank"><i class="fab fa-discord"></i></a>
+                        <a href="https://www.youtube.com/@r8yCHE3TS" target="_blank"><i class="fab fa-youtube"></i></a>
+                        <a href="https://www.instagram.com/r8y_13x_fp/?hl=en" target="_blank"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2025 R8YMatrix | All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        // Scroll to top functionality
+        document.querySelectorAll('.footer-scroll-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+{
+  "subcategories": {
+    "games": [
+      "Action"
+    ],
+    "mac": [],
+    "windows": [
+      "Video Editors"
+    ]
+  },
+  "lastUpdated": {
+    "seconds": 1749017331,
+    "nanoseconds": 237000000
+  },
+  "totalVisitors": 173,
+  "visitorHistory": [
+    {
+      "count": 21,
+      "date": "5/31/2025"
+    },
+    {
+      "date": "6/1/2025",
+      "count": 31
+    },
+    {
+      "count": 71,
+      "date": "6/2/2025"
+    },
+    {
+      "date": "6/3/2025",
+      "count": 35
+    },
+    {
+      "count": 12,
+      "date": "6/4/2025"
+    }
+  ],
+  "totalDownloads": 13,
+  "downloadHistory": [
+    {
+      "count": 1,
+      "date": "6/1/2025"
+    },
+    {
+      "count": 6,
+      "date": "6/2/2025"
+    },
+    {
+      "count": 1,
+      "date": "6/3/2025"
+    }
+  ],
+  "sortOptions": []
+}

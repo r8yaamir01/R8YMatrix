@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="R8YMatrix - Download details for games and software. Get all information, ratings and download options for your favorite games and applications." />
+  <meta name="keywords" content="PC Games Downloads, Windows Software, Game Details, Software Details, R8YMatrix, Download Games, Download Software" />
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="R8YMatrix | Item Details" />
+  <meta property="og:description" content="Get all the details, screenshots, and download options for games and software on R8YMatrix." />
+  <meta property="og:image" content="https://r8ymatrix.com/images/logo/og-image.png" />
+  
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:title" content="R8YMatrix | Item Details" />
+  <meta property="twitter:description" content="Get all the details, screenshots, and download options for games and software on R8YMatrix." />
+  <meta property="twitter:image" content="https://r8ymatrix.com/images/logo/og-image.png" />
+  
+  <!-- These meta tags will be dynamically updated by items.js when an item is loaded -->
+  
+  <title>R8YMatrix | Item Details</title>
+  <link rel="icon" type="image/png" href="images/logo/favicon.png" />
+  <link rel="stylesheet" href="items.css" />
+  <style>
+    /* Apply 50px radius to favicon in browser tab */
+    .favicon-preview {
+      width: 32px;
+      height: 32px;
+      border-radius: 50px;
+      object-fit: cover;
+      display: none;
+    }
+  </style>
+  <script>
+    // Replace favicon with rounded version
+    (function() {
+      const faviconLink = document.querySelector('link[rel="icon"]');
+      if (faviconLink) {
+        const originalHref = faviconLink.href;
+        const canvas = document.createElement('canvas');
+        canvas.width = 32;
+        canvas.height = 32;
+        const ctx = canvas.getContext('2d');
+        const img = new Image();
+        img.crossOrigin = 'Anonymous';
+        img.onload = function() {
+          // Create circular clipping path
+          ctx.beginPath();
+          ctx.arc(16, 16, 16, 0, Math.PI * 2, true);
+          ctx.closePath();
+          ctx.clip();
+          
+          // Draw the image
+          ctx.drawImage(img, 0, 0, 32, 32);
+          
+          // Replace favicon with rounded version
+          faviconLink.href = canvas.toDataURL('image/png');
+        };
+        img.src = originalHref;
+      }
+    })();
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-storage-compat.js"></script>
+
+  <!-- Firebase initialization -->
+  <script>
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyCcthdcxH-xleb3vZxHIs7nfWT9Lo9CG84",
+      authDomain: "r8y-33be8.firebaseapp.com",
+      projectId: "r8y-33be8",
+      storageBucket: "r8y-33be8.appspot.com",
+      messagingSenderId: "477787173296",
+      appId: "1:477787173296:web:cd7bd1ca355085b4d6e675",
+      measurementId: "G-CFYZEQ6QGK"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    
+    // Pre-initialize Firestore for faster access
+    const db = firebase.firestore();
+  </script>
+
+  <!-- Load data.js -->
+  <script src="js/data.js"></script>
+</head>
+
+<body>
+  <!-- Loading Indicator -->
+  <div class="loader-container" id="loader">
+    <div class="loader-spinner"></div>
+    <div class="loader-text">Loading...</div>
+  </div>
+
+  <!-- Error Container -->
+  <div class="error-container" id="errorContainer">
+    <i class="fas fa-exclamation-triangle"></i>
+    <h2>Item Not Found</h2>
+    <p>Sorry, we couldn't find the item you're looking for. It may have been removed or the link is incorrect.</p>
+    <button onclick="window.location.href='index.html'">Return to Homepage</button>
+  </div>
+
+  <!-- DETAILS PANEL -->
+  <section id="detailsPanel" class="details-panel" style="display: none;">
+    <div class="details-container">
+      <div class="details-header">
+        <button id="backArrowBtn" class="back-arrow-btn">
+          <i class="fas fa-arrow-left"></i>
+        </button>
+        <h2 id="detailTitle"></h2>
+      </div>
+
+      <div class="details-content">
+        <div class="details-left">
+          <div class="gallery">
+            <div class="main-image">
+              <img id="mainImage" src="" alt="">
+            </div>
+            <div class="thumbnail-row" id="thumbnailContainer">
+              <!-- Thumbnails will be inserted here -->
+            </div>
+          </div>
+
+          <div class="details-section">
+            <h3><i class="fas fa-list-check"></i> Features</h3>
+            <ul id="detailsFeatures" class="features-list">
+              <!-- Features will be inserted here -->
+            </ul>
+          </div>
+
+          <div class="details-section">
+            <h3><i class="fas fa-microchip"></i> System Requirements</h3>
+            <div id="detailsRequirements" class="requirements-box"></div>
+          </div>
+
+          <div class="details-section">
+            <h3><i class="fas fa-info-circle"></i> Description</h3>
+            <div class="detail-description" id="detailDescription"></div>
+          </div>
+        </div>
+
+        <div class="details-right">
+          <h3 class="info-header"><i class="fas fa-info-circle"></i> Information & Download Options</h3>
+          <div class="download-actions">
+            <button id="downloadBtn" class="download-button">
+              <i class="fas fa-download"></i> Download Now
+            </button>
+            <div class="download-options" id="download-options">
+              <!-- These buttons will only be shown if links are available in the item data -->
+            </div>
+          </div>
+
+          <div class="rating-system">
+            <h3><i class="fas fa-star"></i> Rate This Item</h3>
+            <div class="stars-container" id="ratingStars">
+              <span class="star" data-rating="1"><i class="fas fa-star"></i></span>
+              <span class="star" data-rating="2"><i class="fas fa-star"></i></span>
+              <span class="star" data-rating="3"><i class="fas fa-star"></i></span>
+              <span class="star" data-rating="4"><i class="fas fa-star"></i></span>
+              <span class="star" data-rating="5"><i class="fas fa-star"></i></span>
+            </div>
+            <div class="rating-stats">
+              <span>Average Rating: <span class="rating-value" id="avgRating">0</span></span>
+              <span id="ratingCount">0 ratings</span>
+            </div>
+            <div class="download-count-container">
+              <i class="fas fa-download"></i>
+              <span id="downloadCountDisplay">0</span> downloads
+            </div>
+            <div style="margin-top: 10px; color: #ff3030; font-weight: bold; text-align: center; background-color: rgba(255, 0, 0, 0.1); padding: 5px; border-radius: 3px; border: 1px solid #ff3030;">
+              Password: 123
+            </div>
+          </div>
+
+          <div class="info-table">
+            <div class="info-row">
+              <div class="info-label"><i class="fas fa-file"></i> File Name</div>
+              <div class="info-value" id="detailFileName"></div>
+            </div>
+            <div class="info-row">
+              <div class="info-label"><i class="fas fa-code-branch"></i> Version</div>
+              <div class="info-value" id="detailVersion"></div>
+            </div>
+            <div class="info-row">
+              <div class="info-label"><i class="fas fa-weight-hanging"></i> Size</div>
+              <div class="info-value" id="detailSize"></div>
+            </div>
+            <div class="info-row">
+              <div class="info-label"><i class="fas fa-calendar-alt"></i> Release Date</div>
+              <div class="info-value" id="detailReleaseDate"></div>
+            </div>
+            <div class="info-row">
+              <div class="info-label"><i class="fas fa-desktop"></i> OS</div>
+              <div class="info-value" id="detailOS"></div>
+            </div>
+            <div class="info-row">
+              <div class="info-label"><i class="fas fa-language"></i> Language</div>
+              <div class="info-value" id="detailLanguage"></div>
+            </div>
+            <div class="info-row">
+              <div class="info-label"><i class="fas fa-microchip"></i> Architecture</div>
+              <div class="info-value" id="detailArchitecture"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Toast Container for Notifications -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <script>
+    // Firebase references - using the pre-initialized Firestore instance
+    const itemsCollection = db.collection('items');
+    const ratingsCollection = db.collection('ratings');
+    let errorRetries = 0;
+    
+    // Get item ID from URL parameter
+    function getItemIdFromUrl() {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get('id');
+    }
+
+    // Initialize the page
+    document.addEventListener('DOMContentLoaded', function() {
+      const itemId = getItemIdFromUrl();
+      
+      if (!itemId) {
+        // No item ID provided
+        showError("No item ID provided. Please check the URL.");
+        return;
+      }
+      
+      // Start loading immediately without delay
+      loadItemDetails(itemId);
+    });
+    
+    // Load item details with retry mechanism
+    async function loadItemDetails(itemId) {
+      try {
+        // Try to get the item from Firestore
+        const item = await getItemById(itemId);
+        
+        if (!item) {
+          // Retry if we get null item (could be a timing issue)
+          if (errorRetries < 3) {
+            errorRetries++;
+            console.log(`Retry attempt ${errorRetries} for item ${itemId}...`);
+            // Add small backoff delay between retries
+            setTimeout(() => loadItemDetails(itemId), 500 * errorRetries);
+            return;
+          }
+          
+          // Item not found after retries
+          showError("Item not found. It may have been removed or the ID is incorrect.");
+          return;
+        }
+        
+        // Show the item details
+        await showItemDetails(item);
+      } catch (error) {
+        console.error("Error loading item:", error);
+        
+        // Retry on error
+        if (errorRetries < 3) {
+          errorRetries++;
+          console.log(`Error retry attempt ${errorRetries} for item ${itemId}...`);
+          setTimeout(() => loadItemDetails(itemId), 800 * errorRetries);
+          return;
+        }
+        
+        showError("An error occurred while loading the item. Please try again later.");
+      }
+    }
+
+    // Get item by ID from Firestore
+    async function getItemById(itemId) {
+      try {
+        console.log("Fetching item with ID:", itemId);
+        const docRef = itemsCollection.doc(itemId);
+        const doc = await docRef.get();
+        
+        if (doc.exists) {
+          const data = doc.data();
+          console.log("Item found:", data);
+          // Ensure we have the ID field
+          return { ...data, id: itemId };
+        } else {
+          console.log("No such item found!");
+          return null;
+        }
+      } catch (error) {
+        console.error("Error getting item:", error);
+        throw error;
+      }
+    }
+
+    // Show item details
+    async function showItemDetails(item) {
+      try {
+        console.log("Showing details for item:", item);
+        
+        // Fill in details
+        document.getElementById('detailTitle').textContent = item.title || '';
+        document.getElementById('detailDescription').textContent = item.desc || '';
+        document.getElementById('detailsRequirements').innerHTML = `<pre>${item.requirements || ''}</pre>`;
+        document.getElementById('detailSize').textContent = item.size || '';
+        document.getElementById('detailFileName').textContent = item.fileName || '';
+        document.getElementById('detailVersion').textContent = item.version || '';
+        document.getElementById('detailReleaseDate').textContent = item.releaseDate || '';
+        document.getElementById('detailOS').textContent = item.os || '';
+        document.getElementById('detailLanguage').textContent = item.language || '';
+        document.getElementById('detailArchitecture').textContent = item.architecture || '';
+
+        // Fill features list
+        const featuresList = document.getElementById('detailsFeatures');
+        featuresList.innerHTML = '';
+        if (item.features && item.features.length) {
+          item.features.forEach(feature => {
+            const li = document.createElement('li');
+            li.textContent = feature;
+            featuresList.appendChild(li);
+          });
+        }
+
+        // Set main image
+        const mainImage = document.getElementById('mainImage');
+
+        // Fill image gallery if available
+        const thumbnailContainer = document.getElementById('thumbnailContainer');
+        thumbnailContainer.innerHTML = '';
+
+        if (item.gallery && item.gallery.length) {
+          // Set first gallery image as main image if available
+          if (item.gallery.length > 0) {
+            mainImage.src = item.gallery[0];
+            mainImage.alt = `${item.title} screenshot`;
+          } else {
+            // Fallback to item image if no gallery images
+            mainImage.src = item.image || '';
+            mainImage.alt = item.title || '';
+          }
+
+          // Add gallery images
+          item.gallery.forEach((galleryImage, index) => {
+            const thumb = document.createElement('div');
+            thumb.className = index === 0 ? 'thumbnail active' : 'thumbnail';
+            thumb.innerHTML = `<img src="${galleryImage}" alt="${item.title} screenshot ${index + 1}">`;
+            thumb.addEventListener('click', function () {
+              document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
+              this.classList.add('active');
+              mainImage.src = galleryImage;
+            });
+            thumbnailContainer.appendChild(thumb);
+          });
+        } else {
+          // If no gallery, show item image as fallback
+          mainImage.src = item.image || '';
+          mainImage.alt = item.title || '';
+
+          // Create single thumbnail for main image
+          const thumb = document.createElement('div');
+          thumb.className = 'thumbnail active';
+          thumb.innerHTML = `<img src="${item.image}" alt="${item.title}">`;
+          thumbnailContainer.appendChild(thumb);
+        }
+
+        // Display download count
+        document.getElementById('downloadCountDisplay').textContent = (item.downloads || 0).toLocaleString();
+
+        // Get and display ratings
+        const ratings = await getItemRatings(item.id);
+        const avgRating = Number(ratings.average).toFixed(1);
+        document.getElementById('avgRating').textContent = avgRating > 0 ? avgRating : 'N/A';
+        document.getElementById('ratingCount').textContent = `${ratings.count} ${ratings.count === 1 ? 'rating' : 'ratings'}`;
+
+        // Set user's previous rating if any
+        const userRating = await getUserRating(item.id);
+        const stars = document.querySelectorAll('.star');
+        stars.forEach(star => {
+          star.classList.remove('active');
+          if (userRating >= parseInt(star.dataset.rating)) {
+            star.classList.add('active');
+          }
+        });
+
+        // Set download button link with counter update
+        const downloadBtn = document.getElementById('downloadBtn');
+        downloadBtn.onclick = async function () {
+          // Update download count
+          const newCount = await updateDownloadCount(item.id);
+          if (newCount) {
+            // Update display with animation
+            const countDisplay = document.getElementById('downloadCountDisplay');
+            countDisplay.textContent = newCount.toLocaleString();
+            countDisplay.classList.add('download-animation');
+
+            // Remove animation class after animation completes
+            setTimeout(() => {
+              countDisplay.classList.remove('download-animation');
+            }, 500);
+          }
+
+          // Navigate to download link
+          if (item.downloadLink) {
+            window.location.href = item.downloadLink;
+          }
+        };
+
+        // Set up Torrent and Direct download buttons if links are available
+        const downloadOptions = document.getElementById('download-options');
+        downloadOptions.innerHTML = ''; // Clear existing buttons
+
+        // Add Torrent button if torrentLink exists
+        if (item.torrentLink) {
+          const torrentBtn = document.createElement('button');
+          torrentBtn.className = 'alt-download-btn torrent-btn';
+          torrentBtn.innerHTML = '<i class="fas fa-magnet"></i> Torrent';
+          torrentBtn.onclick = async function () {
+            // Update download count
+            const newCount = await updateDownloadCount(item.id);
+            if (newCount) {
+              // Update display with animation
+              const countDisplay = document.getElementById('downloadCountDisplay');
+              countDisplay.textContent = newCount.toLocaleString();
+              countDisplay.classList.add('download-animation');
+
+              // Remove animation class after animation completes
+              setTimeout(() => {
+                countDisplay.classList.remove('download-animation');
+              }, 500);
+            }
+
+            // Navigate to torrent link
+            window.location.href = item.torrentLink;
+          };
+          downloadOptions.appendChild(torrentBtn);
+        }
+
+        // Add Direct button if directLink exists
+        if (item.directLink) {
+          const directBtn = document.createElement('button');
+          directBtn.className = 'alt-download-btn direct-btn';
+          directBtn.innerHTML = '<i class="fas fa-bolt"></i> Direct';
+          directBtn.onclick = async function () {
+            // Update download count
+            const newCount = await updateDownloadCount(item.id);
+            if (newCount) {
+              // Update display with animation
+              const countDisplay = document.getElementById('downloadCountDisplay');
+              countDisplay.textContent = newCount.toLocaleString();
+              countDisplay.classList.add('download-animation');
+
+              // Remove animation class after animation completes
+              setTimeout(() => {
+                countDisplay.classList.remove('download-animation');
+              }, 500);
+            }
+
+            // Navigate to direct link
+            window.location.href = item.directLink;
+          };
+          downloadOptions.appendChild(directBtn);
+        }
+
+        // Setup rating stars
+        setupRatingStars(item.id);
+
+        // Hide loader
+        document.getElementById('loader').style.display = 'none';
+        
+        // Show details panel with animation
+        const detailsPanel = document.getElementById('detailsPanel');
+        detailsPanel.style.display = 'block';
+        
+        // Trigger reflow to ensure animation works properly
+        void detailsPanel.offsetWidth;
+        
+        // Add active class to start animation
+        detailsPanel.classList.add('active');
+        
+        // Set page title
+        document.title = `${item.title} | R8YMatrix`;
+      } catch (error) {
+        console.error("Error showing item details:", error);
+        showError("An error occurred while displaying the item details. Please try again later.");
+      }
+    }
+
+    // Setup rating stars functionality
+    function setupRatingStars(itemId) {
+      const stars = document.querySelectorAll('.star');
+
+      stars.forEach(star => {
+        // Remove existing event listeners
+        star.replaceWith(star.cloneNode(true));
+      });
+
+      // Add new event listeners
+      document.querySelectorAll('.star').forEach(star => {
+        star.addEventListener('click', async function () {
+          const rating = parseInt(this.dataset.rating);
+
+          // Update UI
+          document.querySelectorAll('.star').forEach(s => {
+            s.classList.remove('active');
+            if (parseInt(s.dataset.rating) <= rating) {
+              s.classList.add('active');
+            }
+          });
+
+          // Save rating and update display
+          const newRatings = await saveRating(itemId, rating);
+          document.getElementById('avgRating').textContent = Number(newRatings.average).toFixed(1);
+          document.getElementById('ratingCount').textContent = `${newRatings.count} ${newRatings.count === 1 ? 'rating' : 'ratings'}`;
+        });
+      });
+    }
+
+    // Get item ratings from Firestore
+    async function getItemRatings(itemId) {
+      try {
+        const ratingsRef = ratingsCollection.doc(itemId);
+        const ratingsDoc = await ratingsRef.get();
+
+        if (ratingsDoc.exists) {
+          const ratingsData = ratingsDoc.data();
+          return {
+            average: Number(ratingsData.total) / Number(ratingsData.count),
+            count: ratingsData.count
+          };
+        }
+
+        return { average: 0, count: 0 };
+      } catch (error) {
+        console.error("Error getting ratings:", error);
+        return { average: 0, count: 0 };
+      }
+    }
+
+    // Get user's previous rating for an item
+    async function getUserRating(itemId) {
+      try {
+        const userId = localStorage.getItem('r8y_user_id');
+        if (!userId) return 0;
+
+        const ratingsRef = ratingsCollection.doc(itemId);
+        const ratingsDoc = await ratingsRef.get();
+
+        if (ratingsDoc.exists) {
+          const ratingsData = ratingsDoc.data();
+          if (ratingsData.userRatings && ratingsData.userRatings[userId]) {
+            return ratingsData.userRatings[userId];
+          }
+        }
+
+        return 0;
+      } catch (error) {
+        console.error("Error getting user rating:", error);
+        return 0;
+      }
+    }
+
+    // Save user rating for an item
+    async function saveRating(itemId, rating) {
+      try {
+        // Generate a user ID if not exists
+        let userId = localStorage.getItem('r8y_user_id');
+        if (!userId) {
+          userId = 'user_' + Math.random().toString(36).substring(2, 15);
+          localStorage.setItem('r8y_user_id', userId);
+        }
+
+        const ratingsRef = ratingsCollection.doc(itemId);
+        const doc = await ratingsRef.get();
+
+        if (doc.exists) {
+          const data = doc.data();
+          const previousRating = data.userRatings && data.userRatings[userId] ? Number(data.userRatings[userId]) : 0;
+          const newTotal = Number(data.total) - previousRating + Number(rating);
+          
+          // If this user has rated before, don't increment count
+          if (previousRating > 0) {
+            await ratingsRef.update({
+              total: newTotal,
+              [`userRatings.${userId}`]: Number(rating)
+            });
+          } else {
+            // First time rating from this user
+            await ratingsRef.update({
+              total: newTotal,
+              count: data.count + 1,
+              [`userRatings.${userId}`]: Number(rating)
+            });
+          }
+
+          return {
+            average: newTotal / (previousRating > 0 ? Number(data.count) : Number(data.count) + 1),
+            count: previousRating > 0 ? data.count : data.count + 1
+          };
+        } else {
+          // First rating for this item
+          await ratingsRef.set({
+            total: Number(rating),
+            count: 1,
+            userRatings: {
+              [userId]: Number(rating)
+            }
+          });
+
+          return {
+            average: Number(rating),
+            count: 1
+          };
+        }
+      } catch (error) {
+        console.error("Error saving rating:", error);
+        return { average: 0, count: 0 };
+      }
+    }
+
+    // Update download count
+    async function updateDownloadCount(itemId) {
+      try {
+        const itemRef = itemsCollection.doc(itemId);
+        const doc = await itemRef.get();
+
+        if (doc.exists) {
+          const currentDownloads = doc.data().downloads || 0;
+          const newDownloads = currentDownloads + 1;
+          
+          await itemRef.update({
+            downloads: newDownloads
+          });
+
+          // Also track the download in settings
+          trackDownload(itemId);
+          
+          return newDownloads;
+        }
+        
+        return null;
+      } catch (error) {
+        console.error("Error updating download count:", error);
+        return null;
+      }
+    }
+
+    // Track download count
+    async function trackDownload(itemId) {
+      try {
+        const settingsDoc = db.collection('settings').doc('siteSettings');
+        const settings = await settingsDoc.get();
+        
+        if (settings.exists) {
+          const data = settings.data();
+          const totalDownloads = (data.totalDownloads || 0) + 1;
+          const downloadHistory = data.downloadHistory || [];
+          const today = new Date().toLocaleDateString();
+          const todayIndex = downloadHistory.findIndex(v => v.date === today);
+
+          if (todayIndex !== -1) {
+            downloadHistory[todayIndex].count += 1;
+          } else {
+            downloadHistory.push({ date: today, count: 1 });
+            // Keep only last 30 days
+            if (downloadHistory.length > 30) {
+              downloadHistory.shift();
+            }
+          }
+
+          await settingsDoc.update({
+            totalDownloads: totalDownloads,
+            downloadHistory: downloadHistory
+          });
+        }
+      } catch (error) {
+        console.error("Error tracking download:", error);
+      }
+    }
+
+    // Show error message
+    function showError(message) {
+      const errorContainer = document.getElementById('errorContainer');
+      const loader = document.getElementById('loader');
+      const errorMessage = errorContainer.querySelector('p');
+      
+      // Update error message
+      errorMessage.textContent = message;
+      
+      // Hide loader and show error
+      loader.style.display = 'none';
+      errorContainer.style.display = 'flex';
+    }
+
+    // Back button handler
+    document.getElementById('backArrowBtn').addEventListener('click', function() {
+      // Return to the main page
+      window.location.href = 'index.html';
+    });
+  </script>
+</body>
+
+</html> 

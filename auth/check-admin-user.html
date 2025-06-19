@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Firebase Auth Test</title>
+  <link rel="icon" type="image/png" href="../images/logo/favicon.png" />
+  <link rel="stylesheet" href="login-functions.css">
+  <style>
+    /* Apply 50px radius to favicon in browser tab */
+    .favicon-preview {
+      width: 32px;
+      height: 32px;
+      border-radius: 50px;
+      object-fit: cover;
+      display: none;
+    }
+  </style>
+  <script>
+    // Replace favicon with rounded version
+    (function() {
+      const faviconLink = document.querySelector('link[rel="icon"]');
+      if (faviconLink) {
+        const originalHref = faviconLink.href;
+        const canvas = document.createElement('canvas');
+        canvas.width = 32;
+        canvas.height = 32;
+        const ctx = canvas.getContext('2d');
+        const img = new Image();
+        img.crossOrigin = 'Anonymous';
+        img.onload = function() {
+          // Create circular clipping path
+          ctx.beginPath();
+          ctx.arc(16, 16, 16, 0, Math.PI * 2, true);
+          ctx.closePath();
+          ctx.clip();
+          
+          // Draw the image
+          ctx.drawImage(img, 0, 0, 32, 32);
+          
+          // Replace favicon with rounded version
+          faviconLink.href = canvas.toDataURL('image/png');
+        };
+        img.src = originalHref;
+      }
+    })();
+  </script>
+  <style>
+    /* Custom background styling */
+    body {
+      background-image: url('../images/logo/obito-uchiha.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    }
+  </style>
+</head>
+<body>
+  <div class="container check-admin">
+    <h2>Firebase Authentication Test</h2>
+    
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input type="email" id="email" placeholder="Enter your email">
+    </div>
+    
+    <div class="form-group">
+      <label for="password">Password:</label>
+      <input type="password" id="password" placeholder="Enter your password">
+    </div>
+    
+    <button id="loginBtn">Login</button>
+    <button id="logoutBtn">Logout</button>
+    
+    <div class="status" id="status">
+      Status: Not authenticated
+    </div>
+    
+    <div class="error" id="error"></div>
+  </div>
+
+  <script type="module">
+    // Import Firebase modules
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { 
+      getAuth, 
+      signInWithEmailAndPassword, 
+      onAuthStateChanged,
+      signOut 
+    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+    // Firebase configuration - using the same config from your site
+    const firebaseConfig = {
+      apiKey: "AIzaSyCcthdcxH-xleb3vZxHIs7nfWT9Lo9CG84",
+      authDomain: "r8y-33be8.firebaseapp.com",
+      projectId: "r8y-33be8",
+      storageBucket: "r8y-33be8.appspot.com",
+      messagingSenderId: "477787173296",
+      appId: "1:477787173296:web:cd7bd1ca355085b4d6e675",
+      measurementId: "G-CFYZEQ6QGK"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // DOM Elements
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    const loginBtn = document.getElementById('loginBtn');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const statusDiv = document.getElementById('status');
+    const errorDiv = document.getElementById('error');
+
+    // Check auth state
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is signed in
+        statusDiv.textContent = `Status: Authenticated as ${user.email}`;
+        statusDiv.style.background = '#e8f5e9';
+        console.log("User is signed in:", user);
+      } else {
+        // User is signed out
+        statusDiv.textContent = "Status: Not authenticated";
+        statusDiv.style.background = '#f8f8f8';
+        console.log("User is signed out");
+      }
+    });
+
+    // Login
+    loginBtn.addEventListener('click', async () => {
+      const email = emailInput.value.trim();
+      const password = passwordInput.value;
+      
+      if (!email || !password) {
+        errorDiv.textContent = "Please enter both email and password";
+        return;
+      }
+      
+      try {
+        errorDiv.textContent = "";
+        loginBtn.disabled = true;
+        loginBtn.textContent = "Logging in...";
+        
+        console.log("Attempting to sign in with:", email);
+        await signInWithEmailAndPassword(auth, email, password);
+        
+        // Success is handled by onAuthStateChanged
+      } catch (error) {
+        console.error("Login error:", error);
+        errorDiv.textContent = `Error: ${error.message}`;
+      } finally {
+        loginBtn.disabled = false;
+        loginBtn.textContent = "Login";
+      }
+    });
+
+    // Logout
+    logoutBtn.addEventListener('click', async () => {
+      try {
+        errorDiv.textContent = "";
+        logoutBtn.disabled = true;
+        logoutBtn.textContent = "Logging out...";
+        
+        await signOut(auth);
+        
+        // Success is handled by onAuthStateChanged
+      } catch (error) {
+        console.error("Logout error:", error);
+        errorDiv.textContent = `Error: ${error.message}`;
+      } finally {
+        logoutBtn.disabled = false;
+        logoutBtn.textContent = "Logout";
+      }
+    });
+  </script>
+</body>
+</html> 

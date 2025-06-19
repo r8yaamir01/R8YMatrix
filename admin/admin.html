@@ -1,0 +1,1275 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>R8YMatrix Admin Panel</title>
+  <link rel="icon" type="image/png" href="../images/logo/favicon.png" />
+  <!-- Admin panel specific styles - now containing all necessary styles -->
+  <style>
+    /* Apply 50px radius to favicon in browser tab */
+    .favicon-preview {
+      width: 32px;
+      height: 32px;
+      border-radius: 50px;
+      object-fit: cover;
+      display: none;
+    }
+  </style>
+  <script>
+    // Replace favicon with rounded version
+    (function() {
+      const faviconLink = document.querySelector('link[rel="icon"]');
+      if (faviconLink) {
+        const originalHref = faviconLink.href;
+        const canvas = document.createElement('canvas');
+        canvas.width = 32;
+        canvas.height = 32;
+        const ctx = canvas.getContext('2d');
+        const img = new Image();
+        img.crossOrigin = 'Anonymous';
+        img.onload = function() {
+          // Create circular clipping path
+          ctx.beginPath();
+          ctx.arc(16, 16, 16, 0, Math.PI * 2, true);
+          ctx.closePath();
+          ctx.clip();
+          
+          // Draw the image
+          ctx.drawImage(img, 0, 0, 32, 32);
+          
+          // Replace favicon with rounded version
+          faviconLink.href = canvas.toDataURL('image/png');
+        };
+        img.src = originalHref;
+      }
+    })();
+  </script>
+  <link rel="stylesheet" href="admin.css">
+  <link rel="stylesheet" href="../index.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Firebase SDK -->
+  <script type="module">
+    // Import the functions you need from the SDKs
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import { getFirestore, collection, getDocs, doc, getDoc, updateDoc, deleteDoc, addDoc, setDoc, query, where, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    // Firebase Storage imports removed - using ImageKit for image uploads
+
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyCcthdcxH-xleb3vZxHIs7nfWT9Lo9CG84",
+      authDomain: "r8y-33be8.firebaseapp.com",
+      projectId: "r8y-33be8",
+      storageBucket: "r8y-33be8.appspot.com",
+      messagingSenderId: "477787173296",
+      appId: "1:477787173296:web:cd7bd1ca355085b4d6e675",
+      measurementId: "G-CFYZEQ6QGK"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    
+    // Make Firebase services available globally
+    window.db = db;
+    window.auth = auth;
+    window.firebaseModules = {
+      collection, getDocs, doc, getDoc, updateDoc, deleteDoc, addDoc, setDoc, query, where, orderBy,
+      signOut
+    };
+
+    // Check if user is authenticated
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        // User is not signed in, redirect to login page
+        console.log("No authenticated user, redirecting to login page");
+        window.location.href = '../login.html';
+      } else {
+        // User is signed in, show the admin content
+        console.log("User authenticated:", user.email);
+        document.getElementById('userEmail').textContent = user.email;
+        document.body.style.visibility = 'visible';
+        
+        // Play access sound
+        if (!sessionStorage.getItem('soundPlayed')) {
+          const accessSound = document.getElementById('accessSound');
+          if (accessSound) {
+            accessSound.play().catch(error => console.error("Audio play failed:", error));
+            sessionStorage.setItem('soundPlayed', 'true');
+          }
+        }
+        
+        // Hide loading animation after authentication
+        setTimeout(() => {
+          document.querySelector('.admin-access-animation').style.display = 'none';
+        }, 500);
+      }
+    });
+    
+    // Setup logout functionality
+    document.addEventListener('DOMContentLoaded', () => {
+      const logoutBtn = document.getElementById('logoutBtn');
+      if (logoutBtn) {
+        logoutBtn.addEventListener('click', async () => {
+          try {
+            console.log("Logging out...");
+            await signOut(auth);
+            // Redirect is handled by onAuthStateChanged
+          } catch (error) {
+            console.error("Error during logout:", error);
+          }
+        });
+      }
+    });
+  </script>
+  <!-- External library - review if still in use and its purpose -->
+  <!-- Removed unused youware library reference -->
+  
+  <!-- ImageKit.io SDK -->
+  <script src="https://unpkg.com/imagekit-javascript/dist/imagekit.min.js"></script>
+  
+  <!-- Uploadcare Widget -->
+  <script src="https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js"></script>
+  <script>
+    UPLOADCARE_PUBLIC_KEY = '1872f6021bc62dae1502';
+    UPLOADCARE_IMAGES_ONLY = true;
+    UPLOADCARE_PREVIEW_STEP = true;
+    UPLOADCARE_CROP = 'free,1:1,3:4,4:3,16:9';
+  </script>
+
+  <!-- Access Sound -->
+  <audio id="accessSound" src="../images/Music/madara uchiha.mp3" preload="auto"></audio>
+
+  <!-- R8YMatrix SEO System Styles -->
+  <style>
+    /* Badge styles */
+    .badge.ai-badge {
+      background-color: #7b61ff;
+      color: white;
+      font-size: 11px;
+      padding: 1px 5px;
+      border-radius: 10px;
+      margin-left: 5px;
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    /* SEO Tab Header */
+    .seo-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .seo-ai-badge {
+      background-color: #7b61ff;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      font-weight: 600;
+    }
+
+    .seo-ai-badge i {
+      margin-right: 5px;
+    }
+
+    /* Character count styles */
+    .seo-character-count, .seo-count {
+      float: right;
+      font-size: 12px;
+      color: #aaa;
+    }
+
+    /* Google Preview */
+    .google-preview {
+      background-color: white;
+      padding: 15px;
+      border-radius: 4px;
+      font-family: Arial, sans-serif;
+      color: #333;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+      margin-top: 10px;
+    }
+
+    .preview-title {
+      color: #1a0dab;
+      font-size: 18px;
+      margin-bottom: 3px;
+      font-weight: 400;
+      line-height: 1.2;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .preview-url {
+      color: #006621;
+      font-size: 14px;
+      margin-bottom: 5px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .preview-description {
+      font-size: 13px;
+      color: #545454;
+      line-height: 1.4;
+      display: -webkit-box;
+      display: box;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
+      -webkit-box-orient: vertical;
+      box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* SEO Health Report */
+    .seo-health-report {
+      margin-top: 25px;
+      border: 1px solid #333;
+      border-radius: 6px;
+      padding: 15px;
+      background-color: #1c1c1c;
+    }
+
+    .seo-health-report h3 {
+      margin: 0 0 15px;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+    }
+
+    .seo-health-report h3 i {
+      margin-right: 8px;
+      color: #52c41a;
+    }
+
+    .health-item {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+
+    .health-item i {
+      margin-right: 8px;
+      margin-top: 2px;
+    }
+
+    .health-item.error i {
+      color: #f5222d;
+    }
+
+    .health-item.warning i {
+      color: #faad14;
+    }
+
+    .health-item.success i {
+      color: #52c41a;
+    }
+
+    /* SEO Score */
+    .seo-score {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: absolute;
+      right: 20px;
+      top: 15px;
+    }
+
+    .score-circle {
+      position: relative;
+      width: 80px;
+      height: 80px;
+    }
+
+    .score-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 24px;
+      font-weight: bold;
+      color: #fff;
+    }
+
+    .score-label {
+      margin-top: 5px;
+      font-size: 14px;
+      color: #aaa;
+    }
+
+    /* R8YMatrix SEO Suggestions */
+    .seo-ai-suggestions {
+      margin-top: 25px;
+      border: 1px solid #333;
+      border-radius: 6px;
+      padding: 15px;
+      background-color: #1c1c1c;
+    }
+
+    .seo-ai-suggestions h3 {
+      margin: 0 0 15px;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+    }
+
+    .seo-ai-suggestions h3 i {
+      margin-right: 8px;
+      color: #7b61ff;
+    }
+
+    .suggestion-item {
+      margin-bottom: 20px;
+    }
+
+    .suggestion-item h4 {
+      margin: 0 0 8px;
+      font-size: 15px;
+      color: #aaa;
+    }
+
+    .suggestion-content {
+      font-size: 14px;
+      color: #ddd;
+      line-height: 1.5;
+    }
+
+    .suggestion-tag {
+      display: inline-block;
+      background-color: #252525;
+      padding: 4px 10px;
+      border-radius: 4px;
+      margin: 5px 5px 0 0;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .suggestion-tag:hover {
+      background-color: #333;
+    }
+
+    /* Health indicators */
+    .seo-health {
+      margin-top: 5px;
+      font-size: 12px;
+    }
+
+    .seo-health.good {
+      color: #52c41a;
+    }
+
+    .seo-health.fair {
+      color: #faad14;
+    }
+
+    .seo-health.poor {
+      color: #f5222d;
+    }
+
+    /* Position the health report correctly */
+    .seo-health-report {
+      position: relative;
+    }
+
+    #seo-health-results {
+      padding-right: 100px;
+    }
+
+    /* Override styles for seo tab */
+    #seo .form-group {
+      margin-bottom: 20px;
+    }
+
+    /* Apply button styles */
+    .suggestion-apply-btn {
+      background-color: #7b61ff;
+      color: white;
+      border: none;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      margin-left: 10px;
+      cursor: pointer;
+    }
+
+    .suggestion-apply-btn:hover {
+      background-color: #6a50e0;
+    }
+  </style>
+</head>
+
+<body style="visibility: hidden;">
+  <!-- Improved Admin Panel Access Animation -->
+  <div class="admin-access-animation">
+    <div class="animation-container">
+      <div class="logo-container">
+        <div class="logo-circle">
+          <img src="../images/logo/logo.png" alt="R8YMatrix Logo">
+        </div>
+        <div class="pulse-rings">
+          <div class="ring ring1"></div>
+          <div class="ring ring2"></div>
+          <div class="ring ring3"></div>
+        </div>
+      </div>
+      
+      <div class="particles-container">
+        <div class="particle p1"></div>
+        <div class="particle p2"></div>
+        <div class="particle p3"></div>
+        <div class="particle p4"></div>
+        <div class="particle p5"></div>
+        <div class="particle p6"></div>
+        <div class="particle p7"></div>
+        <div class="particle p8"></div>
+        <div class="particle p9"></div>
+        <div class="particle p10"></div>
+      </div>
+      
+      <div class="loading-bar">
+        <div class="progress-bar"></div>
+      </div>
+      
+      <div class="animation-text">
+        <h2>R8YMatrix Admin Panel</h2>
+        <p>Initializing system...</p>
+        <div class="status-text">Authenticating <span class="blink">_</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- TOP NAVIGATION HEADER                                                   -->
+  <!-- ========================================================================= -->
+  <header class="top-nav">
+    <img src="../images/logo/logo.png" alt="R8YMatrix Logo" class="site-logo" />
+    <div class="admin-title">Admin Panel</div>
+    <div class="user-info">
+      <i class="fas fa-user-circle"></i>
+      <span id="userEmail">admin@r8y.com</span>
+    </div>
+    <button id="logoutBtn" class="admin-btn danger" style="margin-left: 15px; margin-right: 20px;">
+      <i class="fas fa-sign-out-alt"></i> Logout
+    </button>
+    <nav class="social-icons">
+      <a href="../index.html" target="_blank"><i class="fas fa-home" aria-label="Home"></i></a>
+    </nav>
+  </header>
+
+  <!-- ========================================================================= -->
+  <!-- MAIN ADMIN CONTAINER                                                    -->
+  <!-- ========================================================================= -->
+  <div class="admin-container">
+    <!-- ========================================================================= -->
+    <!-- SIDEBAR NAVIGATION                                                      -->
+    <!-- ========================================================================= -->
+    <aside class="admin-sidebar">
+      <nav>
+        <ul>
+          <li><a href="#" class="active" data-section="dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+          </li>
+          <li><a href="#" data-section="games"><i class="fas fa-gamepad"></i> Manage Games</a></li>
+          <li><a href="#" data-section="software"><i class="fas fa-laptop-code"></i> Manage Software</a></li>
+          <li><a href="#" data-section="mac"><i class="fab fa-apple"></i> Manage Mac</a></li>
+          <li><a href="#" data-section="categories"><i class="fas fa-tags"></i> Categories</a></li>
+
+          <li><a href="#" data-section="about"><i class="fas fa-info-circle"></i> About</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- ========================================================================= -->
+    <!-- MAIN CONTENT AREA                                                       -->
+    <!-- ========================================================================= -->
+    <main class="admin-content">
+      <!-- ========================================================================= -->
+      <!-- Dashboard Section                                                         -->
+      <!-- ========================================================================= -->
+      <section id="dashboard" class="admin-section active">
+        <h1>Dashboard</h1>
+        <div class="stats-container">
+          <div class="stat-card">
+            <i class="fas fa-gamepad"></i>
+            <div class="stat-info">
+              <span class="stat-count" id="game-count">0</span>
+              <span class="stat-label">Games</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <i class="fas fa-laptop-code"></i>
+            <div class="stat-info">
+              <span class="stat-count" id="software-count">0</span>
+              <span class="stat-label">Software</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <i class="fab fa-apple"></i>
+            <div class="stat-info">
+              <span class="stat-count" id="mac-count">0</span>
+              <span class="stat-label">Mac</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <i class="fas fa-download"></i>
+            <div class="stat-info">
+              <span class="stat-count" id="total-downloads">0</span>
+              <span class="stat-label">Downloads</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <i class="fas fa-users"></i>
+            <div class="stat-info">
+              <span class="stat-count" id="site-visitors">0</span>
+              <span class="stat-label">Visitors</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="stats-charts">
+          <div class="chart-container">
+            <h2><i class="fas fa-chart-line"></i> Website Statistics</h2>
+            <div class="chart-tabs">
+              <button class="chart-tab active" data-chart="visitors">Visitors</button>
+              <button class="chart-tab" data-chart="downloads">Downloads</button>
+            </div>
+            <div class="chart-view">
+              <canvas id="statsChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <div class="recent-items">
+          <h2>Recently Added Items</h2>
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Category</th>
+                <th>Downloads</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="recent-items-table">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ========================================================================= -->
+      <!-- Games Management Section                                                  -->
+      <!-- ========================================================================= -->
+      <section id="games" class="admin-section">
+        <h1>Manage Games</h1>
+        <div class="section-controls">
+          <button id="add-game-btn" class="admin-btn primary"><i class="fas fa-plus"></i> Add New Game</button>
+          <div class="search-filter">
+            <input type="text" id="games-search" placeholder="Search games...">
+          </div>
+        </div>
+
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Image</th>
+              <th>Title</th>
+              <th>Category</th>
+              <th>Size</th>
+              <th>Rating</th>
+              <th>Downloads</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="games-table">
+            <!-- Dynamically populated -->
+          </tbody>
+        </table>
+      </section>
+
+      <!-- ========================================================================= -->
+      <!-- Software Management Section                                               -->
+      <!-- ========================================================================= -->
+      <section id="software" class="admin-section">
+        <h1>Manage Software</h1>
+        <div class="section-controls">
+          <button id="add-software-btn" class="admin-btn primary"><i class="fas fa-plus"></i> Add New Software</button>
+          <div class="search-filter">
+            <input type="text" id="software-search" placeholder="Search software...">
+          </div>
+        </div>
+
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Image</th>
+              <th>Title</th>
+              <th>Category</th>
+              <th>Size</th>
+              <th>Rating</th>
+              <th>Downloads</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="software-table">
+            <!-- Dynamically populated -->
+          </tbody>
+        </table>
+      </section>
+
+      <!-- ========================================================================= -->
+      <!-- Mac Management Section                                                    -->
+      <!-- ========================================================================= -->
+      <section id="mac" class="admin-section">
+        <h1>Manage Mac</h1>
+        <div class="section-controls">
+          <button id="add-mac-btn" class="admin-btn primary"><i class="fas fa-plus"></i> Add New Mac Item</button>
+          <div class="search-filter">
+            <input type="text" id="mac-search" placeholder="Search Mac items...">
+          </div>
+        </div>
+
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Image</th>
+              <th>Title</th>
+              <th>Category</th>
+              <th>Size</th>
+              <th>Rating</th>
+              <th>Downloads</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="mac-table">
+            <!-- Dynamically populated -->
+          </tbody>
+        </table>
+      </section>
+
+      <!-- ========================================================================= -->
+      <!-- Categories Management Section                                             -->
+
+     <section id="categories" class="admin-section">
+      <h1>Manage Categories</h1>
+      <div class="categories-container">
+        <div class="category-box">
+          <h2>Games Subcategories</h2>
+          <div class="category-list" id="games-subcategories">
+            <!-- Dynamically populated -->
+          </div>
+          <div class="add-category">
+            <input type="text" id="new-game-category" placeholder="Enter new game subcategory...">
+            <button class="admin-btn primary" id="add-game-category-btn"><i class="fas fa-plus"></i> Add</button>
+            <select id="delete-game-category-select" class="subcategory-select" style="display: none;">
+              <option value="">Select to Delete...</option>
+              <!-- Options will be populated dynamically -->
+            </select>
+            <button class="admin-btn danger" id="delete-game-category-btn" style="display: none;">Delete Sub Category</button>
+          </div>
+        </div>
+        
+        <div class="category-box">
+          <h2>Windows Subcategories</h2>
+          <div class="category-list" id="windows-subcategories">
+            <!-- Dynamically populated -->
+          </div>
+          <div class="add-category">
+            <input type="text" id="new-windows-category" placeholder="Enter new Windows software subcategory...">
+            <button class="admin-btn primary" id="add-windows-category-btn"><i class="fas fa-plus"></i> Add</button>
+            <select id="delete-windows-category-select" class="subcategory-select" style="display: none;">
+              <option value="">Select to Delete...</option>
+              <!-- Options will be populated dynamically -->
+            </select>
+            <button class="admin-btn danger" id="delete-windows-category-btn" style="display: none;">Delete Sub Category</button>
+          </div>
+        </div>
+
+          <div class="category-box">
+            <h2>Mac Subcategories</h2>
+            <div class="category-list" id="mac-subcategories">
+              <!-- Dynamically populated -->
+            </div>
+            <div class="add-category">
+              <input type="text" id="new-mac-category" placeholder="Enter new Mac software subcategory...">
+              <button class="admin-btn primary" id="add-mac-category-btn" onclick="addMacCategory()"><i class="fas fa-plus"></i> Add</button>
+              <select id="delete-mac-category-select" class="subcategory-select" style="display: none;">
+                <option value="">Select to Delete...</option>
+                <!-- Options will be populated dynamically -->
+              </select>
+              <button class="admin-btn danger" id="delete-mac-category-btn" style="display: none;">Delete Sub Category</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================================================= -->
+      <!-- Settings Section                                                          -->
+      <!-- ========================================================================= -->
+      <section id="settings" class="admin-section">
+        <h1>Settings</h1>
+        <div class="settings-container">
+          <form id="settings-form">
+            <button type="submit" class="admin-btn primary">Save Settings</button>
+          </form>
+          
+          <!-- ImageKit Image Uploader -->
+          <div class="imagekit-uploader-section" style="margin-top: 30px; padding: 20px; background: #222; border-radius: 8px;">
+            <h2>ImageKit Direct Upload</h2>
+            <p>Upload images directly to ImageKit.io</p>
+            
+            <div style="margin-top: 15px;">
+              <div class="form-group">
+                <label for="file1">Select an image to upload</label>
+                <input type="file" id="file1" accept="image/*">
+              </div>
+              
+              <button type="button" id="uploadBtn" onclick="upload()" class="admin-btn primary">Upload Image</button>
+              
+              <div id="uploadResult" style="margin-top: 20px; padding: 15px; background: #333; border-radius: 6px; min-height: 100px;"></div>
+            </div>
+          </div>
+          
+          <!-- Uploadcare Image Uploader -->
+          <div class="uploadcare-uploader-section" style="margin-top: 30px; padding: 20px; background: #222; border-radius: 8px;">
+            <h2>Uploadcare Direct Upload</h2>
+            <p>Upload images directly to Uploadcare.com with cropping support</p>
+            
+            <div style="margin-top: 15px;">
+              <div class="form-group">
+                <label for="uploadcare-uploader">Select an image to upload</label>
+                <input type="hidden" id="uploadcare-input" role="uploadcare-uploader" 
+                  data-crop="free,1:1,3:4,4:3,16:9"
+                  data-images-only="true">
+              </div>
+              
+              <div id="uploadcare-result" style="margin-top: 20px; padding: 15px; background: #333; border-radius: 6px; min-height: 100px;">
+                <div class="preview-container" style="display: none;">
+                  <h3 style="color: #4CAF50;">Upload successful!</h3>
+                  <div class="image-preview" style="margin: 15px 0;"></div>
+                  <div>
+                    <label style="display: block; margin-bottom: 5px; color: #aaa;">Image URL:</label>
+                    <input type="text" id="uploadcare-url" style="width: 100%; padding: 8px; background: #444; border: 1px solid #555; color: white;" readonly onclick="this.select()">
+                  </div>
+                  <div style="margin-top: 10px;">
+                    <label style="display: block; margin-bottom: 5px; color: #aaa;">CDN URL with transformations:</label>
+                    <input type="text" id="uploadcare-cdn-url" style="width: 100%; padding: 8px; background: #444; border: 1px solid #555; color: white;" readonly onclick="this.select()">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================================================= -->
+      <!-- About Section                                                             -->
+      <!-- ========================================================================= -->
+      <section id="about" class="admin-section">
+        <h1>About R8YMatrix Admin</h1>
+        <div class="about-container">
+          <div class="about-info">
+            <p>Welcome to the R8YMatrix Admin Panel. This is the control center for managing your website content.</p>
+            <p class="version-info">Version: 1.0.0</p>
+            <p class="copyright"> 2025 R8YMatrix. All rights reserved.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div> <!-- End of admin-container -->
+
+  <!-- ========================================================================= -->
+  <!-- MODALS                                                                  -->
+  <!-- ========================================================================= -->
+
+  <!-- Add/Edit Item Modal -->
+  <div id="item-modal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2 id="modal-title">Add New Item</h2>
+      <form id="item-form">
+        <input type="hidden" id="item-id">
+
+        <div class="form-tabs">
+          <button type="button" class="form-tab active" data-tab="basic-info">Basic Info</button>
+          <button type="button" class="form-tab" data-tab="urls">URLs</button>
+          <button type="button" class="form-tab" data-tab="details">Details & Features</button>
+          <button type="button" class="form-tab" data-tab="gallery">Gallery</button>
+          <button type="button" class="form-tab" data-tab="seo">SEO <span class="badge ai-badge">DeepSeek</span></button>
+        </div>
+
+        <div class="form-tab-content active" id="basic-info">
+          <div class="form-group">
+            <label for="item-title">Title</label>
+            <input type="text" id="item-title" required>
+          </div>
+
+          <div class="form-group">
+            <label for="item-slug">Slug</label>
+            <input type="text" id="item-slug" placeholder="e.g., gta-5-download">
+            <small class="field-hint">Used for the URL. Leave empty to auto-generate from title.</small>
+          </div>
+
+          <div class="form-group">
+            <label for="item-category">Main Category</label>
+            <select id="item-category" required>
+              <option value="games">PC Games</option>
+              <option value="windows">Windows</option>
+              <option value="mac">Mac</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="item-subcategory">Subcategory</label>
+            <select id="item-subcategory" required>
+              <!-- Dynamically populated based on main category -->
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="item-desc">Description</label>
+            <textarea id="item-desc" rows="3" required></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="item-size-value">Size</label>
+            <div class="size-input-group">
+              <input type="number" min="0" step="0.01" id="item-size-value" placeholder="e.g. 4.5" required>
+              <select id="item-size-unit">
+                <option value="GB">GB</option>
+                <option value="MB">MB</option>
+                <option value="TB">TB</option>
+              </select>
+            </div>
+          </div>
+          <style>
+            .size-input-group {
+              display: flex;
+              align-items: center;
+            }
+
+            .size-input-group input {
+              flex: 1;
+              border-top-right-radius: 0;
+              border-bottom-right-radius: 0;
+            }
+
+            .size-input-group select {
+              width: 70px;
+              height: 40px;
+              background: #222;
+              border: 1px solid #333;
+              color: white;
+              border-left: none;
+              border-top-right-radius: 4px;
+              border-bottom-right-radius: 4px;
+            }
+          </style>
+        </div>
+
+        <div class="form-tab-content" id="urls">
+          <div class="form-group">
+            <label for="item-image">Game Logo/Main Image</label>
+            <div class="upload-group">
+              <div class="url-input-group">
+                <input type="url" id="item-image" placeholder="Enter image URL">
+                <span class="or-divider">OR</span>
+              </div>
+              <div class="file-upload-group">
+                <button type="button" id="uploadcare-main-btn" class="admin-btn primary">
+                  <i class="fas fa-upload"></i> Upload Manually
+                </button>
+                <div class="upload-preview" id="main-image-preview"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="item-download">Main Download URL</label>
+            <input type="url" id="item-download" placeholder="Enter the main download link for this item">
+            <span class="field-hint">Required unless Torrent or Direct Download link is provided</span>
+          </div>
+
+          <div class="form-group">
+            <label for="item-torrent">Torrent Link (Optional)</label>
+            <input type="url" id="item-torrent" placeholder="Enter torrent magnet link or URL">
+          </div>
+
+          <div class="form-group">
+            <label for="item-direct">Direct Download Link (Optional)</label>
+            <input type="url" id="item-direct" placeholder="Enter alternative direct download URL">
+          </div>
+
+          <div class="form-group">
+            <label>Gallery Images (Max 7)</label>
+            <p class="form-hint">Add images for the gallery by URL or upload</p>
+            <div id="gallery-upload-container">
+              <div class="gallery-upload-item">
+                <div class="url-input-group">
+                  <input type="url" class="gallery-url" placeholder="Enter image URL">
+                  <span class="or-divider">OR</span>
+                </div>
+                <div class="file-upload-group">
+                  <button type="button" class="admin-btn primary uploadcare-gallery-btn" data-index="0">
+                    <i class="fas fa-upload"></i> Upload Manually
+                  </button>
+                  <div class="gallery-preview"></div>
+                </div>
+              </div>
+            </div>
+            <button type="button" id="add-gallery-item-btn" class="admin-btn">
+              <i class="fas fa-plus"></i> Add Another Image
+            </button>
+          </div>
+        </div>
+
+        <div class="form-tab-content" id="details">
+          <div class="form-group">
+            <label for="item-requirements">System Requirements</label>
+            <textarea id="item-requirements" rows="4"
+              placeholder="OS: Windows 10&#10;CPU: Intel Core i5&#10;RAM: 8GB&#10;GPU: NVIDIA GTX 970"
+              required></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="item-file-name">File Name</label>
+            <input type="text" id="item-file-name" placeholder="e.g. Cyberpunk2077_v1.61.exe">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group half">
+              <label for="item-version">Version</label>
+              <input type="text" id="item-version" placeholder="e.g. 1.61">
+            </div>
+
+            <div class="form-group half">
+              <label for="item-release-date">Release Date</label>
+              <input type="date" id="item-release-date" placeholder="Select release date">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group half">
+              <label for="item-os">OS</label>
+              <select id="item-os">
+                <option value="">Select OS</option>
+                <option value="Windows 7">Windows 7</option>
+                <option value="Windows 8">Windows 8</option>
+                <option value="Windows 10">Windows 10</option>
+                <option value="Windows 11">Windows 11</option>
+                <option value="Windows 10/11">Windows 10/11</option>
+                <option value="Windows 7/8/10/11">Windows 7/8/10/11</option>
+                <option value="Cross Platform">Cross Platform</option>
+              </select>
+            </div>
+
+            <div class="form-group half">
+              <label for="item-architecture">Architecture</label>
+              <select id="item-architecture">
+                <option value="">Select Architecture</option>
+                <option value="32-bit">32-bit</option>
+                <option value="64-bit">64-bit</option>
+                <option value="32/64-bit">32/64-bit</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="item-language">Language</label>
+            <select id="item-language">
+              <option value="">Select Language</option>
+              <option value="English">English</option>
+              <option value="Multi-language">Multi-language</option>
+              <option value="English, French, German">English, French, German</option>
+              <option value="English, Spanish, French">English, Spanish, French</option>
+              <option value="Multiple languages supported">Multiple languages supported</option>
+              <option value="English only">English only</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Features List</label>
+            <div id="features-container" class="features-container">
+              <!-- Features will be dynamically added here -->
+              <div class="feature-item">
+                <input type="text" class="feature-input" placeholder="Enter a feature">
+                <button type="button" class="remove-feature"><i class="fas fa-times"></i></button>
+              </div>
+            </div>
+            <button type="button" id="add-feature-btn" class="admin-btn"><i class="fas fa-plus"></i> Add Feature</button>
+          </div>
+        </div>
+
+        <div class="form-tab-content" id="gallery">
+          <div class="form-group">
+            <label>Gallery Preview</label>
+            <p class="form-help">Preview all images added to this item</p>
+            <div class="gallery-preview-container" id="complete-gallery-preview">
+              <!-- Preview will be populated dynamically -->
+              <div class="preview-placeholder">
+                <i class="fas fa-images"></i>
+                <p>Images added in the URLs tab will appear here</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-tab-content" id="seo">
+          <div class="seo-header">
+            <div class="seo-ai-badge">
+              <i class="fas fa-robot"></i> DeepSeek R1 0528
+            </div>
+            <button type="button" id="generate-seo-btn" class="admin-btn primary">
+              <i class="fas fa-magic"></i> Generate Meta Tags
+            </button>
+            <button type="button" id="optimize-seo-btn" class="admin-btn secondary" style="margin-left: 10px;">
+              <i class="fas fa-sliders-h"></i> Auto-Optimize
+            </button>
+          </div>
+          
+          <div class="seo-info-box" style="margin-top: 10px; background: #1c1c1c; border: 1px solid #333; padding: 10px; border-radius: 4px; font-size: 13px;">
+            <p style="margin-bottom: 5px;"><i class="fas fa-info-circle" style="color: #7b61ff; margin-right: 5px;"></i> <strong>Auto-Optimization:</strong> Fields will automatically adjust to meet SEO requirements.</p>
+            <ul style="margin: 0; padding-left: 25px;">
+              <li>Titles formatted as "<em>Product</em> Crack Version For Free - Download... | R8Y - (2025)"</li>
+              <li>Meta descriptions will be exactly 150-160 characters</li>
+              <li>Required keywords automatically added for optimal search ranking</li>
+            </ul>
+          </div>
+
+          <div class="form-group">
+            <label for="meta-title">Meta Title <span class="seo-character-count" id="title-character-count">0/60</span></label>
+            <input type="text" id="meta-title" placeholder="Enter meta title (recommended 50-60 characters)" maxlength="70">
+            <div class="seo-health" id="title-health"></div>
+          </div>
+
+          <div class="form-group">
+            <label for="meta-description">Meta Description <span class="seo-character-count" id="desc-character-count">0/160</span></label>
+            <textarea id="meta-description" rows="3" placeholder="Enter meta description (recommended 150-160 characters)" maxlength="200"></textarea>
+            <div class="seo-health" id="desc-health"></div>
+          </div>
+
+          <div class="form-group">
+            <label for="meta-keywords">Meta Keywords <span class="seo-count" id="keywords-count">0 keywords</span></label>
+            <textarea id="meta-keywords" rows="2" placeholder="Enter keywords separated by commas"></textarea>
+            <div class="seo-health" id="keywords-health"></div>
+          </div>
+
+          <div class="form-group">
+            <label>Google Search Preview</label>
+            <div class="google-preview">
+              <div class="preview-title" id="preview-title">Title will appear here</div>
+              <div class="preview-url" id="preview-url">www.r8ymatrix.com/item-name</div>
+              <div class="preview-description" id="preview-description">Description will appear here. Make sure it's compelling and includes your target keywords.</div>
+            </div>
+          </div>
+
+          <div class="seo-health-report">
+            <h3><i class="fas fa-chart-line"></i> SEO Health Check</h3>
+            <div id="seo-health-results">
+              <div class="health-item">
+                <i class="fas fa-info-circle"></i> Complete the meta fields to see health check results.
+              </div>
+            </div>
+            <div class="seo-score">
+              <div class="score-circle">
+                <svg width="80" height="80">
+                  <circle cx="40" cy="40" r="35" stroke="#ddd" stroke-width="5" fill="none" />
+                  <circle cx="40" cy="40" r="35" stroke="#52c41a" stroke-width="5" fill="none" stroke-dasharray="220" stroke-dashoffset="220" id="score-circle" />
+                </svg>
+                <span class="score-text" id="seo-score-value">0</span>
+              </div>
+              <div class="score-label">SEO Score</div>
+            </div>
+          </div>
+
+          <div class="seo-ai-suggestions">
+            <h3><i class="fas fa-lightbulb"></i> R8YMatrix SEO Suggestions</h3>
+            <div id="ai-suggestions-container">
+              <div class="suggestion-item" id="title-suggestion">
+                <h4>Title Suggestions</h4>
+                <div class="suggestion-content">Complete the form and generate meta tags to see suggestions</div>
+              </div>
+              <div class="suggestion-item" id="keywords-suggestion">
+                <h4>Keyword Suggestions</h4>
+                <div class="suggestion-content">Complete the form and generate meta tags to see suggestions</div>
+              </div>
+              <div class="suggestion-item" id="description-suggestion">
+                <h4>Description Suggestions</h4>
+                <div class="suggestion-content">Complete the form and generate meta tags to see suggestions</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-buttons">
+          <button type="button" id="cancel-btn" class="admin-btn">Cancel</button>
+          <button type="submit" class="admin-btn primary">Save Item</button>
+        </div>
+      </form>
+    </div>
+  </div> <!-- End of item-modal -->
+
+  <!-- Confirmation Modal for Subcategory Deletion -->
+  <div id="confirm-delete-modal" class="confirm-delete-modal">
+    <div class="confirm-delete-content">
+      <h3><i class="fas fa-exclamation-triangle"></i> Confirm Deletion</h3>
+      <p>Are you sure you want to delete the subcategory "<span id="delete-subcategory-name"></span>"?</p>
+      <div id="usage-warning" class="usage-warning" style="display: none;">
+        <i class="fas fa-exclamation-circle"></i> Warning: This subcategory has <span id="item-count"></span> associated items. Deleting it may cause issues with these items.
+      </div>
+      <div class="confirm-delete-actions">
+        <button id="cancel-delete-btn" class="cancel-btn">Cancel</button>
+        <button id="confirm-delete-btn" class="delete-btn">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Publish Changes Overlay -->
+  <div id="publish-overlay" class="publish-overlay">
+    <div class="publish-notification">
+      <i class="fas fa-sync-alt fa-spin"></i>
+      <h3>Publishing Changes</h3>
+      <p>Updating the website with your changes...</p>
+      <div class="progress-bar">
+        <div class="progress-bar-inner" id="publish-progress"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Container for Notifications -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- FOOTER -->
+  <footer class="admin-footer">
+    <div class="admin-footer-container">
+      <div class="footer-section">
+        <div class="footer-logo">
+          <img src="../images/logo/logoo.png" alt="R8YMatrix Logo" class="footer-logo-img">
+          <span class="admin-version">Admin Panel v1.0.0</span>
+        </div>
+      </div>
+      <div class="footer-section">
+        <h4>Quick Navigation</h4>
+        <ul class="footer-links">
+          <li><a href="#" data-section="dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+          <li><a href="#" data-section="games"><i class="fas fa-gamepad"></i> Games</a></li>
+          <li><a href="#" data-section="software"><i class="fas fa-laptop-code"></i> Software</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Admin Actions</h4>
+        <ul class="footer-links">
+          <li><a href="#" data-section="categories"><i class="fas fa-tags"></i> Categories</a></li>
+          <li><a href="../auth/auth-make.html" target="_blank"><i class="fas fa-user-shield"></i> Auth Make</a></li>
+            <li><a href="../auth/check-admin-user.html" target="_blank"><i class="fas fa-user-check"></i> Check Admin</a></li>
+          <li><a href="#" id="admin-logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+          <li><a href="../index.html" target="_blank"><i class="fas fa-external-link-alt"></i> View Website</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Social Links</h4>
+        <div class="social-icons footer-social">
+          <a href="https://www.youtube.com/@r8ymatrixCHE3TS" target="_blank"><i class="fab fa-youtube"></i></a>
+          <a href="https://discord.com" target="_blank"><i class="fab fa-discord"></i></a>
+          <a href="https://www.instagram.com/r8ymatrix/?hl=en" target="_blank"><i class="fab fa-instagram"></i></a>
+        </div>
+        <p class="admin-copyright">&copy; 2023 R8YMatrix. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Footer and navigation functionality -->
+  <script>
+    // Handle section navigation from footer
+    document.querySelectorAll('.footer-links a[data-section]').forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const sectionId = this.getAttribute('data-section');
+        
+        // Update sidebar active state
+        document.querySelectorAll('.admin-sidebar a').forEach(navLink => {
+          navLink.classList.remove('active');
+          if(navLink.getAttribute('data-section') === sectionId) {
+            navLink.classList.add('active');
+          }
+        });
+        
+        // Show the selected section
+        document.querySelectorAll('.admin-section').forEach(section => {
+          section.classList.remove('active');
+        });
+        document.getElementById(sectionId).classList.add('active');
+        
+        // Scroll to top of content
+        document.querySelector('.admin-content').scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    });
+    
+    // Logout functionality
+    document.getElementById('admin-logout').addEventListener('click', async function(e) {
+      e.preventDefault();
+      try {
+        console.log("Logging out...");
+        const auth = window.auth;
+        const { signOut } = window.firebaseModules;
+        
+        if (auth && signOut) {
+          await signOut(auth);
+          console.log("Logout successful");
+          // Redirect to login page
+          window.location.href = 'login.html';
+        } else {
+          console.error("Auth or signOut function not available");
+          alert("Logout failed: Authentication service not available");
+        }
+      } catch (error) {
+        console.error("Logout error:", error);
+        alert("Logout failed: " + error.message);
+      }
+    });
+    
+    // Original logout button functionality
+    document.getElementById('logoutBtn').addEventListener('click', async function() {
+      try {
+        console.log("Logging out...");
+        const auth = window.auth;
+        const { signOut } = window.firebaseModules;
+        
+        if (auth && signOut) {
+          await signOut(auth);
+          console.log("Logout successful");
+          // Redirect to login page
+          window.location.href = 'login.html';
+        } else {
+          console.error("Auth or signOut function not available");
+          alert("Logout failed: Authentication service not available");
+        }
+      } catch (error) {
+        console.error("Logout error:", error);
+        alert("Logout failed: " + error.message);
+      }
+    });
+  </script>
+
+  <!-- Admin Panel JavaScript -->
+  <script type="module" src="../js/admin.js"></script>
+</body>
+
+</html>

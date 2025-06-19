@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>R8YMatrix Admin Login</title>
+  <link rel="icon" type="image/png" href="images/logo/favicon.png" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    /* Apply 50px radius to favicon in browser tab */
+    .favicon-preview {
+      width: 32px;
+      height: 32px;
+      border-radius: 50px;
+      object-fit: cover;
+      display: none;
+    }
+  </style>
+  <script>
+    // Replace favicon with rounded version
+    (function() {
+      const faviconLink = document.querySelector('link[rel="icon"]');
+      if (faviconLink) {
+        const originalHref = faviconLink.href;
+        const canvas = document.createElement('canvas');
+        canvas.width = 32;
+        canvas.height = 32;
+        const ctx = canvas.getContext('2d');
+        const img = new Image();
+        img.crossOrigin = 'Anonymous';
+        img.onload = function() {
+          // Create circular clipping path
+          ctx.beginPath();
+          ctx.arc(16, 16, 16, 0, Math.PI * 2, true);
+          ctx.closePath();
+          ctx.clip();
+          
+          // Draw the image
+          ctx.drawImage(img, 0, 0, 32, 32);
+          
+          // Replace favicon with rounded version
+          faviconLink.href = canvas.toDataURL('image/png');
+        };
+        img.src = originalHref;
+      }
+    })();
+  </script>
+  <link rel="stylesheet" href="auth/login-functions.css">
+  <style>
+    /* Custom background for login page */
+    body {
+      background-image: url('images/logo/obito-uchiha.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    }
+    
+    /* Additional styles specific to login.html that aren't in the shared CSS */
+    .admin-access-animation {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      background-color: rgba(0, 0, 0, 0.85);
+      z-index: 1000;
+    }
+    
+    .admin-access-animation.show {
+      display: flex;
+    }
+  </style>
+</head>
+<body>
+  <!-- Admin Access Animation -->
+  <div class="admin-access-animation" id="accessAnimation">
+    <div class="animation-container">
+      <!-- Animation content will be added dynamically -->
+    </div>
+  </div>
+
+  <div class="login-container">
+    <div class="logo-container">
+      <img src="images/logo/logoo.png" alt="R8YMatrix Logo" class="logo">
+    </div>
+    
+    <h1>Admin Access</h1>
+    
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" placeholder="Enter your email" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="Enter your password" required>
+      </div>
+      
+      <button type="submit" id="loginBtn" class="login-btn">
+        <span class="spinner"></span>
+        <span class="btn-text">Login</span>
+      </button>
+    </form>
+    
+    <a href="#" id="forgotPassword" class="forgot-password">Forgot password?</a>
+    
+    <div id="errorMessage" class="error-message">
+      <i class="fas fa-exclamation-circle"></i> 
+      <span id="errorText">Invalid email or password</span>
+    </div>
+    
+    <!-- Debug Panel (hidden in production) -->
+    <div id="debugPanel" class="debug-panel" style="display: none;">
+      <div id="authStatus">Auth status: Checking...</div>
+    </div>
+  </div>
+
+  <!-- Firebase Scripts -->
+  <script type="module">
+    // Import the functions you need from the SDKs
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { 
+      getAuth, 
+      signInWithEmailAndPassword, 
+      onAuthStateChanged, 
+      sendPasswordResetEmail,
+      createUserWithEmailAndPassword,
+      setPersistence,
+      browserLocalPersistence 
+    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyCcthdcxH-xleb3vZxHIs7nfWT9Lo9CG84",
+      authDomain: "r8y-33be8.firebaseapp.com",
+      projectId: "r8y-33be8",
+      storageBucket: "r8y-33be8.appspot.com",
+      messagingSenderId: "477787173296",
+      appId: "1:477787173296:web:cd7bd1ca355085b4d6e675",
+      measurementId: "G-CFYZEQ6QGK"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // Setup persistence
+    setPersistence(auth, browserLocalPersistence)
+      .then(() => {
+        log("Auth persistence set to LOCAL");
+      })
+      .catch((error) => {
+        log("Error setting persistence: " + error.message);
+      });
+
+    // DOM Elements
+    const loginForm = document.getElementById('loginForm');
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    const loginBtn = document.getElementById('loginBtn');
+    const errorMessage = document.getElementById('errorMessage');
+    const forgotPasswordLink = document.getElementById('forgotPassword');
+    const debugPanel = document.getElementById('debugPanel');
+
+    // Debug mode - set to true to enable debug panel
+    const debugMode = false;
+
+    // Debug logging function
+    function log(message, data = null) {
+      const timestamp = new Date().toLocaleTimeString();
+      let logMessage = `[${timestamp}] ${message}`;
+      
+      if (data) {
+        try {
+          if (typeof data === 'object') {
+            logMessage += '\n' + JSON.stringify(data, null, 2);
+          } else {
+            logMessage += '\n' + data;
+          }
+        } catch (e) {
+          logMessage += '\n[Object cannot be stringified]';
+        }
+      }
+      
+      console.log(message, data || '');
+      
+      if (debugMode) {
+        debugPanel.style.display = 'block';
+        debugPanel.innerHTML += logMessage + '<br>';
+        debugPanel.scrollTop = debugPanel.scrollHeight;
+      }
+    }
+
+    // Check authentication on page load
+    window.addEventListener('DOMContentLoaded', () => {
+      log("Page loaded, checking authentication status");
+    });
+
+    // Debug: Log authentication state changes
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        log("User is signed in:", user.email);
+        // User is signed in, redirect to admin panel
+        window.location.href = 'admin/admin.html';
+      } else {
+        log("User is signed out");
+      }
+    });
+
+    // Create a test user if needed (uncomment to create a user)
+    // This should be run only once to create the user, then commented out
+    
+    async function createTestUser() {
+      try {
+        const userCredential = await createUserWithEmailAndPassword(auth, "admin@r8y.com", "admin123");
+        log("Test user created:", userCredential.user);
+      } catch (error) {
+        log("Error creating test user:", error);
+      }
+    }
+    // createTestUser(); // Uncomment to create user, then comment out again
+
+    // Login form submission
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const email = emailInput.value.trim();
+      const password = passwordInput.value;
+      
+      if (!email || !password) {
+        showError("Please enter both email and password");
+        return;
+      }
+      
+      // Show loading state
+      loginBtn.classList.add('loading');
+      loginBtn.disabled = true;
+      hideError();
+      
+      try {
+        log("Attempting to sign in with:", email);
+        // Attempt to sign in
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        log("Login successful:", userCredential.user.email);
+        
+        // Check if email is verified (optional security feature)
+        // if (userCredential.user.emailVerified) {
+        //   log("Email is verified, redirecting...");
+        // } else {
+        //   log("Email is not verified");
+        //   // Optionally handle unverified emails
+        // }
+        
+        // Successful login will trigger the onAuthStateChanged listener above
+        // which will handle the redirect
+      } catch (error) {
+        // Handle errors
+        log("Login error:", error);
+        let errorText = 'Login failed. Please try again.';
+        
+        switch (error.code) {
+          case 'auth/invalid-email':
+            errorText = 'Invalid email address format.';
+            break;
+          case 'auth/user-not-found':
+            errorText = 'No account found with this email.';
+            break;
+          case 'auth/wrong-password':
+            errorText = 'Incorrect password.';
+            break;
+          case 'auth/too-many-requests':
+            errorText = 'Too many failed login attempts. Please try again later.';
+            break;
+          case 'auth/network-request-failed':
+            errorText = 'Network error. Please check your connection.';
+            break;
+          default:
+            errorText = `Login failed: ${error.message}`;
+            break;
+        }
+        
+        showError(errorText);
+      } finally {
+        // Reset loading state
+        loginBtn.classList.remove('loading');
+        loginBtn.disabled = false;
+      }
+    });
+
+    // Forgot password functionality
+    forgotPasswordLink.addEventListener('click', async (e) => {
+      e.preventDefault();
+      
+      const email = emailInput.value.trim();
+      
+      if (!email) {
+        showError('Please enter your email address first.');
+        emailInput.focus();
+        return;
+      }
+      
+      try {
+        // Show loading state
+        loginBtn.classList.add('loading');
+        loginBtn.disabled = true;
+        hideError();
+        
+        // Send password reset email
+        await sendPasswordResetEmail(auth, email);
+        log("Password reset email sent to:", email);
+        showError('Password reset email sent! Check your inbox.', 'success');
+      } catch (error) {
+        log("Password reset error:", error);
+        let errorText = 'Failed to send password reset email.';
+        
+        if (error.code === 'auth/invalid-email') {
+          errorText = 'Invalid email address format.';
+        } else if (error.code === 'auth/user-not-found') {
+          errorText = 'No account found with this email.';
+        }
+        
+        showError(errorText);
+      } finally {
+        // Reset loading state
+        loginBtn.classList.remove('loading');
+        loginBtn.disabled = false;
+      }
+    });
+
+    // Helper functions
+    function showError(message, type = 'error') {
+      errorMessage.textContent = message;
+      errorMessage.style.display = 'block';
+      
+      if (type === 'success') {
+        errorMessage.style.backgroundColor = 'rgba(76, 175, 80, 0.1)';
+        errorMessage.style.color = '#4CAF50';
+      } else {
+        errorMessage.style.backgroundColor = 'rgba(244, 67, 54, 0.1)';
+        errorMessage.style.color = '#F44336';
+        errorMessage.classList.add('show');
+        
+        // Remove shake animation after it completes
+        setTimeout(() => {
+          errorMessage.classList.remove('show');
+        }, 500);
+      }
+      
+      log(type === 'success' ? "Success message shown" : "Error message shown", message);
+    }
+
+    function hideError() {
+      errorMessage.style.display = 'none';
+      errorMessage.classList.remove('show');
+    }
+    
+    // Log initialization
+    log("Firebase auth initialized");
+  </script>
+</body>
+</html> 
