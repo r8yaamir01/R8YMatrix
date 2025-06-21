@@ -403,26 +403,32 @@
 
         // Set download button link with counter update
         const downloadBtn = document.getElementById('downloadBtn');
-        downloadBtn.onclick = async function () {
-          // Update download count
-          const newCount = await updateDownloadCount(item.id);
-          if (newCount) {
-            // Update display with animation
-            const countDisplay = document.getElementById('downloadCountDisplay');
-            countDisplay.textContent = newCount.toLocaleString();
-            countDisplay.classList.add('download-animation');
+        
+        // Only show download button if downloadLink exists
+        if (item.downloadLink) {
+          downloadBtn.style.display = 'block';
+          downloadBtn.onclick = async function () {
+            // Update download count
+            const newCount = await updateDownloadCount(item.id);
+            if (newCount) {
+              // Update display with animation
+              const countDisplay = document.getElementById('downloadCountDisplay');
+              countDisplay.textContent = newCount.toLocaleString();
+              countDisplay.classList.add('download-animation');
 
-            // Remove animation class after animation completes
-            setTimeout(() => {
-              countDisplay.classList.remove('download-animation');
-            }, 500);
-          }
+              // Remove animation class after animation completes
+              setTimeout(() => {
+                countDisplay.classList.remove('download-animation');
+              }, 500);
+            }
 
-          // Navigate to download link
-          if (item.downloadLink) {
+            // Navigate to download link
             window.location.href = item.downloadLink;
-          }
-        };
+          };
+        } else {
+          // Hide download button if no link exists
+          downloadBtn.style.display = 'none';
+        }
 
         // Set up Torrent and Direct download buttons if links are available
         const downloadOptions = document.getElementById('download-options');
