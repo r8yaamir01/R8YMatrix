@@ -793,9 +793,12 @@
         button.addEventListener('click', e => {
           e.stopPropagation();
           const slide = button.closest('.carousel-slide');
-          const slug = slide.dataset.slug;
-          if (slug) {
-            window.location.href = `/items/${slug}`;
+          const itemId = slide.dataset.id;
+          if (itemId) {
+            // Back to original HTML format
+            window.location.href = `items.html?id=${itemId}`;
+          } else {
+            console.error("Slide has no ID attribute");
           }
         });
       });
@@ -803,9 +806,12 @@
       // Click on carousel slide
       slides.forEach(slide => {
         slide.addEventListener('click', () => {
-          const slug = slide.dataset.slug;
-          if (slug) {
-            window.location.href = `/items/${slug}`;
+          const itemId = slide.dataset.id;
+          if (itemId) {
+            // Back to original HTML format  
+            window.location.href = `items.html?id=${itemId}`;
+          } else {
+            console.error("Slide has no ID attribute");
           }
         });
       });
@@ -958,7 +964,6 @@
           const article = document.createElement('article');
           article.className = 'item-card';
           article.dataset.id = item.id;
-          article.dataset.slug = item.slug;
           article.style.setProperty('--item-index', index);
 
           // Use innerHTML for the content (one DOM operation per card)
@@ -1172,10 +1177,12 @@
       const card = event.target.closest('.item-card');
       if (!card) return; // Click was not on or within a card
 
-      const slug = card.getAttribute('data-slug');
-      if (slug) {
-        // Navigate to item details page
-        window.location.href = `/items/${slug}`;
+      const itemId = card.getAttribute('data-id');
+      if (itemId) {
+        // Return to the original URL format
+        window.location.href = `items.html?id=${itemId}`;
+      } else {
+        console.error("Card has no ID attribute");
       }
     }
 
@@ -1842,10 +1849,12 @@
 
             // Add click event listener
             card.addEventListener('click', function () {
-              if (item.slug) {
-                window.location.href = `/items/${item.slug}`;
+              const itemId = card.getAttribute('data-id');
+              if (itemId) {
+                // Return to the original URL format
+                window.location.href = `items.html?id=${itemId}`;
               } else {
-                console.error("Item has no slug:", item.id);
+                console.error("Card has no ID attribute");
               }
             });
 
@@ -1969,24 +1978,8 @@
     function showItemDetails(itemId) {
       console.log("Legacy navigation using showItemDetails with ID:", itemId);
       
-      // Fetch the item to get its slug
-      db.collection('items').doc(itemId).get().then(doc => {
-        if (doc.exists) {
-          const item = doc.data();
-          if (item.slug) {
-            // Navigate using slug
-            window.location.href = `/items/${item.slug}`;
-          } else {
-            // No slug available, use old URL format
-            console.warn("Item has no slug, using legacy URL format");
-            window.location.href = `items.html?id=${itemId}`;
-          }
-        } else {
-          console.error("Item not found:", itemId);
-        }
-      }).catch(error => {
-        console.error("Error fetching item:", error);
-      });
+      // Always use the standard HTML format
+      window.location.href = `items.html?id=${itemId}`;
     }
   </script>
 </body>

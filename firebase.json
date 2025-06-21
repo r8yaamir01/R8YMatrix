@@ -19,18 +19,6 @@
         "destination": "/index.html"
       }
     ],
-    "redirects": [
-      {
-        "source": "/items.html",
-        "destination": "/",
-        "type": 301
-      },
-      {
-        "source": "/items.html?id=:id",
-        "destination": "/items/:id",
-        "type": 301
-      }
-    ],
     "headers": [
       {
         "source": "**/*.@(jpg|jpeg|gif|png|webp)",
@@ -67,8 +55,6 @@
           }
         ]
       }
-    ],
-    "cleanUrls": true,
-    "trailingSlash": false
+    ]
   }
 } 
