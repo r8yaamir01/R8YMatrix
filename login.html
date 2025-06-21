@@ -1,6 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FVQ9QZ9DTC"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-FVQ9QZ9DTC');
+  </script>
+
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>R8YMatrix Admin Login</title>
@@ -18,7 +30,7 @@
   </style>
   <script>
     // Replace favicon with rounded version
-    (function() {
+    (function () {
       const faviconLink = document.querySelector('link[rel="icon"]');
       if (faviconLink) {
         const originalHref = faviconLink.href;
@@ -28,16 +40,16 @@
         const ctx = canvas.getContext('2d');
         const img = new Image();
         img.crossOrigin = 'Anonymous';
-        img.onload = function() {
+        img.onload = function () {
           // Create circular clipping path
           ctx.beginPath();
           ctx.arc(16, 16, 16, 0, Math.PI * 2, true);
           ctx.closePath();
           ctx.clip();
-          
+
           // Draw the image
           ctx.drawImage(img, 0, 0, 32, 32);
-          
+
           // Replace favicon with rounded version
           faviconLink.href = canvas.toDataURL('image/png');
         };
@@ -54,7 +66,7 @@
       background-position: center;
       background-attachment: fixed;
     }
-    
+
     /* Additional styles specific to login.html that aren't in the shared CSS */
     .admin-access-animation {
       position: fixed;
@@ -68,12 +80,13 @@
       background-color: rgba(0, 0, 0, 0.85);
       z-index: 1000;
     }
-    
+
     .admin-access-animation.show {
       display: flex;
     }
   </style>
 </head>
+
 <body>
   <!-- Admin Access Animation -->
   <div class="admin-access-animation" id="accessAnimation">
@@ -86,33 +99,33 @@
     <div class="logo-container">
       <img src="images/logo/logoo.png" alt="R8YMatrix Logo" class="logo">
     </div>
-    
+
     <h1>Admin Access</h1>
-    
+
     <form id="loginForm">
       <div class="form-group">
         <label for="email">Email Address</label>
         <input type="email" id="email" placeholder="Enter your email" required>
       </div>
-      
+
       <div class="form-group">
         <label for="password">Password</label>
         <input type="password" id="password" placeholder="Enter your password" required>
       </div>
-      
+
       <button type="submit" id="loginBtn" class="login-btn">
         <span class="spinner"></span>
         <span class="btn-text">Login</span>
       </button>
     </form>
-    
+
     <a href="#" id="forgotPassword" class="forgot-password">Forgot password?</a>
-    
+
     <div id="errorMessage" class="error-message">
-      <i class="fas fa-exclamation-circle"></i> 
+      <i class="fas fa-exclamation-circle"></i>
       <span id="errorText">Invalid email or password</span>
     </div>
-    
+
     <!-- Debug Panel (hidden in production) -->
     <div id="debugPanel" class="debug-panel" style="display: none;">
       <div id="authStatus">Auth status: Checking...</div>
@@ -123,14 +136,14 @@
   <script type="module">
     // Import the functions you need from the SDKs
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { 
-      getAuth, 
-      signInWithEmailAndPassword, 
-      onAuthStateChanged, 
+    import {
+      getAuth,
+      signInWithEmailAndPassword,
+      onAuthStateChanged,
       sendPasswordResetEmail,
       createUserWithEmailAndPassword,
       setPersistence,
-      browserLocalPersistence 
+      browserLocalPersistence
     } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
     // Firebase configuration
@@ -173,7 +186,7 @@
     function log(message, data = null) {
       const timestamp = new Date().toLocaleTimeString();
       let logMessage = `[${timestamp}] ${message}`;
-      
+
       if (data) {
         try {
           if (typeof data === 'object') {
@@ -185,9 +198,9 @@
           logMessage += '\n[Object cannot be stringified]';
         }
       }
-      
+
       console.log(message, data || '');
-      
+
       if (debugMode) {
         debugPanel.style.display = 'block';
         debugPanel.innerHTML += logMessage + '<br>';
@@ -213,7 +226,7 @@
 
     // Create a test user if needed (uncomment to create a user)
     // This should be run only once to create the user, then commented out
-    
+
     async function createTestUser() {
       try {
         const userCredential = await createUserWithEmailAndPassword(auth, "admin@r8y.com", "admin123");
@@ -227,26 +240,26 @@
     // Login form submission
     loginForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      
+
       const email = emailInput.value.trim();
       const password = passwordInput.value;
-      
+
       if (!email || !password) {
         showError("Please enter both email and password");
         return;
       }
-      
+
       // Show loading state
       loginBtn.classList.add('loading');
       loginBtn.disabled = true;
       hideError();
-      
+
       try {
         log("Attempting to sign in with:", email);
         // Attempt to sign in
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         log("Login successful:", userCredential.user.email);
-        
+
         // Check if email is verified (optional security feature)
         // if (userCredential.user.emailVerified) {
         //   log("Email is verified, redirecting...");
@@ -254,14 +267,14 @@
         //   log("Email is not verified");
         //   // Optionally handle unverified emails
         // }
-        
+
         // Successful login will trigger the onAuthStateChanged listener above
         // which will handle the redirect
       } catch (error) {
         // Handle errors
         log("Login error:", error);
         let errorText = 'Login failed. Please try again.';
-        
+
         switch (error.code) {
           case 'auth/invalid-email':
             errorText = 'Invalid email address format.';
@@ -282,7 +295,7 @@
             errorText = `Login failed: ${error.message}`;
             break;
         }
-        
+
         showError(errorText);
       } finally {
         // Reset loading state
@@ -294,21 +307,21 @@
     // Forgot password functionality
     forgotPasswordLink.addEventListener('click', async (e) => {
       e.preventDefault();
-      
+
       const email = emailInput.value.trim();
-      
+
       if (!email) {
         showError('Please enter your email address first.');
         emailInput.focus();
         return;
       }
-      
+
       try {
         // Show loading state
         loginBtn.classList.add('loading');
         loginBtn.disabled = true;
         hideError();
-        
+
         // Send password reset email
         await sendPasswordResetEmail(auth, email);
         log("Password reset email sent to:", email);
@@ -316,13 +329,13 @@
       } catch (error) {
         log("Password reset error:", error);
         let errorText = 'Failed to send password reset email.';
-        
+
         if (error.code === 'auth/invalid-email') {
           errorText = 'Invalid email address format.';
         } else if (error.code === 'auth/user-not-found') {
           errorText = 'No account found with this email.';
         }
-        
+
         showError(errorText);
       } finally {
         // Reset loading state
@@ -335,7 +348,7 @@
     function showError(message, type = 'error') {
       errorMessage.textContent = message;
       errorMessage.style.display = 'block';
-      
+
       if (type === 'success') {
         errorMessage.style.backgroundColor = 'rgba(76, 175, 80, 0.1)';
         errorMessage.style.color = '#4CAF50';
@@ -343,13 +356,13 @@
         errorMessage.style.backgroundColor = 'rgba(244, 67, 54, 0.1)';
         errorMessage.style.color = '#F44336';
         errorMessage.classList.add('show');
-        
+
         // Remove shake animation after it completes
         setTimeout(() => {
           errorMessage.classList.remove('show');
         }, 500);
       }
-      
+
       log(type === 'success' ? "Success message shown" : "Error message shown", message);
     }
 
@@ -357,9 +370,10 @@
       errorMessage.style.display = 'none';
       errorMessage.classList.remove('show');
     }
-    
+
     // Log initialization
     log("Firebase auth initialized");
   </script>
 </body>
-</html> 
+
+</html>

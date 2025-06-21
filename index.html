@@ -4,25 +4,40 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="R8YMatrix - Download PC Games, Windows Software & Mac applications. Safe, free, and full-version downloads with no malware." />
-  <meta name="keywords" content="PC Games, Free Games, Windows Software, Download, R8YMatrix, Gaming, Software Downloads, Mac Applications, Free Downloads" />
+  <meta name="description"
+    content="R8YMatrix - Download PC Games, Windows Software & Mac applications. Safe, free, and full-version downloads with no malware." />
+  <meta name="keywords"
+    content="PC Games, Free Games, Windows Software, Download, R8YMatrix, Gaming, Software Downloads, Mac Applications, Free Downloads" />
   <meta name="author" content="R8YMatrix" />
   <meta name="google-site-verification" content="5LV4WxBRWTnYZcd2Q7mJ0MdkTmsLqiMsmmTuHmSze44" />
-  
+
+
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://r8ymatrix.com/" />
   <meta property="og:title" content="R8YMatrix | Download PC Games & Windows Software" />
-  <meta property="og:description" content="Premium Games & Software For Free. 100% Safe, Full Version Downloads for PC & Mac. No malware, no ads." />
+  <meta property="og:description"
+    content="Premium Games & Software For Free. 100% Safe, Full Version Downloads for PC & Mac. No malware, no ads." />
   <meta property="og:image" content="https://r8ymatrix.com/images/logo/og-image.png" />
-  
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FVQ9QZ9DTC"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-FVQ9QZ9DTC');
+  </script>
+
   <!-- Twitter -->
   <meta property="twitter:card" content="summary_large_image" />
   <meta property="twitter:url" content="https://r8ymatrix.com/" />
   <meta property="twitter:title" content="R8YMatrix | Download PC Games & Windows Software" />
-  <meta property="twitter:description" content="Premium Games & Software For Free. 100% Safe, Full Version Downloads for PC & Mac." />
+  <meta property="twitter:description"
+    content="Premium Games & Software For Free. 100% Safe, Full Version Downloads for PC & Mac." />
   <meta property="twitter:image" content="https://r8ymatrix.com/images/logo/og-image.png" />
-  
+
   <!-- Canonical URL -->
   <link rel="canonical" href="https://r8ymatrix.com/" />
   <link rel="icon" type="image/png" href="images/logo/favicon.png" />
@@ -38,7 +53,7 @@
   </style>
   <script>
     // Replace favicon with rounded version
-    (function() {
+    (function () {
       const faviconLink = document.querySelector('link[rel="icon"]');
       if (faviconLink) {
         const originalHref = faviconLink.href;
@@ -48,16 +63,16 @@
         const ctx = canvas.getContext('2d');
         const img = new Image();
         img.crossOrigin = 'Anonymous';
-        img.onload = function() {
+        img.onload = function () {
           // Create circular clipping path
           ctx.beginPath();
           ctx.arc(16, 16, 16, 0, Math.PI * 2, true);
           ctx.closePath();
           ctx.clip();
-          
+
           // Draw the image
           ctx.drawImage(img, 0, 0, 32, 32);
-          
+
           // Replace favicon with rounded version
           faviconLink.href = canvas.toDataURL('image/png');
         };
@@ -66,7 +81,7 @@
     })();
   </script>
 
-  
+
   <title>R8YMatrix | Download PC Games & Windows Software</title>
   <link rel="stylesheet" href="index.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
@@ -117,7 +132,7 @@
       <a href="https://discord.com" target="_blank"><i class="fab fa-discord" aria-label="Discord"></i></a>
       <a href="https://www.instagram.com/r8y_13x_fp/?hl=en" target="_blank"><i class="fab fa-instagram"
           aria-label="Instagram"></i></a>
-          <a href="#" id="aboutLink" style="display: none;"><i class="fas fa-info-circle" aria-label="About"></i></a>
+      <a href="#" id="aboutLink" style="display: none;"><i class="fas fa-info-circle" aria-label="About"></i></a>
     </nav>
   </header>
 
@@ -171,7 +186,8 @@
   <div class="main-content-wrapper">
 
     <!-- SUB-CATEGORIES -->
-    <aside class="sub-category-box" id="sub-games" style="display: block; height: 450px !important; width: 300px !important;">
+    <aside class="sub-category-box" id="sub-games"
+      style="display: block; height: 450px !important; width: 300px !important;">
       <h3>Sub Category</h3>
       <p class="empty-subcategory-message">Loading...</p>
       <ul>
@@ -179,7 +195,8 @@
       </ul>
     </aside>
 
-    <aside class="sub-category-box" id="sub-windows" style="display: none; height: 450px !important; width: 300px !important;">
+    <aside class="sub-category-box" id="sub-windows"
+      style="display: none; height: 450px !important; width: 300px !important;">
       <h3>Sub Category</h3>
       <p class="empty-subcategory-message">Loading...</p>
       <ul>
@@ -187,7 +204,8 @@
       </ul>
     </aside>
 
-    <aside class="sub-category-box" id="sub-mac" style="display: none; height: 450px !important; width: 300px !important;">
+    <aside class="sub-category-box" id="sub-mac"
+      style="display: none; height: 450px !important; width: 300px !important;">
       <h3>Sub Category</h3>
       <p class="empty-subcategory-message">Loading...</p>
       <ul>
@@ -357,13 +375,13 @@
     function generateStarRating(rating) {
       // Create a simpler star rating display with all stars filled (gold color)
       let starsHtml = '';
-      
+
       // Add 5 full colored stars regardless of rating
       for (let i = 1; i <= 5; i++) {
         // Active star (orange/gold color)
         starsHtml += '<span style="color: #ff9800; font-size: 20px; margin: 0 1px;">★</span>';
       }
-      
+
       return starsHtml;
     }
 
@@ -375,7 +393,7 @@
           box.style.display = 'none';
         });
         document.getElementById('sub-games').style.display = 'block';
-        
+
         // Set PC Games tab as active
         document.querySelectorAll('.category-btn').forEach(btn => {
           btn.classList.remove('active');
@@ -383,7 +401,7 @@
             btn.classList.add('active');
           }
         });
-        
+
         // Update current category text
         const currentCategoryText = document.getElementById('current-category-text');
         if (currentCategoryText) {
@@ -513,7 +531,7 @@
       // If we have a very large dataset, optimize it
       if (items && items.length > 100) {
         console.log(`Optimizing large dataset of ${items.length} items`);
-        
+
         // Create optimized copies with only the necessary fields
         const optimizedItems = items.map(item => ({
           id: item.id,
@@ -527,35 +545,35 @@
           rating: item.rating || 0,
           size: item.size || 'N/A'
         }));
-        
+
         // Implement memory optimization for very large datasets
         if (items.length > 500) {
           // For extremely large datasets, implement chunking
           // This prevents memory issues and UI freezes
           console.log("Implementing chunked processing for very large dataset");
-          
+
           // Process items in chunks of 100
           const chunks = [];
           for (let i = 0; i < optimizedItems.length; i += 100) {
             chunks.push(optimizedItems.slice(i, i + 100));
           }
-          
+
           // We'll return the first chunk immediately
           const firstChunk = chunks[0];
-          
+
           // Process remaining chunks in the background
           setTimeout(() => {
             let processedItems = [...firstChunk];
-            
+
             // Process each chunk with a delay to prevent UI freezing
             chunks.slice(1).forEach((chunk, index) => {
               setTimeout(() => {
                 processedItems = [...processedItems, ...chunk];
                 console.log(`Processed chunk ${index + 1}, total items: ${processedItems.length}`);
-                
+
                 // Update the global items array
                 items = processedItems;
-                
+
                 // If this is the last chunk, update the filtered items
                 if (processedItems.length === optimizedItems.length) {
                   console.log("All chunks processed, updating filtered items");
@@ -566,13 +584,13 @@
               }, index * 200); // 200ms delay between chunks
             });
           }, 1000);
-          
+
           return firstChunk;
         }
-        
+
         return optimizedItems;
       }
-      
+
       // For smaller datasets, return as is
       return items;
     }
@@ -708,7 +726,7 @@
           </button>
           <div class="carousel-track">
             ${featured.map((item, index) => `
-              <div class="carousel-slide${index === 0 ? ' active' : ''}" data-id="${item.id}">
+              <div class="carousel-slide${index === 0 ? ' active' : ''}" data-id="${item.id}" data-slug="${item.slug}">
                 <div class="carousel-image" style="background-image: url('${item.image}')"></div>
                 <div class="carousel-content">
                   <h3>${item.title}</h3>
@@ -775,16 +793,20 @@
         button.addEventListener('click', e => {
           e.stopPropagation();
           const slide = button.closest('.carousel-slide');
-          const itemId = slide.dataset.id;
-          window.location.href = `items.html?id=${itemId}`;
+          const slug = slide.dataset.slug;
+          if (slug) {
+            window.location.href = `/items/${slug}`;
+          }
         });
       });
 
       // Click on carousel slide
       slides.forEach(slide => {
         slide.addEventListener('click', () => {
-          const itemId = slide.dataset.id;
-          window.location.href = `items.html?id=${itemId}`;
+          const slug = slide.dataset.slug;
+          if (slug) {
+            window.location.href = `/items/${slug}`;
+          }
         });
       });
 
@@ -826,7 +848,7 @@
         contentLoader.style.display = 'flex';
         emptyState.style.display = 'none';
         contentArea.innerHTML = '';
-        
+
         console.log('Rendering items - Page:', currentPage, 'Category:', currentCategory, 'Subcategory:', currentSubcategory);
 
         // Set a loading timeout to prevent endless spinner
@@ -930,14 +952,15 @@
 
         // Efficient rendering using document fragment
         const fragment = document.createDocumentFragment();
-        
+
         // Create item cards with minimal DOM operations
         paginated.forEach((item, index) => {
           const article = document.createElement('article');
           article.className = 'item-card';
           article.dataset.id = item.id;
+          article.dataset.slug = item.slug;
           article.style.setProperty('--item-index', index);
-          
+
           // Use innerHTML for the content (one DOM operation per card)
           article.innerHTML = `
                 <img src="${item.image}" alt="${item.title}" class="game-icon" />
@@ -960,11 +983,11 @@
                   <div class="game-size">${item.size}</div>
                 </div>
           `;
-          
+
           // Add to fragment (no DOM reflow yet)
           fragment.appendChild(article);
         });
-        
+
         // Add all cards to DOM at once (single reflow)
         contentArea.appendChild(fragment);
 
@@ -998,7 +1021,7 @@
           nextPageBtn.disabled = !hasMorePages;
           console.log('Setting nextPageBtn.style.display to: inline-block, disabled:', !hasMorePages, 'currentPage:', currentPage, 'maxPage:', maxPage);
         }
-        
+
         // Trigger animations if needed
         setTimeout(() => {
           contentArea.classList.add('animate-content');
@@ -1086,12 +1109,12 @@
     nextPageBtn.addEventListener('click', () => {
       // Use already filtered items instead of filtering again
       const maxPage = Math.ceil(allFilteredItems.length / itemsPerPage);
-      
+
       if (currentPage < maxPage) {
-      currentPage++;
-      renderItems();
-      // Scroll to top of content area
-      document.querySelector('.category-bar').scrollIntoView({ behavior: 'smooth' });
+        currentPage++;
+        renderItems();
+        // Scroll to top of content area
+        document.querySelector('.category-bar').scrollIntoView({ behavior: 'smooth' });
       }
     });
 
@@ -1148,11 +1171,11 @@
       // Find the closest parent item-card element
       const card = event.target.closest('.item-card');
       if (!card) return; // Click was not on or within a card
-      
-      const itemId = card.getAttribute('data-id');
-      if (itemId) {
+
+      const slug = card.getAttribute('data-slug');
+      if (slug) {
         // Navigate to item details page
-        window.location.href = `items.html?id=${itemId}`;
+        window.location.href = `/items/${slug}`;
       }
     }
 
@@ -1160,7 +1183,7 @@
     function setupCardListeners() {
       // Remove any existing listeners first
       contentArea.removeEventListener('click', cardClickHandler);
-      
+
       // Add a single event listener to the parent container
       contentArea.addEventListener('click', cardClickHandler);
     }
@@ -1344,7 +1367,7 @@
         box.style.display = 'none';
       });
       document.getElementById('sub-games').style.display = 'block';
-      
+
       // Set PC Games tab as active
       document.querySelectorAll('.category-btn').forEach(btn => {
         btn.classList.remove('active');
@@ -1352,13 +1375,13 @@
           btn.classList.add('active');
         }
       });
-      
+
       // Update current category text
       const currentCategoryText = document.getElementById('current-category-text');
       if (currentCategoryText) {
         currentCategoryText.textContent = 'PC GAMES';
       }
-      
+
       // Wait for Firebase and data.js to load
       setTimeout(() => {
         // Show connection status in console
@@ -1465,41 +1488,41 @@
         const subcategories = await getSubcategories(category);
         const container = document.querySelector(`#sub-${category} ul`);
         const emptyMessage = document.querySelector(`#sub-${category} .empty-subcategory-message`);
-        
+
         if (container) {
           container.innerHTML = '';
-          
+
           if (subcategories && subcategories.length > 0) {
             // Hide empty message if there are subcategories
             if (emptyMessage) emptyMessage.style.display = 'none';
-            
+
             // Add "All" option first
             const allItem = document.createElement('li');
             allItem.innerHTML = '<a href="#" class="active" data-subcategory="">All</a>';
             container.appendChild(allItem);
-            
+
             // Add each subcategory
             subcategories.forEach(sub => {
               const item = document.createElement('li');
               item.innerHTML = `<a href="#" data-subcategory="${sub}">${sub}</a>`;
               container.appendChild(item);
             });
-            
+
             // Add click event listeners
             const subcategoryLinks = container.querySelectorAll('a');
             subcategoryLinks.forEach(link => {
-              link.addEventListener('click', function(e) {
+              link.addEventListener('click', function (e) {
                 e.preventDefault();
-                
+
                 // Remove active class from all links in this category
                 subcategoryLinks.forEach(l => l.classList.remove('active'));
-                
+
                 // Add active class to clicked link
                 this.classList.add('active');
-                
+
                 // Get subcategory value
                 const subcategory = this.getAttribute('data-subcategory');
-                
+
                 // Update content
                 loadContent(category, subcategory);
               });
@@ -1516,23 +1539,23 @@
         console.error(`Error loading subcategories for ${category}:`, error);
       }
     }
-    
+
     // Listen for subcategory updates from admin panel
-    window.addEventListener('subcategoriesUpdated', function(event) {
+    window.addEventListener('subcategoriesUpdated', function (event) {
       if (event.detail && event.detail.category) {
         console.log(`Received subcategory update event for ${event.detail.category}`);
         loadSubcategories(event.detail.category);
       }
     });
-    
+
     // Make loadSubcategories function accessible to admin panel for direct updates
     window.loadSubcategories = loadSubcategories;
-    
+
     // Set up real-time updates from Firebase for subcategories
     function setupRealtimeSubcategoryUpdates() {
       try {
         // Listen for changes to the settings document
-        settingsDoc.onSnapshot(function(doc) {
+        settingsDoc.onSnapshot(function (doc) {
           if (doc.exists) {
             const data = doc.data();
             if (data && data.subcategories) {
@@ -1548,22 +1571,22 @@
         console.error("Error setting up real-time subcategory updates:", error);
       }
     }
-    
+
     // Initialize real-time updates
     setupRealtimeSubcategoryUpdates();
   </script>
-  
+
   <script>
     // Apply styles to all sub-category boxes after page loads
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
       // Get all sub-category boxes
       const subCategoryBoxes = document.querySelectorAll('.sub-category-box');
-      
+
       // Set height directly - force 450px height
       subCategoryBoxes.forEach(box => {
         box.style.height = '450px';
       });
-      
+
       // Add custom scrollbar styles
       const style = document.createElement('style');
       style.textContent = `
@@ -1591,7 +1614,7 @@
         }
       `;
       document.head.appendChild(style);
-      
+
       // Apply styles to each box
       subCategoryBoxes.forEach(box => {
         // Box styles
@@ -1610,17 +1633,17 @@
           overflow: hidden !important;
           box-sizing: border-box !important;
         `;
-        
+
         // Hover effect
-        box.onmouseover = function() {
+        box.onmouseover = function () {
           this.style.boxShadow = '0 8px 25px rgba(0, 255, 195, 0.1)';
           this.style.borderColor = '#00ffc3';
         };
-        box.onmouseout = function() {
+        box.onmouseout = function () {
           this.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.2)';
           this.style.borderColor = '#333';
         };
-        
+
         // Style the UL inside
         const ul = box.querySelector('ul');
         if (ul) {
@@ -1645,35 +1668,35 @@
 
   <script>
     // Track visitor when page loads
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
       // Track visitor
       trackVisitor();
-      
+
       // Load subcategories for each category
       loadSubcategories('games');
       loadSubcategories('windows');
       loadSubcategories('mac');
-      
+
       // Load initial content (games by default)
       loadContent('games');
-      
+
       // Add event listeners for category tabs
       const categoryTabs = document.querySelectorAll('.category-btn');
       categoryTabs.forEach(tab => {
-        tab.addEventListener('click', function() {
+        tab.addEventListener('click', function () {
           // Remove active class from all tabs
           categoryTabs.forEach(t => t.classList.remove('active'));
-          
+
           // Add active class to clicked tab
           this.classList.add('active');
-          
+
           // Get category
           const category = this.getAttribute('data-category');
-          
+
           // Update category text
           const categoryText = document.getElementById('current-category-text');
           if (categoryText) {
-            switch(category) {
+            switch (category) {
               case 'games':
                 categoryText.textContent = 'PC GAMES';
                 break;
@@ -1687,69 +1710,69 @@
                 categoryText.textContent = category.toUpperCase();
             }
           }
-          
+
           // Show/hide appropriate subcategory box
           document.querySelectorAll('.sub-category-box').forEach(box => {
             box.style.display = 'none';
           });
-          
+
           const subCategoryBox = document.getElementById(`sub-${category}`);
           if (subCategoryBox) {
             subCategoryBox.style.display = 'block';
           }
-          
+
           // Load content for this category
           loadContent(category);
         });
       });
-      
+
       // Add event listener for sort select
       const sortSelect = document.getElementById('sort');
       if (sortSelect) {
-        sortSelect.addEventListener('change', function() {
+        sortSelect.addEventListener('change', function () {
           // Get current active category
           const activeTab = document.querySelector('.category-btn.active');
           if (activeTab) {
             const category = activeTab.getAttribute('data-category');
-            
+
             // Get current active subcategory
             const activeSubcategory = document.querySelector(`#sub-${category} a.active`);
             const subcategory = activeSubcategory ? activeSubcategory.getAttribute('data-subcategory') : '';
-            
+
             // Reload content with new sort
             loadContent(category, subcategory);
           }
         });
       }
-      
+
       // Add event listener for search
       const searchButton = document.getElementById('searchButton');
       const searchInput = document.getElementById('searchInput');
-      
+
       if (searchButton && searchInput) {
-        searchButton.addEventListener('click', function() {
+        searchButton.addEventListener('click', function () {
           performSearch();
         });
-        
-        searchInput.addEventListener('keypress', function(e) {
+
+        searchInput.addEventListener('keypress', function (e) {
           if (e.key === 'Enter') {
             performSearch();
           }
         });
       }
-      
+
       // Function to perform search
       function performSearch() {
         const searchTerm = searchInput.value.trim();
         if (!searchTerm) return;
-        
+
         // Implement search functionality
         console.log('Searching for:', searchTerm);
-        
+
         // For now, just reload content with all items and filter on the client side
         searchItems(searchTerm);
       }
-      
+
       // Search items function
       async function searchItems(searchTerm) {
         try {
@@ -1757,50 +1780,51 @@
           const contentLoader = document.getElementById('contentLoader');
           const emptyState = document.getElementById('emptyState');
           const contentArea = document.getElementById('content-area');
-          
+
           if (contentLoader) contentLoader.style.display = 'flex';
           if (emptyState) emptyState.style.display = 'none';
-          
+
           // Remove any existing items
           const existingItems = contentArea.querySelectorAll('.item-card');
           existingItems.forEach(item => item.remove());
-          
+
           // Get all items
           const data = await getItems();
           if (!data || !data.items) {
             throw new Error('No items data found');
           }
-          
+
           // Filter items by search term (case insensitive)
           const term = searchTerm.toLowerCase();
-          const filteredItems = data.items.filter(item => 
-            item.title.toLowerCase().includes(term) || 
+          const filteredItems = data.items.filter(item =>
+            item.title.toLowerCase().includes(term) ||
             (item.desc && item.desc.toLowerCase().includes(term)) ||
             (item.subcategory && item.subcategory.toLowerCase().includes(term))
           );
-          
+
           // Hide loader
           if (contentLoader) contentLoader.style.display = 'none';
-          
+
           // Show empty state if no items
           if (filteredItems.length === 0) {
             if (emptyState) emptyState.style.display = 'flex';
             return;
           }
-          
+
           // Create item cards
           filteredItems.forEach(item => {
             const card = document.createElement('div');
             card.className = 'item-card';
             card.setAttribute('data-id', item.id);
-            
+            card.setAttribute('data-slug', item.slug || '');
+
             const rating = item.rating || 0;
             // Create colored rating stars with all stars filled
             let ratingStars = '';
             for (let i = 1; i <= 5; i++) {
               ratingStars += '<span style="color: #ff9800;">★</span>';
             }
-            
+
             card.innerHTML = `
               <img src="${item.image || 'images/placeholder.jpg'}" alt="${item.title}">
               <div class="item-details">
@@ -1815,12 +1839,16 @@
                 </div>
               </div>
             `;
-            
+
             // Add click event listener
-            card.addEventListener('click', function() {
-              showItemDetails(item.id);
+            card.addEventListener('click', function () {
+              if (item.slug) {
+                window.location.href = `/items/${item.slug}`;
+              } else {
+                console.error("Item has no slug:", item.id);
+              }
             });
-            
+
             contentArea.appendChild(card);
           });
         } catch (error) {
@@ -1833,10 +1861,10 @@
 
   <script>
     // Emergency height fix - execute immediately
-    (function() {
+    (function () {
       // Force height of all subcategory boxes to 450px and width to 300px
       var boxes = document.querySelectorAll('.sub-category-box');
-      for(var i=0; i<boxes.length; i++) {
+      for (var i = 0; i < boxes.length; i++) {
         boxes[i].style.height = '450px';
         boxes[i].style.width = '300px';
         boxes[i].setAttribute('style', boxes[i].getAttribute('style') + '; height: 450px !important; width: 300px !important;');
@@ -1846,17 +1874,17 @@
 
   <!-- SCRIPTS SECTION -->
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
       // Track which animations have been played
       const animatedItems = new Set();
 
       // Add animations to elements when they are in view
-      const animateElements = function(forceTrigger = false) {
+      const animateElements = function (forceTrigger = false) {
         // Animate subcategory boxes
         const subcategoryBoxes = document.querySelectorAll('.sub-category-box');
         const activeCategory = document.querySelector('.category-btn.active');
         const activeCategoryId = activeCategory ? activeCategory.getAttribute('data-category') : 'games';
-        
+
         subcategoryBoxes.forEach(box => {
           const boxId = box.id;
           // Only animate visible subcategory boxes for current category
@@ -1865,7 +1893,7 @@
             if (!animatedItems.has(boxId) || forceTrigger) {
               box.classList.add('animate');
               animatedItems.add(boxId);
-              
+
               // Set index for staggered animation of list items
               const listItems = box.querySelectorAll('ul li');
               listItems.forEach((item, index) => {
@@ -1874,17 +1902,17 @@
             }
           }
         });
-        
+
         // Animate content area
         const contentArea = document.getElementById('content-area');
         if (contentArea) {
           const contentKey = 'content-' + (activeCategory ? activeCategoryId : 'default');
-          
+
           // If not animated yet or force trigger is true
           if (!animatedItems.has(contentKey) || forceTrigger) {
             contentArea.classList.add('animate-content');
             animatedItems.add(contentKey);
-            
+
             // Set index for staggered animation
             const itemCards = contentArea.querySelectorAll('.item-card');
             itemCards.forEach((card, index) => {
@@ -1893,37 +1921,37 @@
           }
         }
       };
-      
+
       // Initial animation
       setTimeout(() => animateElements(true), 500);
-      
+
       // Add animation when switching categories
       const categoryButtons = document.querySelectorAll('.category-btn');
       categoryButtons.forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function () {
           // Animate new content after category change
           setTimeout(() => animateElements(true), 100);
         });
       });
-      
+
       // Animate on search (always force new animation)
       const searchButton = document.getElementById('searchButton');
       if (searchButton) {
-        searchButton.addEventListener('click', function() {
+        searchButton.addEventListener('click', function () {
           setTimeout(() => animateElements(true), 300);
         });
       }
-      
+
       // Animate when subcategory is selected
       const subcategoryItems = document.querySelectorAll('.sub-category-box ul li');
       subcategoryItems.forEach(item => {
-        item.addEventListener('click', function() {
+        item.addEventListener('click', function () {
           // Only refresh content animations
           setTimeout(() => {
             const contentArea = document.getElementById('content-area');
             if (contentArea) {
               contentArea.classList.add('animate-content');
-              
+
               const itemCards = contentArea.querySelectorAll('.item-card');
               itemCards.forEach((card, index) => {
                 card.style.setProperty('--item-index', index);
@@ -1933,6 +1961,33 @@
         });
       });
     });
+  </script>
+
+  <!-- Function to handle legacy showItemDetails calls -->
+  <script>
+    // Fallback function to handle any remaining showItemDetails calls
+    function showItemDetails(itemId) {
+      console.log("Legacy navigation using showItemDetails with ID:", itemId);
+      
+      // Fetch the item to get its slug
+      db.collection('items').doc(itemId).get().then(doc => {
+        if (doc.exists) {
+          const item = doc.data();
+          if (item.slug) {
+            // Navigate using slug
+            window.location.href = `/items/${item.slug}`;
+          } else {
+            // No slug available, use old URL format
+            console.warn("Item has no slug, using legacy URL format");
+            window.location.href = `items.html?id=${itemId}`;
+          }
+        } else {
+          console.error("Item not found:", itemId);
+        }
+      }).catch(error => {
+        console.error("Error fetching item:", error);
+      });
+    }
   </script>
 </body>
 

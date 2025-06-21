@@ -126,7 +126,7 @@ async function updateUrlToSlugFormat(itemId) {
       window.history.replaceState({}, document.title, newUrl);
       
       // Add canonical URL meta tag with absolute URL
-      const canonicalUrl = `https://r8ymatrix.netlify.app${newUrl}`;
+      const canonicalUrl = `${window.location.origin}${newUrl}`;
       addCanonicalUrl(canonicalUrl);
       
       // Update all SEO tags based on item content

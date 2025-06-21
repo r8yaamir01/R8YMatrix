@@ -1,6 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FVQ9QZ9DTC"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-FVQ9QZ9DTC');
+  </script>
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>R8YMatrix Login Test</title>
@@ -18,7 +29,7 @@
   </style>
   <script>
     // Replace favicon with rounded version
-    (function() {
+    (function () {
       const faviconLink = document.querySelector('link[rel="icon"]');
       if (faviconLink) {
         const originalHref = faviconLink.href;
@@ -28,16 +39,16 @@
         const ctx = canvas.getContext('2d');
         const img = new Image();
         img.crossOrigin = 'Anonymous';
-        img.onload = function() {
+        img.onload = function () {
           // Create circular clipping path
           ctx.beginPath();
           ctx.arc(16, 16, 16, 0, Math.PI * 2, true);
           ctx.closePath();
           ctx.clip();
-          
+
           // Draw the image
           ctx.drawImage(img, 0, 0, 32, 32);
-          
+
           // Replace favicon with rounded version
           faviconLink.href = canvas.toDataURL('image/png');
         };
@@ -55,34 +66,35 @@
     }
   </style>
 </head>
+
 <body>
   <div class="container auth-make">
     <h1>R8YMatrix Firebase Auth Test</h1>
-    
+
     <div class="form-group">
       <label for="email">Email:</label>
       <input type="email" id="email" value="admin@r8y.com" placeholder="Enter your email">
     </div>
-    
+
     <div class="form-group">
       <label for="password">Password:</label>
       <input type="password" id="password" value="admin123" placeholder="Enter your password">
     </div>
-    
+
     <div class="actions">
       <button id="loginBtn">Login</button>
       <button id="logoutBtn">Logout</button>
       <button id="checkAuthBtn">Check Auth Status</button>
       <button id="createUserBtn">Create Test User</button>
     </div>
-    
+
     <div class="status" id="status">
       Status: Checking authentication...
     </div>
-    
+
     <div class="error" id="error"></div>
     <div class="success" id="success"></div>
-    
+
     <div class="debug" id="debug">
       Debug logs will appear here...
     </div>
@@ -91,9 +103,9 @@
   <script type="module">
     // Import Firebase modules
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { 
-      getAuth, 
-      signInWithEmailAndPassword, 
+    import {
+      getAuth,
+      signInWithEmailAndPassword,
       onAuthStateChanged,
       signOut,
       createUserWithEmailAndPassword
@@ -130,7 +142,7 @@
     function log(message, data = null) {
       const timestamp = new Date().toLocaleTimeString();
       let logMessage = `[${timestamp}] ${message}`;
-      
+
       if (data) {
         try {
           if (typeof data === 'object') {
@@ -142,7 +154,7 @@
           logMessage += '\n[Object cannot be stringified]';
         }
       }
-      
+
       debugDiv.textContent = logMessage + '\n\n' + debugDiv.textContent;
       console.log(message, data || '');
     }
@@ -168,9 +180,9 @@
       if (user) {
         statusDiv.textContent = `Status: Authenticated as ${user.email}`;
         statusDiv.style.backgroundColor = '#e8f5e9';
-        log('Auth state changed', { 
-          uid: user.uid, 
-          email: user.email, 
+        log('Auth state changed', {
+          uid: user.uid,
+          email: user.email,
           emailVerified: user.emailVerified
         });
       } else {
@@ -187,16 +199,16 @@
     loginBtn.addEventListener('click', async () => {
       const email = emailInput.value.trim();
       const password = passwordInput.value;
-      
+
       if (!email || !password) {
         showError("Please enter both email and password");
         return;
       }
-      
+
       try {
         log(`Attempting to sign in with: ${email}`);
         loginBtn.disabled = true;
-        
+
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         showSuccess(`Logged in as ${userCredential.user.email}`);
       } catch (error) {
@@ -212,7 +224,7 @@
       try {
         log('Signing out...');
         logoutBtn.disabled = true;
-        
+
         await signOut(auth);
         showSuccess('Logged out successfully');
       } catch (error) {
@@ -227,7 +239,7 @@
     checkAuthBtn.addEventListener('click', () => {
       const user = auth.currentUser;
       log('Checking auth status', user);
-      
+
       if (user) {
         showSuccess(`Currently logged in as ${user.email}`);
       } else {
@@ -239,16 +251,16 @@
     createUserBtn.addEventListener('click', async () => {
       const email = emailInput.value.trim();
       const password = passwordInput.value;
-      
+
       if (!email || !password) {
         showError("Please enter both email and password");
         return;
       }
-      
+
       try {
         log(`Attempting to create user: ${email}`);
         createUserBtn.disabled = true;
-        
+
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         showSuccess(`Created user: ${userCredential.user.email}`);
       } catch (error) {
@@ -260,4 +272,5 @@
     });
   </script>
 </body>
-</html> 
+
+</html>

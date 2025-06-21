@@ -1,6 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FVQ9QZ9DTC"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-FVQ9QZ9DTC');
+  </script>
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Firebase Auth Test</title>
@@ -18,7 +30,7 @@
   </style>
   <script>
     // Replace favicon with rounded version
-    (function() {
+    (function () {
       const faviconLink = document.querySelector('link[rel="icon"]');
       if (faviconLink) {
         const originalHref = faviconLink.href;
@@ -28,16 +40,16 @@
         const ctx = canvas.getContext('2d');
         const img = new Image();
         img.crossOrigin = 'Anonymous';
-        img.onload = function() {
+        img.onload = function () {
           // Create circular clipping path
           ctx.beginPath();
           ctx.arc(16, 16, 16, 0, Math.PI * 2, true);
           ctx.closePath();
           ctx.clip();
-          
+
           // Draw the image
           ctx.drawImage(img, 0, 0, 32, 32);
-          
+
           // Replace favicon with rounded version
           faviconLink.href = canvas.toDataURL('image/png');
         };
@@ -55,38 +67,39 @@
     }
   </style>
 </head>
+
 <body>
   <div class="container check-admin">
     <h2>Firebase Authentication Test</h2>
-    
+
     <div class="form-group">
       <label for="email">Email:</label>
       <input type="email" id="email" placeholder="Enter your email">
     </div>
-    
+
     <div class="form-group">
       <label for="password">Password:</label>
       <input type="password" id="password" placeholder="Enter your password">
     </div>
-    
+
     <button id="loginBtn">Login</button>
     <button id="logoutBtn">Logout</button>
-    
+
     <div class="status" id="status">
       Status: Not authenticated
     </div>
-    
+
     <div class="error" id="error"></div>
   </div>
 
   <script type="module">
     // Import Firebase modules
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { 
-      getAuth, 
-      signInWithEmailAndPassword, 
+    import {
+      getAuth,
+      signInWithEmailAndPassword,
       onAuthStateChanged,
-      signOut 
+      signOut
     } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
     // Firebase configuration - using the same config from your site
@@ -131,20 +144,20 @@
     loginBtn.addEventListener('click', async () => {
       const email = emailInput.value.trim();
       const password = passwordInput.value;
-      
+
       if (!email || !password) {
         errorDiv.textContent = "Please enter both email and password";
         return;
       }
-      
+
       try {
         errorDiv.textContent = "";
         loginBtn.disabled = true;
         loginBtn.textContent = "Logging in...";
-        
+
         console.log("Attempting to sign in with:", email);
         await signInWithEmailAndPassword(auth, email, password);
-        
+
         // Success is handled by onAuthStateChanged
       } catch (error) {
         console.error("Login error:", error);
@@ -161,9 +174,9 @@
         errorDiv.textContent = "";
         logoutBtn.disabled = true;
         logoutBtn.textContent = "Logging out...";
-        
+
         await signOut(auth);
-        
+
         // Success is handled by onAuthStateChanged
       } catch (error) {
         console.error("Logout error:", error);
@@ -175,4 +188,5 @@
     });
   </script>
 </body>
-</html> 
+
+</html>

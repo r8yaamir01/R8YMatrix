@@ -1,52 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FVQ9QZ9DTC"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-FVQ9QZ9DTC');
+    </script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Privacy Policy - R8YMatrix</title>
     <link rel="icon" type="image/png" href="../images/logo/favicon.png" />
     <link rel="stylesheet" href="pages.css">
     <style>
-      /* Apply 50px radius to favicon in browser tab */
-      .favicon-preview {
-        width: 32px;
-        height: 32px;
-        border-radius: 50px;
-        object-fit: cover;
-        display: none;
-      }
+        /* Apply 50px radius to favicon in browser tab */
+        .favicon-preview {
+            width: 32px;
+            height: 32px;
+            border-radius: 50px;
+            object-fit: cover;
+            display: none;
+        }
     </style>
     <script>
-      // Replace favicon with rounded version
-      (function() {
-        const faviconLink = document.querySelector('link[rel="icon"]');
-        if (faviconLink) {
-          const originalHref = faviconLink.href;
-          const canvas = document.createElement('canvas');
-          canvas.width = 32;
-          canvas.height = 32;
-          const ctx = canvas.getContext('2d');
-          const img = new Image();
-          img.crossOrigin = 'Anonymous';
-          img.onload = function() {
-            // Create circular clipping path
-            ctx.beginPath();
-            ctx.arc(16, 16, 16, 0, Math.PI * 2, true);
-            ctx.closePath();
-            ctx.clip();
-            
-            // Draw the image
-            ctx.drawImage(img, 0, 0, 32, 32);
-            
-            // Replace favicon with rounded version
-            faviconLink.href = canvas.toDataURL('image/png');
-          };
-          img.src = originalHref;
-        }
-      })();
+        // Replace favicon with rounded version
+        (function () {
+            const faviconLink = document.querySelector('link[rel="icon"]');
+            if (faviconLink) {
+                const originalHref = faviconLink.href;
+                const canvas = document.createElement('canvas');
+                canvas.width = 32;
+                canvas.height = 32;
+                const ctx = canvas.getContext('2d');
+                const img = new Image();
+                img.crossOrigin = 'Anonymous';
+                img.onload = function () {
+                    // Create circular clipping path
+                    ctx.beginPath();
+                    ctx.arc(16, 16, 16, 0, Math.PI * 2, true);
+                    ctx.closePath();
+                    ctx.clip();
+
+                    // Draw the image
+                    ctx.drawImage(img, 0, 0, 32, 32);
+
+                    // Replace favicon with rounded version
+                    faviconLink.href = canvas.toDataURL('image/png');
+                };
+                img.src = originalHref;
+            }
+        })();
     </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
+
 <body>
     <header class="page-header">
         <div class="container">
@@ -65,26 +77,41 @@
     <main class="page-content">
         <div class="container">
             <h1>Our Commitment to Your Privacy</h1>
-            
-            <p>Welcome to R8YMatrix! We value your privacy and are committed to protecting your personal information. This Privacy Policy explains how we handle information when you use our website.</p>
+
+            <p>Welcome to R8YMatrix! We value your privacy and are committed to protecting your personal information.
+                This Privacy Policy explains how we handle information when you use our website.</p>
 
             <h2>Information We Collect</h2>
-            <p>R8YMatrix is designed to be a platform where you can freely download PC games, Windows software, and Mac applications. We do not require you to create an account or provide any personal information to browse or download content from our site.</p>
-            <p>The only instance where we might collect personal information, such as your name or email address, is if you voluntarily contact us with inquiries, feedback, or support requests. This information will be used solely to respond to your communication.</p>
+            <p>R8YMatrix is designed to be a platform where you can freely download PC games, Windows software, and Mac
+                applications. We do not require you to create an account or provide any personal information to browse
+                or download content from our site.</p>
+            <p>The only instance where we might collect personal information, such as your name or email address, is if
+                you voluntarily contact us with inquiries, feedback, or support requests. This information will be used
+                solely to respond to your communication.</p>
 
             <h2>Use of Cookies</h2>
-            <p>Like many websites, R8YMatrix uses cookies to enhance your browsing experience. Cookies are small text files stored on your device that help us understand how you use our site, remember your preferences (if any), and improve our services. These cookies do not collect personally identifiable information.</p>
-            <p>You can manage or disable cookies through your browser settings. However, please note that some features of our website may not function properly if cookies are disabled.</p>
+            <p>Like many websites, R8YMatrix uses cookies to enhance your browsing experience. Cookies are small text
+                files stored on your device that help us understand how you use our site, remember your preferences (if
+                any), and improve our services. These cookies do not collect personally identifiable information.</p>
+            <p>You can manage or disable cookies through your browser settings. However, please note that some features
+                of our website may not function properly if cookies are disabled.</p>
 
             <h2>Third-Party Links</h2>
-            <p>Our website may contain links to third-party websites or services that are not operated by R8YMatrix. If you click on a third-party link, you will be directed to that third party's site. We strongly advise you to review the Privacy Policy of every site you visit.</p>
-            <p>We have no control over and assume no responsibility for the content, privacy policies, or practices of any third-party sites or services.</p>
+            <p>Our website may contain links to third-party websites or services that are not operated by R8YMatrix. If
+                you click on a third-party link, you will be directed to that third party's site. We strongly advise you
+                to review the Privacy Policy of every site you visit.</p>
+            <p>We have no control over and assume no responsibility for the content, privacy policies, or practices of
+                any third-party sites or services.</p>
 
             <h2>Data Security</h2>
-            <p>While we do not collect extensive personal data, we take reasonable measures to protect any information you provide when contacting us. However, no method of transmission over the Internet or electronic storage is 100% secure, and we cannot guarantee absolute security.</p>
+            <p>While we do not collect extensive personal data, we take reasonable measures to protect any information
+                you provide when contacting us. However, no method of transmission over the Internet or electronic
+                storage is 100% secure, and we cannot guarantee absolute security.</p>
 
             <h2>Changes to This Privacy Policy</h2>
-            <p>We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page. You are advised to review this Privacy Policy periodically for any changes.</p>
+            <p>We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new
+                Privacy Policy on this page. You are advised to review this Privacy Policy periodically for any changes.
+            </p>
             <p>Changes to this Privacy Policy are effective when they are posted on this page.</p>
 
             <h2>Contact Us</h2>
@@ -117,12 +144,14 @@
                     <i class="fas fa-search"></i> Search
                 </a>
                 <div style="margin-top:18px;">
-                    <p style="color:#aaa;font-size:0.97em;">R8YMatrix is your hub for safe downloads of PC Games, Windows & Mac
+                    <p style="color:#aaa;font-size:0.97em;">R8YMatrix is your hub for safe downloads of PC Games,
+                        Windows & Mac
                         software. Fast, trusted & free!</p>
                     <div class="footer-socials">
                         <a href="https://discord.com/" target="_blank"><i class="fab fa-discord"></i></a>
                         <a href="https://www.youtube.com/@r8yCHE3TS" target="_blank"><i class="fab fa-youtube"></i></a>
-                        <a href="https://www.instagram.com/r8y_13x_fp/?hl=en" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.instagram.com/r8y_13x_fp/?hl=en" target="_blank"><i
+                                class="fab fa-instagram"></i></a>
                     </div>
                 </div>
             </div>
@@ -135,11 +164,12 @@
     <script>
         // Scroll to top functionality
         document.querySelectorAll('.footer-scroll-link').forEach(link => {
-            link.addEventListener('click', function(e) {
+            link.addEventListener('click', function (e) {
                 e.preventDefault();
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             });
         });
     </script>
 </body>
+
 </html>

@@ -4,23 +4,38 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="R8YMatrix - Download details for games and software. Get all information, ratings and download options for your favorite games and applications." />
-  <meta name="keywords" content="PC Games Downloads, Windows Software, Game Details, Software Details, R8YMatrix, Download Games, Download Software" />
-  
+  <meta name="description"
+    content="R8YMatrix - Download details for games and software. Get all information, ratings and download options for your favorite games and applications." />
+  <meta name="keywords"
+    content="PC Games Downloads, Windows Software, Game Details, Software Details, R8YMatrix, Download Games, Download Software" />
+
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website" />
   <meta property="og:title" content="R8YMatrix | Item Details" />
-  <meta property="og:description" content="Get all the details, screenshots, and download options for games and software on R8YMatrix." />
+  <meta property="og:description"
+    content="Get all the details, screenshots, and download options for games and software on R8YMatrix." />
   <meta property="og:image" content="https://r8ymatrix.com/images/logo/og-image.png" />
-  
+
   <!-- Twitter -->
   <meta property="twitter:card" content="summary_large_image" />
   <meta property="twitter:title" content="R8YMatrix | Item Details" />
-  <meta property="twitter:description" content="Get all the details, screenshots, and download options for games and software on R8YMatrix." />
+  <meta property="twitter:description"
+    content="Get all the details, screenshots, and download options for games and software on R8YMatrix." />
   <meta property="twitter:image" content="https://r8ymatrix.com/images/logo/og-image.png" />
-  
+
   <!-- These meta tags will be dynamically updated by items.js when an item is loaded -->
-  
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FVQ9QZ9DTC"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-FVQ9QZ9DTC');
+  </script>
+
+
   <title>R8YMatrix | Item Details</title>
   <link rel="icon" type="image/png" href="images/logo/favicon.png" />
   <link rel="stylesheet" href="items.css" />
@@ -36,7 +51,7 @@
   </style>
   <script>
     // Replace favicon with rounded version
-    (function() {
+    (function () {
       const faviconLink = document.querySelector('link[rel="icon"]');
       if (faviconLink) {
         const originalHref = faviconLink.href;
@@ -46,16 +61,16 @@
         const ctx = canvas.getContext('2d');
         const img = new Image();
         img.crossOrigin = 'Anonymous';
-        img.onload = function() {
+        img.onload = function () {
           // Create circular clipping path
           ctx.beginPath();
           ctx.arc(16, 16, 16, 0, Math.PI * 2, true);
           ctx.closePath();
           ctx.clip();
-          
+
           // Draw the image
           ctx.drawImage(img, 0, 0, 32, 32);
-          
+
           // Replace favicon with rounded version
           faviconLink.href = canvas.toDataURL('image/png');
         };
@@ -64,7 +79,7 @@
     })();
   </script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  
+
   <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
@@ -85,7 +100,7 @@
 
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
-    
+
     // Pre-initialize Firestore for faster access
     const db = firebase.firestore();
   </script>
@@ -176,7 +191,8 @@
               <i class="fas fa-download"></i>
               <span id="downloadCountDisplay">0</span> downloads
             </div>
-            <div style="margin-top: 10px; color: #ff3030; font-weight: bold; text-align: center; background-color: rgba(255, 0, 0, 0.1); padding: 5px; border-radius: 3px; border: 1px solid #ff3030;">
+            <div
+              style="margin-top: 10px; color: #ff3030; font-weight: bold; text-align: center; background-color: rgba(255, 0, 0, 0.1); padding: 5px; border-radius: 3px; border: 1px solid #ff3030;">
               Password: 123
             </div>
           </div>
@@ -231,7 +247,7 @@
     const itemsCollection = db.collection('items');
     const ratingsCollection = db.collection('ratings');
     let errorRetries = 0;
-    
+
     // Get item ID from URL parameter
     function getItemIdFromUrl() {
       const urlParams = new URLSearchParams(window.location.search);
@@ -239,25 +255,25 @@
     }
 
     // Initialize the page
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
       const itemId = getItemIdFromUrl();
-      
+
       if (!itemId) {
         // No item ID provided
         showError("No item ID provided. Please check the URL.");
         return;
       }
-      
+
       // Start loading immediately without delay
       loadItemDetails(itemId);
     });
-    
+
     // Load item details with retry mechanism
     async function loadItemDetails(itemId) {
       try {
         // Try to get the item from Firestore
         const item = await getItemById(itemId);
-        
+
         if (!item) {
           // Retry if we get null item (could be a timing issue)
           if (errorRetries < 3) {
@@ -267,17 +283,17 @@
             setTimeout(() => loadItemDetails(itemId), 500 * errorRetries);
             return;
           }
-          
+
           // Item not found after retries
           showError("Item not found. It may have been removed or the ID is incorrect.");
           return;
         }
-        
+
         // Show the item details
         await showItemDetails(item);
       } catch (error) {
         console.error("Error loading item:", error);
-        
+
         // Retry on error
         if (errorRetries < 3) {
           errorRetries++;
@@ -285,7 +301,7 @@
           setTimeout(() => loadItemDetails(itemId), 800 * errorRetries);
           return;
         }
-        
+
         showError("An error occurred while loading the item. Please try again later.");
       }
     }
@@ -296,7 +312,7 @@
         console.log("Fetching item with ID:", itemId);
         const docRef = itemsCollection.doc(itemId);
         const doc = await docRef.get();
-        
+
         if (doc.exists) {
           const data = doc.data();
           console.log("Item found:", data);
@@ -316,7 +332,7 @@
     async function showItemDetails(item) {
       try {
         console.log("Showing details for item:", item);
-        
+
         // Fill in details
         document.getElementById('detailTitle').textContent = item.title || '';
         document.getElementById('detailDescription').textContent = item.desc || '';
@@ -403,7 +419,7 @@
 
         // Set download button link with counter update
         const downloadBtn = document.getElementById('downloadBtn');
-        
+
         // Only show download button if downloadLink exists
         if (item.downloadLink) {
           downloadBtn.style.display = 'block';
@@ -441,7 +457,7 @@
           torrentBtn.innerHTML = '<i class="fas fa-magnet"></i> Torrent';
           torrentBtn.onclick = async function (e) {
             e.preventDefault();
-            
+
             // Update download count
             const newCount = await updateDownloadCount(item.id);
             if (newCount) {
@@ -460,7 +476,7 @@
             // Create a hidden anchor element to handle the torrent link
             const a = document.createElement('a');
             a.style.display = 'none';
-            
+
             // Check if it's a magnet link and use it directly, otherwise prefix with 'magnet:?xt=urn:btih:'
             if (item.torrentLink.startsWith('magnet:')) {
               a.href = item.torrentLink;
@@ -469,10 +485,10 @@
               a.href = item.torrentLink;
               a.setAttribute('download', '');
             }
-            
+
             document.body.appendChild(a);
             a.click();
-            
+
             // Cleanup
             setTimeout(() => {
               document.body.removeChild(a);
@@ -512,17 +528,17 @@
 
         // Hide loader
         document.getElementById('loader').style.display = 'none';
-        
+
         // Show details panel with animation
         const detailsPanel = document.getElementById('detailsPanel');
         detailsPanel.style.display = 'block';
-        
+
         // Trigger reflow to ensure animation works properly
         void detailsPanel.offsetWidth;
-        
+
         // Add active class to start animation
         detailsPanel.classList.add('active');
-        
+
         // Set page title
         document.title = `${item.title} | R8YMatrix`;
       } catch (error) {
@@ -622,7 +638,7 @@
           const data = doc.data();
           const previousRating = data.userRatings && data.userRatings[userId] ? Number(data.userRatings[userId]) : 0;
           const newTotal = Number(data.total) - previousRating + Number(rating);
-          
+
           // If this user has rated before, don't increment count
           if (previousRating > 0) {
             await ratingsRef.update({
@@ -672,17 +688,17 @@
         if (doc.exists) {
           const currentDownloads = doc.data().downloads || 0;
           const newDownloads = currentDownloads + 1;
-          
+
           await itemRef.update({
             downloads: newDownloads
           });
 
           // Also track the download in settings
           trackDownload(itemId);
-          
+
           return newDownloads;
         }
-        
+
         return null;
       } catch (error) {
         console.error("Error updating download count:", error);
@@ -695,7 +711,7 @@
       try {
         const settingsDoc = db.collection('settings').doc('siteSettings');
         const settings = await settingsDoc.get();
-        
+
         if (settings.exists) {
           const data = settings.data();
           const totalDownloads = (data.totalDownloads || 0) + 1;
@@ -728,21 +744,21 @@
       const errorContainer = document.getElementById('errorContainer');
       const loader = document.getElementById('loader');
       const errorMessage = errorContainer.querySelector('p');
-      
+
       // Update error message
       errorMessage.textContent = message;
-      
+
       // Hide loader and show error
       loader.style.display = 'none';
       errorContainer.style.display = 'flex';
     }
 
     // Back button handler
-    document.getElementById('backArrowBtn').addEventListener('click', function() {
+    document.getElementById('backArrowBtn').addEventListener('click', function () {
       // Return to the main page
       window.location.href = 'index.html';
     });
   </script>
 </body>
 
-</html> 
+</html>

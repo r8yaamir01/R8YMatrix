@@ -2,6 +2,16 @@
 <html lang="en">
 
 <head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FVQ9QZ9DTC"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-FVQ9QZ9DTC');
+  </script>
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>R8YMatrix Admin Panel</title>
@@ -19,7 +29,7 @@
   </style>
   <script>
     // Replace favicon with rounded version
-    (function() {
+    (function () {
       const faviconLink = document.querySelector('link[rel="icon"]');
       if (faviconLink) {
         const originalHref = faviconLink.href;
@@ -29,16 +39,16 @@
         const ctx = canvas.getContext('2d');
         const img = new Image();
         img.crossOrigin = 'Anonymous';
-        img.onload = function() {
+        img.onload = function () {
           // Create circular clipping path
           ctx.beginPath();
           ctx.arc(16, 16, 16, 0, Math.PI * 2, true);
           ctx.closePath();
           ctx.clip();
-          
+
           // Draw the image
           ctx.drawImage(img, 0, 0, 32, 32);
-          
+
           // Replace favicon with rounded version
           faviconLink.href = canvas.toDataURL('image/png');
         };
@@ -75,7 +85,7 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
-    
+
     // Make Firebase services available globally
     window.db = db;
     window.auth = auth;
@@ -95,7 +105,7 @@
         console.log("User authenticated:", user.email);
         document.getElementById('userEmail').textContent = user.email;
         document.body.style.visibility = 'visible';
-        
+
         // Play access sound
         if (!sessionStorage.getItem('soundPlayed')) {
           const accessSound = document.getElementById('accessSound');
@@ -104,14 +114,14 @@
             sessionStorage.setItem('soundPlayed', 'true');
           }
         }
-        
+
         // Hide loading animation after authentication
         setTimeout(() => {
           document.querySelector('.admin-access-animation').style.display = 'none';
         }, 500);
       }
     });
-    
+
     // Setup logout functionality
     document.addEventListener('DOMContentLoaded', () => {
       const logoutBtn = document.getElementById('logoutBtn');
@@ -130,10 +140,10 @@
   </script>
   <!-- External library - review if still in use and its purpose -->
   <!-- Removed unused youware library reference -->
-  
+
   <!-- ImageKit.io SDK -->
   <script src="https://unpkg.com/imagekit-javascript/dist/imagekit.min.js"></script>
-  
+
   <!-- Uploadcare Widget -->
   <script src="https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js"></script>
   <script>
@@ -183,7 +193,8 @@
     }
 
     /* Character count styles */
-    .seo-character-count, .seo-count {
+    .seo-character-count,
+    .seo-count {
       float: right;
       font-size: 12px;
       color: #aaa;
@@ -196,7 +207,7 @@
       border-radius: 4px;
       font-family: Arial, sans-serif;
       color: #333;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
       margin-top: 10px;
     }
 
@@ -426,7 +437,7 @@
           <div class="ring ring3"></div>
         </div>
       </div>
-      
+
       <div class="particles-container">
         <div class="particle p1"></div>
         <div class="particle p2"></div>
@@ -439,11 +450,11 @@
         <div class="particle p9"></div>
         <div class="particle p10"></div>
       </div>
-      
+
       <div class="loading-bar">
         <div class="progress-bar"></div>
       </div>
-      
+
       <div class="animation-text">
         <h2>R8YMatrix Admin Panel</h2>
         <p>Initializing system...</p>
@@ -667,40 +678,42 @@
       <!-- ========================================================================= -->
       <!-- Categories Management Section                                             -->
 
-     <section id="categories" class="admin-section">
-      <h1>Manage Categories</h1>
-      <div class="categories-container">
-        <div class="category-box">
-          <h2>Games Subcategories</h2>
-          <div class="category-list" id="games-subcategories">
-            <!-- Dynamically populated -->
+      <section id="categories" class="admin-section">
+        <h1>Manage Categories</h1>
+        <div class="categories-container">
+          <div class="category-box">
+            <h2>Games Subcategories</h2>
+            <div class="category-list" id="games-subcategories">
+              <!-- Dynamically populated -->
+            </div>
+            <div class="add-category">
+              <input type="text" id="new-game-category" placeholder="Enter new game subcategory...">
+              <button class="admin-btn primary" id="add-game-category-btn"><i class="fas fa-plus"></i> Add</button>
+              <select id="delete-game-category-select" class="subcategory-select" style="display: none;">
+                <option value="">Select to Delete...</option>
+                <!-- Options will be populated dynamically -->
+              </select>
+              <button class="admin-btn danger" id="delete-game-category-btn" style="display: none;">Delete Sub
+                Category</button>
+            </div>
           </div>
-          <div class="add-category">
-            <input type="text" id="new-game-category" placeholder="Enter new game subcategory...">
-            <button class="admin-btn primary" id="add-game-category-btn"><i class="fas fa-plus"></i> Add</button>
-            <select id="delete-game-category-select" class="subcategory-select" style="display: none;">
-              <option value="">Select to Delete...</option>
-              <!-- Options will be populated dynamically -->
-            </select>
-            <button class="admin-btn danger" id="delete-game-category-btn" style="display: none;">Delete Sub Category</button>
+
+          <div class="category-box">
+            <h2>Windows Subcategories</h2>
+            <div class="category-list" id="windows-subcategories">
+              <!-- Dynamically populated -->
+            </div>
+            <div class="add-category">
+              <input type="text" id="new-windows-category" placeholder="Enter new Windows software subcategory...">
+              <button class="admin-btn primary" id="add-windows-category-btn"><i class="fas fa-plus"></i> Add</button>
+              <select id="delete-windows-category-select" class="subcategory-select" style="display: none;">
+                <option value="">Select to Delete...</option>
+                <!-- Options will be populated dynamically -->
+              </select>
+              <button class="admin-btn danger" id="delete-windows-category-btn" style="display: none;">Delete Sub
+                Category</button>
+            </div>
           </div>
-        </div>
-        
-        <div class="category-box">
-          <h2>Windows Subcategories</h2>
-          <div class="category-list" id="windows-subcategories">
-            <!-- Dynamically populated -->
-          </div>
-          <div class="add-category">
-            <input type="text" id="new-windows-category" placeholder="Enter new Windows software subcategory...">
-            <button class="admin-btn primary" id="add-windows-category-btn"><i class="fas fa-plus"></i> Add</button>
-            <select id="delete-windows-category-select" class="subcategory-select" style="display: none;">
-              <option value="">Select to Delete...</option>
-              <!-- Options will be populated dynamically -->
-            </select>
-            <button class="admin-btn danger" id="delete-windows-category-btn" style="display: none;">Delete Sub Category</button>
-          </div>
-        </div>
 
           <div class="category-box">
             <h2>Mac Subcategories</h2>
@@ -709,12 +722,14 @@
             </div>
             <div class="add-category">
               <input type="text" id="new-mac-category" placeholder="Enter new Mac software subcategory...">
-              <button class="admin-btn primary" id="add-mac-category-btn" onclick="addMacCategory()"><i class="fas fa-plus"></i> Add</button>
+              <button class="admin-btn primary" id="add-mac-category-btn" onclick="addMacCategory()"><i
+                  class="fas fa-plus"></i> Add</button>
               <select id="delete-mac-category-select" class="subcategory-select" style="display: none;">
                 <option value="">Select to Delete...</option>
                 <!-- Options will be populated dynamically -->
               </select>
-              <button class="admin-btn danger" id="delete-mac-category-btn" style="display: none;">Delete Sub Category</button>
+              <button class="admin-btn danger" id="delete-mac-category-btn" style="display: none;">Delete Sub
+                Category</button>
             </div>
           </div>
         </div>
@@ -729,48 +744,56 @@
           <form id="settings-form">
             <button type="submit" class="admin-btn primary">Save Settings</button>
           </form>
-          
+
           <!-- ImageKit Image Uploader -->
-          <div class="imagekit-uploader-section" style="margin-top: 30px; padding: 20px; background: #222; border-radius: 8px;">
+          <div class="imagekit-uploader-section"
+            style="margin-top: 30px; padding: 20px; background: #222; border-radius: 8px;">
             <h2>ImageKit Direct Upload</h2>
             <p>Upload images directly to ImageKit.io</p>
-            
+
             <div style="margin-top: 15px;">
               <div class="form-group">
                 <label for="file1">Select an image to upload</label>
                 <input type="file" id="file1" accept="image/*">
               </div>
-              
+
               <button type="button" id="uploadBtn" onclick="upload()" class="admin-btn primary">Upload Image</button>
-              
-              <div id="uploadResult" style="margin-top: 20px; padding: 15px; background: #333; border-radius: 6px; min-height: 100px;"></div>
+
+              <div id="uploadResult"
+                style="margin-top: 20px; padding: 15px; background: #333; border-radius: 6px; min-height: 100px;"></div>
             </div>
           </div>
-          
+
           <!-- Uploadcare Image Uploader -->
-          <div class="uploadcare-uploader-section" style="margin-top: 30px; padding: 20px; background: #222; border-radius: 8px;">
+          <div class="uploadcare-uploader-section"
+            style="margin-top: 30px; padding: 20px; background: #222; border-radius: 8px;">
             <h2>Uploadcare Direct Upload</h2>
             <p>Upload images directly to Uploadcare.com with cropping support</p>
-            
+
             <div style="margin-top: 15px;">
               <div class="form-group">
                 <label for="uploadcare-uploader">Select an image to upload</label>
-                <input type="hidden" id="uploadcare-input" role="uploadcare-uploader" 
-                  data-crop="free,1:1,3:4,4:3,16:9"
+                <input type="hidden" id="uploadcare-input" role="uploadcare-uploader" data-crop="free,1:1,3:4,4:3,16:9"
                   data-images-only="true">
               </div>
-              
-              <div id="uploadcare-result" style="margin-top: 20px; padding: 15px; background: #333; border-radius: 6px; min-height: 100px;">
+
+              <div id="uploadcare-result"
+                style="margin-top: 20px; padding: 15px; background: #333; border-radius: 6px; min-height: 100px;">
                 <div class="preview-container" style="display: none;">
                   <h3 style="color: #4CAF50;">Upload successful!</h3>
                   <div class="image-preview" style="margin: 15px 0;"></div>
                   <div>
                     <label style="display: block; margin-bottom: 5px; color: #aaa;">Image URL:</label>
-                    <input type="text" id="uploadcare-url" style="width: 100%; padding: 8px; background: #444; border: 1px solid #555; color: white;" readonly onclick="this.select()">
+                    <input type="text" id="uploadcare-url"
+                      style="width: 100%; padding: 8px; background: #444; border: 1px solid #555; color: white;"
+                      readonly onclick="this.select()">
                   </div>
                   <div style="margin-top: 10px;">
-                    <label style="display: block; margin-bottom: 5px; color: #aaa;">CDN URL with transformations:</label>
-                    <input type="text" id="uploadcare-cdn-url" style="width: 100%; padding: 8px; background: #444; border: 1px solid #555; color: white;" readonly onclick="this.select()">
+                    <label style="display: block; margin-bottom: 5px; color: #aaa;">CDN URL with
+                      transformations:</label>
+                    <input type="text" id="uploadcare-cdn-url"
+                      style="width: 100%; padding: 8px; background: #444; border: 1px solid #555; color: white;"
+                      readonly onclick="this.select()">
                   </div>
                 </div>
               </div>
@@ -812,7 +835,8 @@
           <button type="button" class="form-tab" data-tab="urls">URLs</button>
           <button type="button" class="form-tab" data-tab="details">Details & Features</button>
           <button type="button" class="form-tab" data-tab="gallery">Gallery</button>
-          <button type="button" class="form-tab" data-tab="seo">SEO <span class="badge ai-badge">DeepSeek</span></button>
+          <button type="button" class="form-tab" data-tab="seo">SEO <span
+              class="badge ai-badge">DeepSeek</span></button>
         </div>
 
         <div class="form-tab-content active" id="basic-info">
@@ -1013,7 +1037,8 @@
                 <button type="button" class="remove-feature"><i class="fas fa-times"></i></button>
               </div>
             </div>
-            <button type="button" id="add-feature-btn" class="admin-btn"><i class="fas fa-plus"></i> Add Feature</button>
+            <button type="button" id="add-feature-btn" class="admin-btn"><i class="fas fa-plus"></i> Add
+              Feature</button>
           </div>
         </div>
 
@@ -1043,9 +1068,11 @@
               <i class="fas fa-sliders-h"></i> Auto-Optimize
             </button>
           </div>
-          
-          <div class="seo-info-box" style="margin-top: 10px; background: #1c1c1c; border: 1px solid #333; padding: 10px; border-radius: 4px; font-size: 13px;">
-            <p style="margin-bottom: 5px;"><i class="fas fa-info-circle" style="color: #7b61ff; margin-right: 5px;"></i> <strong>Auto-Optimization:</strong> Fields will automatically adjust to meet SEO requirements.</p>
+
+          <div class="seo-info-box"
+            style="margin-top: 10px; background: #1c1c1c; border: 1px solid #333; padding: 10px; border-radius: 4px; font-size: 13px;">
+            <p style="margin-bottom: 5px;"><i class="fas fa-info-circle" style="color: #7b61ff; margin-right: 5px;"></i>
+              <strong>Auto-Optimization:</strong> Fields will automatically adjust to meet SEO requirements.</p>
             <ul style="margin: 0; padding-left: 25px;">
               <li>Titles formatted as "<em>Product</em> Crack Version For Free - Download... | R8Y - (2025)"</li>
               <li>Meta descriptions will be exactly 150-160 characters</li>
@@ -1054,19 +1081,24 @@
           </div>
 
           <div class="form-group">
-            <label for="meta-title">Meta Title <span class="seo-character-count" id="title-character-count">0/60</span></label>
-            <input type="text" id="meta-title" placeholder="Enter meta title (recommended 50-60 characters)" maxlength="70">
+            <label for="meta-title">Meta Title <span class="seo-character-count"
+                id="title-character-count">0/60</span></label>
+            <input type="text" id="meta-title" placeholder="Enter meta title (recommended 50-60 characters)"
+              maxlength="70">
             <div class="seo-health" id="title-health"></div>
           </div>
 
           <div class="form-group">
-            <label for="meta-description">Meta Description <span class="seo-character-count" id="desc-character-count">0/160</span></label>
-            <textarea id="meta-description" rows="3" placeholder="Enter meta description (recommended 150-160 characters)" maxlength="200"></textarea>
+            <label for="meta-description">Meta Description <span class="seo-character-count"
+                id="desc-character-count">0/160</span></label>
+            <textarea id="meta-description" rows="3"
+              placeholder="Enter meta description (recommended 150-160 characters)" maxlength="200"></textarea>
             <div class="seo-health" id="desc-health"></div>
           </div>
 
           <div class="form-group">
-            <label for="meta-keywords">Meta Keywords <span class="seo-count" id="keywords-count">0 keywords</span></label>
+            <label for="meta-keywords">Meta Keywords <span class="seo-count" id="keywords-count">0
+                keywords</span></label>
             <textarea id="meta-keywords" rows="2" placeholder="Enter keywords separated by commas"></textarea>
             <div class="seo-health" id="keywords-health"></div>
           </div>
@@ -1076,7 +1108,8 @@
             <div class="google-preview">
               <div class="preview-title" id="preview-title">Title will appear here</div>
               <div class="preview-url" id="preview-url">www.r8ymatrix.com/item-name</div>
-              <div class="preview-description" id="preview-description">Description will appear here. Make sure it's compelling and includes your target keywords.</div>
+              <div class="preview-description" id="preview-description">Description will appear here. Make sure it's
+                compelling and includes your target keywords.</div>
             </div>
           </div>
 
@@ -1091,7 +1124,8 @@
               <div class="score-circle">
                 <svg width="80" height="80">
                   <circle cx="40" cy="40" r="35" stroke="#ddd" stroke-width="5" fill="none" />
-                  <circle cx="40" cy="40" r="35" stroke="#52c41a" stroke-width="5" fill="none" stroke-dasharray="220" stroke-dashoffset="220" id="score-circle" />
+                  <circle cx="40" cy="40" r="35" stroke="#52c41a" stroke-width="5" fill="none" stroke-dasharray="220"
+                    stroke-dashoffset="220" id="score-circle" />
                 </svg>
                 <span class="score-text" id="seo-score-value">0</span>
               </div>
@@ -1132,7 +1166,8 @@
       <h3><i class="fas fa-exclamation-triangle"></i> Confirm Deletion</h3>
       <p>Are you sure you want to delete the subcategory "<span id="delete-subcategory-name"></span>"?</p>
       <div id="usage-warning" class="usage-warning" style="display: none;">
-        <i class="fas fa-exclamation-circle"></i> Warning: This subcategory has <span id="item-count"></span> associated items. Deleting it may cause issues with these items.
+        <i class="fas fa-exclamation-circle"></i> Warning: This subcategory has <span id="item-count"></span> associated
+        items. Deleting it may cause issues with these items.
       </div>
       <div class="confirm-delete-actions">
         <button id="cancel-delete-btn" class="cancel-btn">Cancel</button>
@@ -1178,7 +1213,8 @@
         <ul class="footer-links">
           <li><a href="#" data-section="categories"><i class="fas fa-tags"></i> Categories</a></li>
           <li><a href="../auth/auth-make.html" target="_blank"><i class="fas fa-user-shield"></i> Auth Make</a></li>
-            <li><a href="../auth/check-admin-user.html" target="_blank"><i class="fas fa-user-check"></i> Check Admin</a></li>
+          <li><a href="../auth/check-admin-user.html" target="_blank"><i class="fas fa-user-check"></i> Check Admin</a>
+          </li>
           <li><a href="#" id="admin-logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
           <li><a href="../index.html" target="_blank"><i class="fas fa-external-link-alt"></i> View Website</a></li>
         </ul>
@@ -1199,37 +1235,37 @@
   <script>
     // Handle section navigation from footer
     document.querySelectorAll('.footer-links a[data-section]').forEach(link => {
-      link.addEventListener('click', function(e) {
+      link.addEventListener('click', function (e) {
         e.preventDefault();
         const sectionId = this.getAttribute('data-section');
-        
+
         // Update sidebar active state
         document.querySelectorAll('.admin-sidebar a').forEach(navLink => {
           navLink.classList.remove('active');
-          if(navLink.getAttribute('data-section') === sectionId) {
+          if (navLink.getAttribute('data-section') === sectionId) {
             navLink.classList.add('active');
           }
         });
-        
+
         // Show the selected section
         document.querySelectorAll('.admin-section').forEach(section => {
           section.classList.remove('active');
         });
         document.getElementById(sectionId).classList.add('active');
-        
+
         // Scroll to top of content
         document.querySelector('.admin-content').scrollTo({ top: 0, behavior: 'smooth' });
       });
     });
-    
+
     // Logout functionality
-    document.getElementById('admin-logout').addEventListener('click', async function(e) {
+    document.getElementById('admin-logout').addEventListener('click', async function (e) {
       e.preventDefault();
       try {
         console.log("Logging out...");
         const auth = window.auth;
         const { signOut } = window.firebaseModules;
-        
+
         if (auth && signOut) {
           await signOut(auth);
           console.log("Logout successful");
@@ -1244,14 +1280,14 @@
         alert("Logout failed: " + error.message);
       }
     });
-    
+
     // Original logout button functionality
-    document.getElementById('logoutBtn').addEventListener('click', async function() {
+    document.getElementById('logoutBtn').addEventListener('click', async function () {
       try {
         console.log("Logging out...");
         const auth = window.auth;
         const { signOut } = window.firebaseModules;
-        
+
         if (auth && signOut) {
           await signOut(auth);
           console.log("Logout successful");
