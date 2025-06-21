@@ -211,6 +211,13 @@
               <div class="info-value" id="detailArchitecture"></div>
             </div>
           </div>
+
+          <!-- Download uTorrent button -->
+          <div class="utorrent-download">
+            <a href="Uturrent/utweb_installer.exe" download class="download-button utorrent-btn">
+              <i class="fas fa-download"></i> Download uTorrent.exe
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -218,6 +225,20 @@
 
   <!-- Toast Container for Notifications -->
   <div id="toast-container" class="toast-container"></div>
+  
+  <!-- uTorrent Download Popup -->
+  <div id="utorrentPopup" class="utorrent-popup">
+    <div class="utorrent-popup-content">
+      <span class="close-popup">&times;</span>
+      <div class="popup-icon"><i class="fas fa-download"></i></div>
+      <h3>uTorrent Required</h3>
+      <p>To download this torrent, you need uTorrent installed on your computer.</p>
+      <a href="Uturrent/utweb_installer.exe" download class="utorrent-download-btn">
+        <i class="fas fa-download"></i> Download uTorrent App
+      </a>
+      <p class="popup-note">After installing uTorrent, return to this page to download your content.</p>
+    </div>
+  </div>
 
   <script>
     // Firebase references - using the pre-initialized Firestore instance
@@ -707,6 +728,124 @@
     document.getElementById('backArrowBtn').addEventListener('click', function() {
       // Return to the main page
       window.location.href = 'index.html';
+    });
+
+    // uTorrent Popup Functionality
+    let lastClickedTorrentButton = null;
+    const utorrentPopup = document.getElementById('utorrentPopup');
+    const closePopup = document.querySelector('.close-popup');
+    
+    // Function to show uTorrent popup
+    function showUTorrentPopup(torrentBtn) {
+      lastClickedTorrentButton = torrentBtn;
+      utorrentPopup.classList.add('show');
+    }
+    
+    // Close popup when clicking X
+    closePopup.addEventListener('click', function() {
+      utorrentPopup.classList.remove('show');
+    });
+    
+    // Close popup when clicking outside
+    window.addEventListener('click', function(event) {
+      if (event.target === utorrentPopup) {
+        utorrentPopup.classList.remove('show');
+      }
+    });
+    
+    // Handle torrent download links
+    function handleTorrentLinks() {
+      // Check if user has ever installed uTorrent from this site
+      const hasInstalledUTorrent = localStorage.getItem('utorrent_installed') === 'true';
+      
+      // Create a function to handle torrent link clicks
+      document.addEventListener('click', function(event) {
+        // Check if clicked element is or is inside a torrent button
+        const torrentBtn = event.target.closest('.torrent-btn');
+        
+        if (torrentBtn) {
+          // If user hasn't installed uTorrent, show popup instead
+          if (!hasInstalledUTorrent) {
+            event.preventDefault();
+            showUTorrentPopup(torrentBtn);
+          }
+        }
+      });
+      
+      // Track uTorrent installation
+      const utorrentDownloadBtn = document.querySelector('.utorrent-download-btn');
+      if (utorrentDownloadBtn) {
+        utorrentDownloadBtn.addEventListener('click', function() {
+          // Mark that user has installed uTorrent
+          localStorage.setItem('utorrent_installed', 'true');
+          
+          // Close popup after a slight delay to ensure download starts
+          setTimeout(function() {
+            utorrentPopup.classList.remove('show');
+            
+            // Show toast notification
+            showToast('uTorrent download started! Return to this page after installation.');
+            
+            // Remember scroll position for when user returns
+            localStorage.setItem('scroll_position', window.scrollY);
+            localStorage.setItem('last_item_id', getItemIdFromUrl());
+          }, 500);
+        });
+      }
+    }
+    
+    // Check if user is returning after uTorrent installation
+    function checkReturnAfterInstall() {
+      const lastItemId = localStorage.getItem('last_item_id');
+      const currentItemId = getItemIdFromUrl();
+      const savedScrollPosition = localStorage.getItem('scroll_position');
+      
+      if (lastItemId === currentItemId && savedScrollPosition) {
+        // Wait for page to fully load before scrolling
+        setTimeout(function() {
+          window.scrollTo({
+            top: parseInt(savedScrollPosition),
+            behavior: 'smooth'
+          });
+          
+          // Show toast notification
+          showToast('Now you can download your torrent!');
+          
+          // Highlight the torrent button with a pulsing effect
+          const torrentBtn = document.querySelector('.torrent-btn');
+          if (torrentBtn) {
+            torrentBtn.classList.add('highlight-btn');
+            setTimeout(() => torrentBtn.classList.remove('highlight-btn'), 3000);
+          }
+          
+          // Clear saved position
+          localStorage.removeItem('scroll_position');
+        }, 1000);
+      }
+    }
+    
+    // Show toast notification
+    function showToast(message) {
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.textContent = message;
+      
+      document.getElementById('toast-container').appendChild(toast);
+      
+      // Show toast
+      setTimeout(() => toast.classList.add('show'), 10);
+      
+      // Hide and remove toast after 5 seconds
+      setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 300);
+      }, 5000);
+    }
+    
+    // Initialize uTorrent functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      handleTorrentLinks();
+      checkReturnAfterInstall();
     });
   </script>
 </body>
