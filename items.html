@@ -447,7 +447,9 @@
           const torrentBtn = document.createElement('button');
           torrentBtn.className = 'alt-download-btn torrent-btn';
           torrentBtn.innerHTML = '<i class="fas fa-magnet"></i> Torrent';
-          torrentBtn.onclick = async function () {
+          torrentBtn.setAttribute('data-torrent-link', item.torrentLink);
+          torrentBtn.onclick = async function (event) {
+            // This will only run if the protocol detection determines a client exists
             // Update download count
             const newCount = await updateDownloadCount(item.id);
             if (newCount) {
@@ -462,7 +464,7 @@
               }, 500);
             }
 
-            // Navigate to torrent link
+            // Our handler will navigate to torrent link if client is detected
             window.location.href = item.torrentLink;
           };
           downloadOptions.appendChild(torrentBtn);
@@ -735,6 +737,63 @@
     const utorrentPopup = document.getElementById('utorrentPopup');
     const closePopup = document.querySelector('.close-popup');
     
+    // Function to check if a torrent client is installed
+    function checkTorrentClientInstalled(callback) {
+      // Set a timeout flag
+      let isTimedOut = false;
+      let isResponded = false;
+      
+      // Protocol detection with timeout
+      const protocolCheckTimeout = setTimeout(() => {
+        isTimedOut = true;
+        if (!isResponded) {
+          callback(false); // No response within timeout, assume client not installed
+        }
+      }, 500);
+      
+      try {
+        // Create a hidden iframe to test the protocol handler
+        const iframe = document.createElement('iframe');
+        iframe.style.display = 'none';
+        document.body.appendChild(iframe);
+        
+        // Listen for blur event on window which might indicate protocol handler took focus
+        const origBlur = window.onblur;
+        window.onblur = function() {
+          clearTimeout(protocolCheckTimeout);
+          window.onblur = origBlur;
+          isResponded = true;
+          
+          // Remove test iframe
+          setTimeout(() => document.body.removeChild(iframe), 200);
+          
+          if (!isTimedOut) {
+            callback(true); // Client likely installed if window lost focus
+          }
+        };
+        
+        // Test with a simple magnet URI (this is a dummy URI)
+        iframe.src = 'magnet:?xt=urn:btih:test';
+        
+        // Additional check with setTimeout
+        setTimeout(() => {
+          if (!isTimedOut && !isResponded) {
+            isResponded = true;
+            clearTimeout(protocolCheckTimeout);
+            window.onblur = origBlur;
+            
+            // If we reach here without the blur event triggered, likely no handler
+            document.body.removeChild(iframe);
+            callback(false);
+          }
+        }, 300);
+      } catch (e) {
+        console.error("Error checking torrent client:", e);
+        clearTimeout(protocolCheckTimeout);
+        callback(false);
+      }
+    }
+    
     // Function to show uTorrent popup
     function showUTorrentPopup(torrentBtn) {
       lastClickedTorrentButton = torrentBtn;
@@ -755,20 +814,36 @@
     
     // Handle torrent download links
     function handleTorrentLinks() {
-      // Check if user has ever installed uTorrent from this site
-      const hasInstalledUTorrent = localStorage.getItem('utorrent_installed') === 'true';
-      
       // Create a function to handle torrent link clicks
       document.addEventListener('click', function(event) {
         // Check if clicked element is or is inside a torrent button
         const torrentBtn = event.target.closest('.torrent-btn');
         
         if (torrentBtn) {
-          // If user hasn't installed uTorrent, show popup instead
-          if (!hasInstalledUTorrent) {
-            event.preventDefault();
-            showUTorrentPopup(torrentBtn);
-          }
+          event.preventDefault(); // Prevent default action initially
+          
+          // Check if torrent client is installed
+          checkTorrentClientInstalled(function(isInstalled) {
+            if (isInstalled) {
+              // If client is installed, proceed with the download
+              console.log("Torrent client detected, proceeding with download");
+              
+              // Get torrent link from data attribute or href
+              const torrentLink = torrentBtn.getAttribute('data-torrent-link') || torrentBtn.href;
+              
+              if (torrentLink) {
+                // If link is available, navigate to it
+                window.location.href = torrentLink;
+              } else if (typeof torrentBtn.onclick === 'function') {
+                // If it has an onclick handler, trigger it
+                torrentBtn.onclick.call(torrentBtn);
+              }
+            } else {
+              // Client not detected, show popup
+              console.log("No torrent client detected, showing popup");
+              showUTorrentPopup(torrentBtn);
+            }
+          });
         }
       });
       
@@ -776,9 +851,6 @@
       const utorrentDownloadBtn = document.querySelector('.utorrent-download-btn');
       if (utorrentDownloadBtn) {
         utorrentDownloadBtn.addEventListener('click', function() {
-          // Mark that user has installed uTorrent
-          localStorage.setItem('utorrent_installed', 'true');
-          
           // Close popup after a slight delay to ensure download starts
           setTimeout(function() {
             utorrentPopup.classList.remove('show');
