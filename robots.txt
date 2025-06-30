@@ -1,11 +1,12 @@
 User-agent: *
 Allow: /
 Allow: /pages/
-Allow: /items/
-Disallow: /admin.html
+Allow: /items.html
+
+# Admin and Auth pages
+Disallow: /admin/
+Disallow: /auth/
 Disallow: /login.html
-Disallow: /Check Admin User.html
-Disallow: /Auth make.html
 
 # Sitemap
 Sitemap: https://r8ymatrix.netlify.app/sitemap.xml 
